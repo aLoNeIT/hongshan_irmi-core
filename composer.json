@@ -1,0 +1,21 @@
+{
+    "name": "hongshanhealth/irmi-core",
+    "description": "红杉健康医保智能审核核心类库，Intelligent review of medical insurance",
+    "type": "library",
+    "license": "MulanPSL-2.0",
+    "authors": [
+        {
+            "name": "wangruanqiang",
+            "email": "wangruanqiang@hongshanhis.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "hongshanhealth\\irmi\\": "src",
+            "hongshanhealth\\irmi\\tests\\": "tests"
+        }
+    },
+    "require": {
+        "php": ">=8.0"
+    }
+}
