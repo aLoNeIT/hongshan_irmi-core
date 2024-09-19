@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi\interfaces;
 
-use hongshanhealth\irmi\struct\IRMIRuleSet;
+use hongshanhealth\irmi\struct\IRMIRule;
 use hongshanhealth\irmi\struct\JsonTable;
 use hongshanhealth\irmi\struct\MedicalRecord;
 
@@ -19,8 +19,8 @@ interface IDetectProcessor
      * 根据病案信息和入组依据数据匹配对应分组
      *
      * @param MedicalRecord $medicalRecord 病历信息
-     * @param IRMIRuleSet $ruleSet 规则集合
-     * @return boolean 返回匹配成功或失败
+     * @param IRMIRule $rule 指定的规则
+     * @return JsonTable 返回检测结果
      */
-    public function detect(MedicalRecord $medicalRecord, IRMIRuleSet $ruleSet): JsonTable;
+    public function detect(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable;
 }

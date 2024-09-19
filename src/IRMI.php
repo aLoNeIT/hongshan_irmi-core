@@ -25,10 +25,10 @@ class IRMI
      */
     protected $config = [
         // 驱动方式
-        'default' => 'chs',
+        'default' => 'shaanxi',
         'stores' => [
-            'chs' => [
-                'type' => 'Chs',
+            'shaanxi' => [
+                'type' => 'ShaanXi',
             ],
         ],
     ];

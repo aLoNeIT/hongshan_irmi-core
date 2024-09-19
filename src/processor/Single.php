@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace hongshanhealth\irmi\processor;
 
 use hongshanhealth\irmi\interfaces\IDetectProcessor;
-use hongshanhealth\irmi\struct\IRMIRuleSet;
+use hongshanhealth\irmi\struct\IRMIRule;
 use hongshanhealth\irmi\struct\JsonTable;
 use hongshanhealth\irmi\struct\MedicalRecord;
 
@@ -17,8 +17,8 @@ use hongshanhealth\irmi\struct\MedicalRecord;
 class Single extends Base implements IDetectProcessor
 {
     /** @inheritDoc */
-    public function detect(MedicalRecord $medicalRecord, IRMIRuleSet $ruleSet): JsonTable
+    public function detect(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
     {
-        return (new JsonTable())->success();
+        return $this->jsonTable->success();
     }
 }

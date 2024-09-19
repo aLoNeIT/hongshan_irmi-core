@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi\struct;
 
+use hongshanhealth\irmi\constant\Key;
+
 /**
  * 病历类
  * 
@@ -149,5 +151,19 @@ class MedicalRecord extends Base
     public function setTmpData(string $key, mixed $value): void
     {
         $this->tmpData[$key] = $value;
+    }
+
+    /** @inheritDoc */
+    public function load(array $data): static
+    {
+        parent::load($data);
+        $tmpData = [];
+        foreach ($this->medicalInsuranceSet as $date => $items) {
+            foreach ($items as $itemCode => $item) {
+                $tmpData[$itemCode][] = (new MedicalInsuranceItem())->load($item);
+            }
+        }
+        $this->setTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE, $tmpData);
+        return $this;
     }
 }

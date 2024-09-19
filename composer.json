@@ -5,7 +5,7 @@
     "license": "MulanPSL-2.0",
     "authors": [
         {
-            "name": "wangruanqiang",
+            "name": "王阮强",
             "email": "wangruanqiang@hongshanhis.com"
         }
     ],
@@ -17,5 +17,8 @@
     },
     "require": {
         "php": ">=8.0"
+    },
+    "scripts": {
+        "test": "@php ./tests/App.php"
     }
 }

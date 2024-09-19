@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace hongshanhealth\irmi\processor;
 
 use hongshanhealth\irmi\constant\Key;
+use hongshanhealth\irmi\struct\JsonTable;
 use hongshanhealth\irmi\struct\MedicalInsuranceItem;
 use hongshanhealth\irmi\struct\MedicalRecord;
 
@@ -15,6 +16,12 @@ use hongshanhealth\irmi\struct\MedicalRecord;
  */
 abstract class Base
 {
+    /**
+     * JsonTable对象结果返回类
+     *
+     * @var JsonTable
+     */
+    protected JsonTable $jsonTable = new JsonTable();
     /**
      * 构造函数
      */
