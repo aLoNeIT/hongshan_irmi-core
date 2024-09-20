@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi\struct;
 
+use hongshanhealth\irmi\Driver;
 use hongshanhealth\irmi\IRMIException;
 use hongshanhealth\irmi\Util;
 
@@ -43,6 +44,36 @@ class IRMIRuleSet extends Base
      */
     protected $itemRules = [];
 
+    /**
+     * 驱动类
+     *
+     * @var Driver
+     */
+    protected ?Driver $driver = null;
+
+    /**
+     * 设置关联的驱动类
+     *
+     * @param Driver $driver 驱动实例对象
+     * 
+     * @return static 返回当前结构体
+     */
+    public function setDriver(Driver $driver): static
+    {
+        $this->driver = $driver;
+        return $this;
+    }
+
+    /**
+     * 获取当前对象保存的驱动对象
+     *
+     * @return Driver 返回驱动对象
+     */
+    public function getDriver(): Driver
+    {
+        return $this->driver;
+    }
+
     /** @inheritDoc */
     public function load(array $data): static
     {
@@ -63,14 +94,16 @@ class IRMIRuleSet extends Base
      * 通过项目编码获取匹配的规则
      *
      * @param string[] $itemCodes 项目编码集合
+     * 
      * @return IRMIRule[] 返回规则对象
      */
     public function getRulesByItemCode(array $itemCodes): array
     {
         // 获取规则集中包含指定项目编码的规则的编码交集
         $itemCodes = \array_intersect(\array_keys($this->itemRules), $itemCodes);
+        $rules = [];
         if (!empty($itemCodes)) {
-            // 想根据项目编码获取到规则集合
+            // 先根据项目编码获取到规则集合
             foreach ($itemCodes as $itemCode) {
                 // 再通过规则集合中的规则编码获取规则对象
                 foreach ($this->itemRules[$itemCode] as $code) {
@@ -78,7 +111,6 @@ class IRMIRuleSet extends Base
                 }
             }
         }
-
         return $rules;
     }
     /**

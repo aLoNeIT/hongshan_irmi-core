@@ -37,6 +37,7 @@ abstract class Driver
         '100' => '重复收费',
         '101' => '重复收费[无其他病理检查]',
         '102' => '重复收费[其他项目收费达指定数量]',
+        '200' => '超标准收费',
     ];
 
     /**
@@ -105,7 +106,7 @@ abstract class Driver
                 $errors[] = $jResult->toArray();
             }
         }
-        return empty($errors) ? $this->jcode(0) : $this->jcode(10, null, $errors);
+        return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
     }
 
     /**

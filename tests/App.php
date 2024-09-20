@@ -8,33 +8,32 @@ error_reporting(E_ALL);
 
 defined('DEBUG') || define('DEBUG', true);
 
+use hongshanhealth\irmi\struct\{IRMIRuleSet, MedicalRecord};
+use hongshanhealth\irmi\{IRMI, Driver};
+
+
 class App
 {
     public function run()
     {
         try {
-            $ruleSet = [
-                'code' => '01',
-                'name' => '规则集',
-                'items' => [
-                    [
-                        'code' => '01',
-                        'name' => '规则1',
-                        'item_code' => '001',
-                        'item_name' => '项目1',
-                        'type' => 1,
-                        'options' => [
-                            'exclude_items' => [
-                                '002' => ['num' => 1, 'time_type' => 1],
-                                '003' => ['num' => 1, 'time_type' => 1]
-                            ],
-                            'time_range' => [null, null],
-                            'pathology_check' => ['004', '005']
-                        ]
-                    ]
-                ]
-            ];
-            echo json_encode($ruleSet, JSON_UNESCAPED_UNICODE), PHP_EOL;
+            // 判断字符串最后一位是否 / 
+            $dir = PATH_SEPARATOR == \substr(__DIR__, -1) ? __DIR__ : __DIR__ . '/';
+            $ruleSetStr = file_get_contents($dir . './RuleSet.json');
+            $medicalRecordStr = file_get_contents($dir . './MedicalRecord.json');
+            // var_dump([
+            //     'rule_json' => json_decode($ruleSetStr, true),
+            //     'medical_record_json' => json_decode($medicalRecordStr, true)
+            // ]);
+            $irmi = IRMI::instance()->store('shaanxi');
+            $ruleSet = $irmi->switch('01')->load(json_decode($ruleSetStr, true));
+            $medicalRecord = (new MedicalRecord())->load(json_decode($medicalRecordStr, true));
+            var_dump([
+                'rule_set' => $ruleSet,
+                'medical_record' => $medicalRecord,
+            ]);
+            $result = $ruleSet->detect($medicalRecord);
+            var_dump($result);
         } catch (\Throwable $ex) {
             var_dump($ex);
         }

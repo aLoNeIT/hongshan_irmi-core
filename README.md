@@ -16,7 +16,6 @@
 		"options": {
 			"exclude_items": {
 				"002": {
-					"num": 1,
 					"time_type": 1
 				},
 				"003": {
@@ -24,7 +23,7 @@
 					"time_type": 1
 				}
 			},
-			"time_range": [null, null],
+			"time_range": [969356516, null],
 			"pathology_check": ["004", "005"]
 		}
 	}]

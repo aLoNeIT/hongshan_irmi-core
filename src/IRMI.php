@@ -16,7 +16,7 @@ class IRMI
      *
      * @var string
      */
-    private $namespace = "\\hongshanhealth\\irmi";
+    private $namespace = "\\hongshanhealth\\irmi\\driver";
 
     /**
      * 配置信息

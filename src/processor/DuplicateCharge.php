@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi\processor;
 
+use hongshanhealth\irmi\constant\Key;
 use hongshanhealth\irmi\interfaces\IDetectProcessor;
 use hongshanhealth\irmi\IRMIException;
 use hongshanhealth\irmi\struct\IRMIRule;
@@ -24,7 +25,7 @@ class DuplicateCharge extends Base implements IDetectProcessor
         try {
             // 读取规则内容
             // 获取医保项目集合，以项目编码为key
-            $miItemSet = $this->getMedicalInsuranceItemWithCode($medicalRecord);
+            $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
             // 当前规则和病例不匹配，直接退出不报错
             if (!isset($miItemSet[$rule->itemCode])) {
                 return $this->jsonTable->success();

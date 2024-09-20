@@ -19,101 +19,102 @@ class MedicalRecord extends Base
      *
      * @var string|null
      */
-    public $code = null;
+    public ?string $code = null;
     /**
      * 性别，1男，2女
      *
      * @var integer|null
      */
-    public $sex = null;
+    public ?int $sex = null;
     /**
      * 年龄，周岁
      *
      * @var integer|null
      */
-    public $age = null;
+    public ?int $age = null;
     /**
      * 年龄，天数
      *
      * @var integer|null
      */
-    public $ageDay = null;
+    public ?int $ageDay = null;
     /**
      * 体重，单位g
      *
      * @var integer|null
      */
-    public $weight = null;
+    public ?int $weight = null;
     /**
      * 出生体重，单位g
      *
      * @var integer|null
      */
-    public $birthWeight = null;
+    public ?int $birthWeight = null;
     /**
      * 科室编码
      *
      * @var string|null
      */
-    public $inDepartment = null;
+    public ?string $inDepartment = null;
     /**
      * 住院天数
      *
      * @var integer|null
      */
-    public $inDays = null;
+    public ?int $inDays = null;
     /**
      * 出院方式
      *
      * @var integer|null
      */
-    public $outType = null;
+    public ?int $outType = null;
     /**
      * 主要诊断编码
      *
      * @var string|null
      */
-    public $principalDiagnosis = null;
+    public ?string $principalDiagnosis = null;
     /**
      * 其他诊断编码数组
      *
      * @var array
      */
-    public $secondaryDiagnosis = [];
+    public array $secondaryDiagnosis = [];
     /**
      * 主要手术及操作编码
      *
      * @var string|null
      */
-    public $majorProcedure = null;
+    public ?string $majorProcedure = null;
     /**
      * 其他手术及操作编码数组
      *
      * @var array
      */
-    public $secondaryProcedure = [];
+    public array $secondaryProcedure = [];
 
     /**
      * 就诊类型
+     * 
      * - 1：门诊
      * - 2：住院
      *
      * @var integer|null
      */
-    public $visitType = null;
+    public ?int $visitType = null;
 
     /**
      * 就诊日期
      *
      * @var integer|null
      */
-    public $inDate = null;
+    public ?int $inDate = null;
     /**
      * 出院日期
      *
      * @var integer|null
      */
-    public $outDate = null;
+    public ?int $outDate = null;
 
     /**
      * 医保项目集合，多维数组，key是日期，value是医保项目数组  
@@ -121,14 +122,21 @@ class MedicalRecord extends Base
      *
      * @var array
      */
-    public $medicalInsuranceSet = [];
+    public array $medicalInsuranceSet = [];
+
+    /**
+     * 科室国家标准编码
+     *
+     * @var string|null
+     */
+    public ?string $branchCode = null;
 
     /**
      * 扩展数据，主要用于在计算过程中存储临时变量
      *
      * @var array
      */
-    protected $tmpData = [];
+    protected array $tmpData = [];
 
     /**
      * 获取临时数据
@@ -157,6 +165,7 @@ class MedicalRecord extends Base
     public function load(array $data): static
     {
         parent::load($data);
+        // 加载成功数据后，同时生成临时数据
         $tmpData = [];
         foreach ($this->medicalInsuranceSet as $date => $items) {
             foreach ($items as $itemCode => $item) {

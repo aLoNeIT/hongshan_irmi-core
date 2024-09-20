@@ -37,7 +37,7 @@ class Util
      * @param array $jtable JsonTable格式的数组
      * @return mix 返回data值
      */
-    public static function getJData(array $jtable): ?mixed
+    public static function getJData(array $jtable): mixed
     {
         return $jtable['data'] ?? null;
     }
@@ -77,9 +77,9 @@ class Util
      * @param mix|null $data 扩展数据
      * @return array 返回一个JsonTable格式的数组
      */
-    public static function jsuccess($msg = 'success', $data = null): array
+    public static function jsuccess(?mixed $msg = 'success', $data = null): array
     {
-        return self::jecho(0, $msg, $data);
+        return self::jecho(0, $msg ?: 'success', $data);
     }
     /**
      * 获取一个失败的JsonTable格式的数组

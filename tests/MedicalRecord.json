@@ -1,0 +1,34 @@
+{
+    "code": "0000001",
+    "sex": 1,
+    "age": 20,
+    "age_day": null,
+    "weight": null,
+    "birth_weight": null,
+    "in_department": "01",
+    "in_days": 2,
+    "out_type": null,
+    "principal_diagnosis": null,
+    "secondary_diagnosis": [],
+    "major_procedure": null,
+    "secondary_procedure": [],
+    "visit_type": 2,
+    "in_date": 1722470400,
+    "out_date": 1722592800,
+    "medical_insurance_set": {
+        "1722441600": {
+            "120300002b": {
+                "num": 2,
+                "price": 19.00,
+                "total_cash": 38.00
+            }
+        },
+        "1722528000": {
+            "120300002b": {
+                "num": 1,
+                "price": 19.00,
+                "total_cash": 19.00
+            }
+        }
+    }
+}

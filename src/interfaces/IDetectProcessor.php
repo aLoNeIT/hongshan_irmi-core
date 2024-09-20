@@ -20,6 +20,7 @@ interface IDetectProcessor
      *
      * @param MedicalRecord $medicalRecord 病历信息
      * @param IRMIRule $rule 指定的规则
+     * 
      * @return JsonTable 返回检测结果
      */
     public function detect(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable;
