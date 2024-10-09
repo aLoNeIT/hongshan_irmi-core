@@ -58,6 +58,22 @@
                     1609430400
                 ]
             }
+        },
+        {
+            "code": "03",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "330100008",
+            "item_name": "术后镇痛",
+            "type": 2,
+            "sub_type": 2,
+            "options": {
+                "unit": "price",
+                "num": 5,
+                "time_range": [
+                    1535731200,
+                    null
+                ]
+            }
         }
     ]
 }

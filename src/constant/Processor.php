@@ -15,6 +15,7 @@ class Processor
      * 处理器类型映射关系表
      */
     const TYPE_MAP = [
-        1 => '\hongshanhealth\irmi\processor\DuplicateCharge'
+        1 => '\hongshanhealth\irmi\processor\DuplicateCharge',
+        2 => '\hongshanhealth\irmi\processor\SuperStandardCharge'
     ];
 }
