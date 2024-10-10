@@ -16,6 +16,6 @@ class Processor
      */
     const TYPE_MAP = [
         1 => '\hongshanhealth\irmi\processor\DuplicateCharge',
-        2 => '\hongshanhealth\irmi\processor\SuperStandardCharge'
+        2 => '\hongshanhealth\irmi\processor\OverStandardCharge'
     ];
 }

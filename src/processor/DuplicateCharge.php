@@ -82,17 +82,14 @@ class DuplicateCharge extends Base implements IDetectProcessor
                     ) {
                         continue;
                     }
-                    $errors[] = $miItemSet[$key];
+                    $errors[] = [
+                        'rule' => $this->getRuleInfo($rule),
+                        'item' => $miItemSet[$key]
+                    ];
                 }
-
                 // 确定错误内容
-                $msg = ($pcExisted ?  '[无其他病理检查]' : (count($errors) > 0 ? '[其他项目超出限定数量]' : ''));
-                $this->jsonTable->error("{$msg}", 100, [
-                    'code' => $rule->code,
-                    'name' => $rule->name,
-                    'item_code' => $rule->itemCode,
-                    'item_name' => $rule->itemName
-                ]);
+                $msg = ($pcExisted ?  '无其他病理检查' : (count($errors) > 0 ? '其他项目超出限定数量' : ''));
+                $this->jsonTable->error($msg, 100, $errors);
             }
             // 一切正常，返回
             return $this->jsonTable->success();

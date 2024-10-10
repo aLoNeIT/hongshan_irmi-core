@@ -17,6 +17,16 @@ class App
     public function run()
     {
         try {
+            $arr = [
+                'a' => [1, 2, 3],
+                'b' => [4, 5, 6]
+            ];
+            array_walk($arr, function ($item) {
+                var_dump($item);
+            });
+            bcscale(2);
+            var_dump(bcmul('100.5333', '5'));
+            return;
             // 判断字符串最后一位是否 / 
             $dir = PATH_SEPARATOR == \substr(__DIR__, -1) ? __DIR__ : __DIR__ . '/';
             $ruleSetStr = file_get_contents($dir . './RuleSet.json');

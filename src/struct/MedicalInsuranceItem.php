@@ -17,33 +17,54 @@ class MedicalInsuranceItem extends Base
      * 
      * @var string|null 
      */
-    public $code = null;
+    public ?string $code = null;
+
+    /**
+     * 名称
+     *
+     * @var string|null
+     */
+    public ?string $name = null;
 
     /**
      * 时间
      * 
-     * @var int|string|null 
+     * @var integer|null 
      */
-    public $time = null;
+    public ?int $time = null;
+
+    /**
+     * 日期
+     *
+     * @var integer|null
+     */
+    public ?int $date = null;
 
     /**
      * 数量
      *
      * @var integer|null
      */
-    public $num = null;
+    public ?int $num = null;
 
     /**
-     * 单价
+     * 标准单价
      * 
      * @var float|null 
      */
-    public $price = null;
+    public ?float $price = null;
+
+    /**
+     * 实收单价
+     *
+     * @var float|null
+     */
+    public ?float $cash = null;
 
     /**
      * 总价
      * 
      * @var float|null 
      */
-    public $totalPrice = null;
+    public ?float $totalCash = null;
 }

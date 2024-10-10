@@ -52,6 +52,7 @@ class IRMI
     public function __construct(array $config = [])
     {
         $this->config = \array_merge($this->config, $config);
+        bcscale(2);
     }
     /**
      * 获取当前管理类对象
