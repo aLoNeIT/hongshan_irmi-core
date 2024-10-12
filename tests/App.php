@@ -21,8 +21,8 @@ class App
                 'a' => [1, 2, 3],
                 'b' => [4, 5, 6]
             ];
-            array_walk($arr, function ($item) {
-                var_dump($item);
+            array_walk($arr, function ($item, $code) {
+                var_dump($item, $code);
             });
             bcscale(2);
             var_dump(bcmul('100.5333', '5'));

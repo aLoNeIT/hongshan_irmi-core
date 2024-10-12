@@ -129,6 +129,12 @@
       - property: 如果type为2，则有该属性，属性值为病例中的属性名
       - coefficient：计算系数，如果type为2，且设置了该系数，则会将指定属性的值乘以该系数
       - item_code：如果type为3，则有该属性，属性值为另一个项目的编码
+  - detect_type：检测方式，1-按日，2-范围；
+  - combine_items：合并计数的项目，数组，每个元素是项目编码，用于将指定编码的数据一同累计数量；
+  - discount_target：打折目标，1-其他项目打折，2-自己打折；
+  - ratio：折扣比例，自身折扣比例，如果存在num配置，说明要超过指定数量部分才打折；
+  - discount_items：打折的其他项目，key是目标项目编码，value是对象
+    - ratio：折扣比例
 
 ### MedicalRecord 相关数据
 
@@ -178,13 +184,13 @@
 - 键名为`medical_insurance_item_with_code`的临时数据格式
 ```
 {
-	"120300002b": [{
-		"date": 1726243200,
-		"time": 1726275600,
-		"num": 2,
-		"price": 19.00,
-		"cash": 19.00,
-		"total_cash": 38.00
-	}]
+    "120300002b": [{
+        "date": 1726243200,
+        "time": 1726275600,
+        "num": 2,
+        "price": 19.00,
+        "cash": 19.00,
+        "total_cash": 38.00
+    }]
 }
 ```

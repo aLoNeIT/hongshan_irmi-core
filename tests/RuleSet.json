@@ -111,7 +111,7 @@
             "item_code": "310100005a",
             "item_name": "脑电双频指数监测",
             "type": 2,
-            "sub_type": 5,
+            "sub_type": 1,
             "options": {
                 "num": {
                     "type": 2,
@@ -128,10 +128,42 @@
             "item_code": "310702002",
             "item_name": "持续有创性血压监测",
             "type": 2,
-            "sub_type": 5,
+            "sub_type": 1,
             "options": {
+                "num": 24
+            }
+        },
+        {
+            "code": "02-05-01-01",
+            "name": "超标准收费[当前项目超数量要求未打折]",
+            "item_code": "310702002",
+            "item_name": "持续有创性血压监测",
+            "type": 2,
+            "sub_type": 1,
+            "options": {
+                "time_range": [
+                    null,
+                    1609466400
+                ],
                 "num": 24,
-                "ratio": 0.5
+                "detect_type": 2
+            }
+        },
+        {
+            "code": "02-05-02",
+            "name": "超标准收费[多项目同时收费未打折]",
+            "item_code": "250403083a",
+            "item_name": "乙型流感病毒抗原检测",
+            "type": 2,
+            "sub_type": 2,
+            "options": {
+                "discount_type": 1,
+                "discount_ratio": 0.8,
+                "discount_items": {
+                    "250403083": {
+                        "ratio": 0.6
+                    }
+                }
             }
         }
     ]
