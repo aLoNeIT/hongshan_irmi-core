@@ -13,7 +13,7 @@ use hongshanhealth\irmi\struct\MedicalRecord;
  * 
  * @author 王阮强 <wangruanqiang@hongshanhis.com>
  */
-interface IDetectProcessor
+interface IDetectInsuranceProcessor
 {
     /**
      * 根据病案信息和入组依据数据匹配对应分组

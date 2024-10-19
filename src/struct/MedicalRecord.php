@@ -51,48 +51,23 @@ class MedicalRecord extends Base
      */
     public ?int $birthWeight = null;
     /**
-     * 科室编码
+     * 入院科室，国家标准编码
      *
      * @var string|null
      */
-    public ?string $inDepartment = null;
+    public ?string $inBranch = null;
+    /**
+     * 出院科室，国家标准编码
+     *
+     * @var string|null
+     */
+    public ?string $outBranch = null;
     /**
      * 住院天数
      *
      * @var integer|null
      */
     public ?int $inDays = null;
-    /**
-     * 出院方式
-     *
-     * @var integer|null
-     */
-    public ?int $outType = null;
-    /**
-     * 主要诊断编码
-     *
-     * @var string|null
-     */
-    public ?string $principalDiagnosis = null;
-    /**
-     * 其他诊断编码数组
-     *
-     * @var array
-     */
-    public array $secondaryDiagnosis = [];
-    /**
-     * 主要手术及操作编码
-     *
-     * @var string|null
-     */
-    public ?string $majorProcedure = null;
-    /**
-     * 其他手术及操作编码数组
-     *
-     * @var array
-     */
-    public array $secondaryProcedure = [];
-
     /**
      * 就诊类型
      * 
@@ -115,7 +90,30 @@ class MedicalRecord extends Base
      * @var integer|null
      */
     public ?int $outDate = null;
-
+    /**
+     * 医院编码
+     *
+     * @var string|null
+     */
+    public ?string $hospitalCode = null;
+    /**
+     * 医院类型，如综合、牙科、精神科
+     *
+     * @var integer|null
+     */
+    public ?int $hospitalType = null;
+    /**
+     * 医院级别，如1级、2级、3级
+     *
+     * @var integer|null
+     */
+    public ?int $hospitalLevel = null;
+    /**
+     * 医院经营类型，1-公立；2-民营
+     *
+     * @var integer|null
+     */
+    public ?int $hospitalBusinessType = null;
     /**
      * 医保项目集合，多维数组，key是日期，value是医保项目数组  
      * 参考格式：{"1726243200":{"120300002b":{"num":2,"price":19.00,"cache":18.00,"total_cash":36.00}}}
@@ -123,13 +121,6 @@ class MedicalRecord extends Base
      * @var MedicalInsuranceItem[]
      */
     public array $medicalInsuranceSet = [];
-
-    /**
-     * 科室国家标准编码
-     *
-     * @var string|null
-     */
-    public ?string $branchCode = null;
 
     /**
      * 扩展数据，主要用于在计算过程中存储临时变量

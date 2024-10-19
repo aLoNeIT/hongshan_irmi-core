@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace hongshanhealth\irmi;
 
 use hongshanhealth\irmi\constant\Key;
-use hongshanhealth\irmi\interfaces\IDetectProcessor;
+use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
 use hongshanhealth\irmi\processor\Processor;
 use hongshanhealth\irmi\struct\IRMIRuleSet;
 use hongshanhealth\irmi\struct\MedicalRecord;
@@ -40,6 +40,12 @@ abstract class Driver
         '200' => '超标准收费',
         '201' => '超标准收费[当前项目计费量超过要求]',
         '202' => '超标准收费[当前项目与其他项目当日同时检测，指定项目未按照X%收费]',
+        '300' => '超医保支付范围',
+        '301' => '超医保支付范围[当前项目两次间隔未超过指定时间]',
+        '302' => '超医保支付范围[非医保支付项目]',
+        '400' => '不合理诊疗',
+        '401' => '不合理诊疗[当前项目未按要求与其他项目匹配]',
+        '402' => '不合理诊疗[病历属性不匹配]',
     ];
 
     /**
@@ -95,10 +101,10 @@ abstract class Driver
         foreach ($rules as $rule) {
             // 根据规则类型创建对应的处理器
             $class = Processor::TYPE_MAP[$rule->type];
-            /** @var IDetectProcessor $processor */
+            /** @var IDetectInsuranceProcessor $processor */
             $processor = new $class();
             // 执行处理器
-            if (!$processor instanceof IDetectProcessor) {
+            if (!$processor instanceof IDetectInsuranceProcessor) {
                 continue;
             }
             $jResult = $processor->detect($record, $rule);

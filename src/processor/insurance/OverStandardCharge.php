@@ -2,15 +2,19 @@
 
 declare(strict_types=1);
 
-namespace hongshanhealth\irmi\processor;
+namespace hongshanhealth\irmi\processor\insurance;
 
 use hongshanhealth\irmi\constant\Key;
-use hongshanhealth\irmi\interfaces\IDetectProcessor;
+use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
 use hongshanhealth\irmi\IRMIException;
+use hongshanhealth\irmi\processor\Base;
 use hongshanhealth\irmi\struct\{MedicalRecord, IRMIRule, JsonTable, MedicalInsuranceItem};
 use hongshanhealth\irmi\Util;
 
-class OverStandardCharge extends Base implements IDetectProcessor
+/**
+ * 超标准收费处理器
+ */
+class OverStandardCharge extends Base implements IDetectInsuranceProcessor
 {
     /** @inheritDoc */
     public function detect(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
@@ -48,6 +52,14 @@ class OverStandardCharge extends Base implements IDetectProcessor
     protected function detectOverNum(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
     {
         $errors = [];
+        // 检查科室排除列表
+        $result = $this->checkIncludedBranch($medicalRecord, $rule);
+        if (true !== $result) {
+            $errors = [
+                ...$errors,
+                ...$result
+            ];
+        }
         // 获取医保项目集合
         $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
         // 获取当前项目数据集合
@@ -264,7 +276,6 @@ class OverStandardCharge extends Base implements IDetectProcessor
         }
         return empty($errors) ? $this->jsonTable->success()
             : $this->jsonTable->error("超标准收费", 202, [
-                'rule' => $this->getRuleInfo($rule),
                 'errors' => $errors
             ]);
     }

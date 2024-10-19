@@ -7,6 +7,7 @@
             "name": "重复收费",
             "item_code": "120300001b",
             "item_name": "持续吸氧",
+            "category": 1,
             "type": 1,
             "options": {
                 "exclude_items": {
@@ -164,6 +165,219 @@
                         "ratio": 0.6
                     }
                 }
+            }
+        },
+        {
+            "code": "03-01-01",
+            "name": "超医保支付范围[两次间隔时间未达指定天数]",
+            "item_code": "310401022",
+            "item_name": "平衡试验",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "interval": {
+                    "num": 14,
+                    "type": 1
+                }
+            }
+        },
+        {
+            "code": "03-01-02",
+            "name": "超医保支付范围[两次间隔时间未达指定天数且超过指定总天数]",
+            "item_code": "340200005",
+            "item_name": "手功能评定",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "interval_days": 14,
+                "total_days": 14
+            }
+        },
+        {
+            "code": "03-01-03",
+            "name": "超医保支付范围[周期内超过指定次数]",
+            "item_code": "340200005",
+            "item_name": "手功能评定",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "detect_type": 2,
+                "period": {
+                    "type": 1,
+                    "num": 1,
+                    "sub_num": 3
+                },
+                "interval_days": 14,
+                "total_days": 14
+            }
+        },
+        {
+            "code": "03-01-04-1",
+            "name": "超医保支付范围[指定年龄及支付次数]",
+            "item_code": "340200041",
+            "item_name": "脑瘫肢体综合训练",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "period": {
+                    "type": 5,
+                    "num": 1,
+                    "sub_num": 180
+                },
+                "age_range": [
+                    null,
+                    3
+                ]
+            }
+        },
+        {
+            "code": "03-01-04-2",
+            "name": "超医保支付范围[指定年龄及支付次数]",
+            "item_code": "340200041",
+            "item_name": "脑瘫肢体综合训练",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "period": {
+                    "type": 5,
+                    "num": 1,
+                    "sub_num": 90
+                },
+                "age_range": [
+                    3,
+                    null
+                ]
+            }
+        },
+        {
+            "code": "03-01-04-3",
+            "name": "超医保支付范围[指定合计支付次数]",
+            "item_code": "340200041",
+            "item_name": "脑瘫肢体综合训练",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "total_days": 1825
+            }
+        },
+        {
+            "code": "03-01-05",
+            "name": "超医保支付范围[指定住院]",
+            "item_code": "11000002a",
+            "item_name": "主任医师诊查费",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "detect_type": 2
+            }
+        },
+        {
+            "code": "03-01-06",
+            "name": "超医保支付范围[不能同时支付]",
+            "item_code": "340200040",
+            "item_name": "脑瘫肢体综合训练",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "exclude_items": {
+                    "340200020": {
+                        "time_type": 2
+                    }
+                }
+            }
+        },
+        {
+            "code": "04-01-01",
+            "name": "不合理诊疗[不能同时收费]",
+            "item_code": "120600001",
+            "item_name": "特大换药",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "exclude_items": {
+                    "time_type": 2,
+                    "code_set": [
+                        "330900006"
+                    ]
+                }
+            }
+        },
+        {
+            "code": "04-01-02",
+            "name": "不合理诊疗[无指定项目]",
+            "item_code": "120800002",
+            "item_name": "肠内高营养治疗",
+            "type": 3,
+            "sub_type": 1,
+            "options": {
+                "include_items": {
+                    "time_type": 2,
+                    "code_set": [
+                        "331002009",
+                        "120800001"
+                    ]
+                }
+            }
+        },
+        {
+            "code": "04-02-01",
+            "name": "不合理诊疗[非儿童不可使用指定项目]",
+            "item_code": "120400006d",
+            "item_name": "小儿门诊静脉输液（输血）",
+            "type": 3,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "age",
+                        "operator": "<=",
+                        "value": 12
+                    }
+                ]
+            }
+        },
+        {
+            "code": "04-02-01",
+            "name": "不合理诊疗[资质不符]",
+            "item_code": "311503007",
+            "item_name": "胰岛素低血糖和休克治疗",
+            "type": 3,
+            "sub_type": 2,
+            "options": {
+                "include_branch": [
+                    "15",
+                    "15.01",
+                    "15.02",
+                    "15.04",
+                    "15.07"
+                ],
+                "property": [
+                    {
+                        "name": "hospital_type",
+                        "operator": "in",
+                        "value": [
+                            "1",
+                            "2"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "code": "04-02-01",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "210103030",
+            "item_name": "子宫造影",
+            "type": 3,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": 2
+                    }
+                ]
             }
         }
     ]

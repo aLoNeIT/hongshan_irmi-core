@@ -17,12 +17,17 @@ class App
     public function run()
     {
         try {
+            $medicalRecord = new MedicalRecord();
+            $propertyName = 'my';
+            var_dump($medicalRecord->$propertyName);
+            return;
             $arr = [
                 'a' => [1, 2, 3],
                 'b' => [4, 5, 6]
             ];
             array_walk($arr, function ($item, $code) {
                 var_dump($item, $code);
+                return;
             });
             bcscale(2);
             var_dump(bcmul('100.5333', '5'));
