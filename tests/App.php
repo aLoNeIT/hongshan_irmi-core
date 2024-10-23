@@ -17,9 +17,13 @@ class App
     public function run()
     {
         try {
-            $medicalRecord = new MedicalRecord();
-            $propertyName = 'my';
-            var_dump($medicalRecord->$propertyName);
+            $arr = [
+                ['id' => 1, 'name' => '张三'],
+                ['id' => 2, 'name' => '李四'],
+                ['id' => 3, 'name' => '王五'],
+                ['id' => 4, 'name' => '赵六']
+            ];
+            var_dump(\array_column($arr, 'name'));
             return;
             $arr = [
                 'a' => [1, 2, 3],

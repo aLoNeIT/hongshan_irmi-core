@@ -64,7 +64,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
     {
         $errors = [];
         // 先校验科室要求
-        $result = $this->checkIncludeBranch($medicalRecord, $rule);
+        $result = $this->checkIncludedBranch($medicalRecord, $rule);
         if (true !== $result) {
             $errors = \array_merge($errors, $result);
         }
@@ -134,10 +134,6 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                 ];
             }
         }
-        return empty($errors) ? $this->jsonTable->success()
-            : $this->jsonTable->error("超标准收费", 202, [
-                'rule' => $this->getRuleInfo($rule),
-                'errors' => $errors
-            ]);
+        return $this->getResult(402, '不合理诊疗', $errors);
     }
 }

@@ -165,11 +165,15 @@
     | medical_insurance_set | 是 | object |        | 医保项目集合，kv结构，key是日期，value是该日期下的项目数组 |
 
     - medical_insurance_set参数中每个项目结构说明
-        - time：项目发生时间
-        - num：项目数量
-        - price：项目标准价格
-        - cash：项目实收价格
-        - total_cash：项目总实收价格
+        - key：时间戳，每天0点，代表日期
+        - value：该日期下所有项目数据，kv结构如下
+            - key：项目编码
+            - value：该项目每次开单的数据，数组，每个元素结构如下
+                - time：项目发生时间
+                - num：项目数量
+                - price：项目标准价格
+                - cash：项目实收价格
+                - total_cash：项目总实收价格
 
 - 病历示例数据,MedicalRecort的json格式
     ```
@@ -192,22 +196,26 @@
         "hospital_bussiness_type": 1,
         "medical_insurance_set": {
             "1722441600": {
-                "120300002b": {
-                    "time": 1722474000,
-                    "num": 2,
-                    "price": 19.00,
-                    "cash": 19.00,
-                    "total_cash": 38.00
-                }
+                "120300002b": [
+                    {
+                        "time": 1722474000,
+                        "num": 2,
+                        "price": 19.00,
+                        "cash": 19.00,
+                        "total_cash": 38.00
+                    }
+                ]
             },
             "1722528000": {
-                "120300002b": {
-                    "time": 1722564000,
-                    "num": 1,
-                    "price": 19.00,
-                    "cash": 19.00,
-                    "total_cash": 19.00
-                }
+                "120300002b": [
+                    {
+                        "time": 1722564000,
+                        "num": 1,
+                        "price": 19.00,
+                        "cash": 19.00,
+                        "total_cash": 19.00
+                    }
+                ]
             }
         }
     }

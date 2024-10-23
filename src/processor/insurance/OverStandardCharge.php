@@ -166,11 +166,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 ];
             }
         }
-        return empty($errors) ? $this->jsonTable->success()
-            : $this->jsonTable->error("超标准收费", 202, [
-                'rule' => $this->getRuleInfo($rule),
-                'errors' => $errors
-            ]);
+        return $this->getResult(201, '超标准收费', $errors);
     }
     /**
      * 检测多项目同时存在的折扣费用
@@ -229,7 +225,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             // 判断同时存在的项目是否为空，非空则开始进行折扣计算
             if (!empty($detectDisItems)) {
                 // 最后再对$ratioItems进行遍历，本次根据规则中的折扣目标来计算谁应该打折
-                if (2 == $rule->options['discount_target']) {
+                if (2 == $rule->options['discount_type']) {
                     // 自己打折
                     $ratio = $rule->options['ratio'];
                     \array_walk($currItems, function (MedicalInsuranceItem $item) use (&$errors, $ratio, $rule) {
@@ -274,9 +270,6 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 }
             }
         }
-        return empty($errors) ? $this->jsonTable->success()
-            : $this->jsonTable->error("超标准收费", 202, [
-                'errors' => $errors
-            ]);
+        return $this->getResult(202, '超标准收费', $errors);
     }
 }

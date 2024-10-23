@@ -170,11 +170,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         if (true !== $result) {
             $errors = \array_merge($errors, $result);
         }
-        return empty($errors) ? $this->jsonTable->success()
-            : $this->jsonTable->error("超标准收费", 202, [
-                'rule' => $this->getRuleInfo($rule),
-                'errors' => $errors
-            ]);
+        return $this->getResult(300, '超医保支付范围', $errors);
     }
     /**
      * 指定费用收费需要间隔指定天数

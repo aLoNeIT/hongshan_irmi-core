@@ -88,7 +88,7 @@ class DuplicateCharge extends Base implements IDetectInsuranceProcessor
                 }
                 // 确定错误内容
                 $msg = ($pcExisted ?  '无其他病理检查' : (count($errors) > 0 ? '其他项目超出限定数量' : ''));
-                $this->jsonTable->error($msg, 100, $errors);
+                return $this->jsonTable->error($msg, 100, $errors);
             }
             // 一切正常，返回
             return $this->jsonTable->success();
@@ -100,5 +100,64 @@ class DuplicateCharge extends Base implements IDetectInsuranceProcessor
                 'item_name' => $rule->itemName
             ]);
         }
+    }
+
+    protected function detectCommon(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
+    {
+        $errors = [];
+        $result = $this->checkIncludedItems($medicalRecord, $rule);
+        if (true !== $result) {
+            $errors = $result;
+        }
+        return $this->getResult(100, '重复收费', $errors);
+        // 读取规则内容
+        // 获取医保项目集合，以项目编码为key
+        $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
+        // 判断是否存在指定时间范围内的数据才进行匹配的
+        /** @var MedicalInsuranceItem[] $currItems */
+        $currItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
+        // 获取排除项目列表，病例中存在该列表内的项目则触发重复收费
+        // 该数据参考格式：{"001":{"num":1,"time_type":1}}
+        // time_type为时间类型，1是当天
+        $excludeItems = $rule->options['exclude_items'] ?? [];
+        // 当前病历中所有项目编码集合
+        $miItemCodes = \array_keys($miItemSet);
+        // 排除项目编码集合
+        $excludeItemCodes = \array_keys($excludeItems);
+        // 计算交集，获取重复项目
+        $dcItems = \array_intersect($miItemCodes, $excludeItemCodes);
+        // 非空数组则有重复项目
+        if (!empty($dcItems)) {
+            // 选项2，无其他病理检查时，当前项目和排除项目同时存在则为重复收费
+            // 是否存在其他病理检查项目
+            $pcExisted = false;
+            if (isset($rule->options['pathology_check'])) {
+                // 是否存在指定病理检查项目，存在则不算做重复计费
+                $pcExisted = !empty(\array_intersect($miItemCodes, $rule->options['pathology_check']));
+                if ($pcExisted) {
+                    return $this->jsonTable->success();
+                }
+            }
+            // 选项3，其他项目超出指定数量
+            $errors = [];
+            foreach ($dcItems as $key) {
+                // 查看每个$key的项目限定数量是多少，如果未超过则不属于重复收费
+                // 这里默认是当天，即time_type为1，后续根据需求优化
+                if (
+                    isset($excludeItemCodes[$key]['num'])
+                    && $excludeItems[$key]['num'] > $miItemSet[$key]->num
+                ) {
+                    continue;
+                }
+                $errors[] = [
+                    'rule' => $this->getRuleInfo($rule),
+                    'item' => $miItemSet[$key]
+                ];
+            }
+            // 确定错误内容
+            $msg = ($pcExisted ?  '无其他病理检查' : (count($errors) > 0 ? '其他项目超出限定数量' : ''));
+            return $this->jsonTable->error($msg, 100, $errors);
+        }
+        return $this->getResult(0, '', $errors);
     }
 }
