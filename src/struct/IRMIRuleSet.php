@@ -21,28 +21,34 @@ class IRMIRuleSet extends Base
      *
      * @var string|null
      */
-    public $code = null;
+    public ?string $code = null;
 
     /**
      * 规则集名称
      *
      * @var string|null
      */
-    public $name = null;
+    public ?string $name = null;
+    /**
+     * 原始数据
+     *
+     * @var array
+     */
+    protected array $originData = [];
 
     /**
      * 当前规则集子项
      *
      * @var IRMIRule[]
      */
-    protected $rules = [];
+    protected array $rules = [];
 
     /**
      * 以项目编码为键，规则编码数组为值的关联数组
      *
      * @var array
      */
-    protected $itemRules = [];
+    protected array $itemRules = [];
 
     /**
      * 驱动类
@@ -77,9 +83,10 @@ class IRMIRuleSet extends Base
     /** @inheritDoc */
     public function load(array $data): static
     {
-        $rules = $data['rules'] ?: null;
+        $this->originData = $data;
+        $rules = $data['rules'] ?? null;
         if (\is_null($rules)) {
-            throw new IRMIException('集合中未存在有效的规则内容');
+            throw new IRMIException('集合中未存在有效的规则数据');
         }
         unset($data['rules']);
         parent::load($data);
@@ -91,10 +98,55 @@ class IRMIRuleSet extends Base
         return $this;
     }
     /**
+     * 过滤规则，生成新的规则集
+     *
+     * @param IRMIRuleOption $ruleOption 规则选项
+     * @param boolean $force 是否强制克隆新对象
+     * @return static 返回过滤后的规则集
+     */
+    public function filter(IRMIRuleOption $ruleOption, bool $force = false): static
+    {
+        $whiteList = $ruleOption->whiteList;
+        $blackList = $ruleOption->blackList;
+        // 未设置黑白名单，且不是强制克隆新对象，则直接返回当前对象
+        if (empty($whiteList) && empty($blackList)) {
+            if (false === $force) {
+                return $this;
+            } else {
+                // 构造新对象并返回
+                return (new IRMIRuleSet())->load($this->originData);
+            }
+        }
+        $rules = [];
+        $originRules = $this->originData['rules'] ?? [];
+        /** @var array $rule */
+        foreach ($originRules as $rule) {
+            // 白名单
+            if (!empty($whiteList)) {
+                // 白名单非空，则必须在白名单中才可以添加
+                if (\in_array($rule['code'], $whiteList)) {
+                    $rules[] = $rule;
+                    continue;
+                }
+            } else if (!empty($blackList)) {
+                // 黑名单
+                if (!\in_array($rule['code'], $blackList)) {
+                    $rules[] = $rule;
+                    continue;
+                }
+            }
+        }
+        return (new IRMIRuleSet())->load([
+            'code' => $this->code,
+            'name' => $this->name,
+            'rules' => $rules
+        ]);
+    }
+
+    /**
      * 通过项目编码获取匹配的规则
      *
      * @param string[] $itemCodes 项目编码集合
-     * 
      * @return IRMIRule[] 返回规则对象
      */
     public function getRulesByItemCode(array $itemCodes): array
@@ -117,14 +169,14 @@ class IRMIRuleSet extends Base
      * 检测
      *
      * @param MedicalRecord $record 病历信息
-     * 
+     * @param IRMIRuleOption $ruleOption 规则选项
      * @return array 返回检测结果，JsonTable格式数组
      */
-    public function detect(MedicalRecord $record): array
+    public function detectInsurance(MedicalRecord $record, IRMIRuleOption $ruleOption = null): array
     {
 
         return \is_null($this->driver)
             ? Util::jerror(1, '驱动未加载')
-            : $this->driver->detect($record, $this);
+            : $this->driver->detectInsurance($record, $this, $ruleOption);
     }
 }

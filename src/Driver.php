@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi;
 
-use hongshanhealth\irmi\constant\Key;
+use hongshanhealth\irmi\constant\{Key as KeyConst, Processor as ProcessorConst};
 use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
-use hongshanhealth\irmi\processor\Processor;
+use hongshanhealth\irmi\struct\IRMIRuleOption;
 use hongshanhealth\irmi\struct\IRMIRuleSet;
 use hongshanhealth\irmi\struct\MedicalRecord;
 
@@ -85,36 +85,43 @@ abstract class Driver
         return $this->ruleSets[$code];
     }
     /**
-     * 检测
+     * 检测医保规则
      *
      * @param MedicalRecord $record 病历信息
      * @param IRMIRuleSet $ruleSet 规则集合
+     * @param IRMIRuleOption $ruleOption 规则选项
      * @return array 返回检测结果，JsonTable格式数组
      */
-    public function detect(MedicalRecord $record, IRMIRuleSet $ruleSet): array
+    public function detectInsurance(MedicalRecord $record, IRMIRuleSet $ruleSet, IRMIRuleOption $ruleOption = null): array
     {
-        // 根据规则集合，提取适用的规则依次进行计算
-        $miItemSet = $record->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-        $itemCodes = \array_keys($miItemSet);
-        $rules = $ruleSet->getRulesByItemCode($itemCodes);
-        $errors = [];
-        foreach ($rules as $rule) {
-            // 根据规则类型创建对应的处理器
-            $class = Processor::TYPE_MAP[$rule->type];
-            /** @var IDetectInsuranceProcessor $processor */
-            $processor = new $class();
-            // 执行处理器
-            if (!$processor instanceof IDetectInsuranceProcessor) {
-                continue;
+        try {
+            // 根据规则集合，提取适用的规则依次进行计算
+            $miItemSet = $record->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
+            $itemCodes = \array_keys($miItemSet);
+            // 过滤规则
+            $ruleSet = $ruleSet->filter($ruleOption);
+            $rules = $ruleSet->getRulesByItemCode($itemCodes);
+            $errors = [];
+            foreach ($rules as $rule) {
+                // 根据规则类型创建对应的处理器
+                $class = ProcessorConst::TYPE_MAP[$rule->type];
+                /** @var IDetectInsuranceProcessor $processor */
+                $processor = new $class();
+                // 执行处理器
+                if (!$processor instanceof IDetectInsuranceProcessor) {
+                    continue;
+                }
+                $jResult = $processor->detect($record, $rule);
+                // 获取错误信息
+                if (!$jResult->isSuccess()) {
+                    // 记录该次对比错误内容，每个元素都是一个JsonTable的数组类型
+                    $errors[] = $jResult->toArray();
+                }
             }
-            $jResult = $processor->detect($record, $rule);
-            // 获取错误信息
-            if (!$jResult->isSuccess()) {
-                // 记录该次对比错误内容，每个元素都是一个JsonTable的数组类型
-                $errors[] = $jResult->toArray();
-            }
+            return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
+        } catch (\Throwable $ex) {
+            return $this->jcode(1, $ex->getMessage());
         }
-        return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
     }
 
     /**

@@ -93,7 +93,7 @@ class IRMI
         } elseif (\class_exists($type)) {
             $driverObj = new $type($config);
         } else {
-            throw new IRMIException("Driver {$type} not found");
+            throw new IRMIException("驱动[{$type}]不存在");
         }
         $this->drivers[$driver] = $driverObj;
         return $this->drivers[$driver];

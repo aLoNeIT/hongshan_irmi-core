@@ -15,8 +15,10 @@ class Processor
      * 处理器类型映射关系表
      */
     const TYPE_MAP = [
-        1 => '\hongshanhealth\irmi\processor\DuplicateCharge',
-        2 => '\hongshanhealth\irmi\processor\OverStandardCharge'
+        1 => '\hongshanhealth\irmi\processor\insurance\DuplicateCharge',
+        2 => '\hongshanhealth\irmi\processor\insurance\OverStandardCharge',
+        3 => '\hongshanhealth\irmi\processor\insurance\OverInsuranceCharge',
+        4 => '\hongshanhealth\irmi\processor\insurance\UnReasonableTreatment'
     ];
     /**
      * 医保项目
