@@ -110,7 +110,7 @@
             "sub_type": 2,
             "options": {
                 "detect_type": 1,
-                "unit": "price",
+                "unit_type": "cash",
                 "num": 5,
                 "time_range": [
                     1535731200,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace hongshanhealth\irmi;
 
 use hongshanhealth\irmi\struct\JsonTable;
+use Throwable;
 
 /**
  * 异常类
@@ -16,7 +17,7 @@ class IRMIException extends \Exception
     /**
      * 异常附加信息
      *
-     * @var array
+     * @var mixed
      */
     protected $data = null;
     /**
@@ -24,17 +25,17 @@ class IRMIException extends \Exception
      *
      * @var integer
      */
-    protected $state = 1;
+    protected int $state = 1;
 
     /**
      * 重写构造函数
      *
-     * @param string $msg 错误信息
+     * @param string|JsonTable $msg 错误信息
      * @param integer $state 错误码
      * @param array $data 附加信息
      * @param object $previous 牵制对象
      */
-    public function __construct($msg, $state = 1, $data = null, $previous = null)
+    public function __construct(string | JsonTable $msg, int $state = 1, ?mixed $data = null, ?\Throwable $previous = null)
     {
         if ($msg instanceof JsonTable) {
             $previous = $previous ?: $msg->getProperty('exception');
@@ -50,9 +51,9 @@ class IRMIException extends \Exception
     /**
      * 获取附带信息
      *
-     * @return array
+     * @return mixed
      */
-    final public function getData()
+    final public function getData(): mixed
     {
         return $this->data;
     }
@@ -61,7 +62,7 @@ class IRMIException extends \Exception
      *
      * @return integer
      */
-    final public function getState()
+    final public function getState(): int
     {
         return $this->state;
     }

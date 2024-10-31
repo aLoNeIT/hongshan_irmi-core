@@ -87,12 +87,12 @@ abstract class Driver
     /**
      * 检测医保规则
      *
-     * @param MedicalRecord $record 病历信息
      * @param IRMIRuleSet $ruleSet 规则集合
+     * @param MedicalRecord $record 病历信息
      * @param IRMIRuleOption $ruleOption 规则选项
      * @return array 返回检测结果，JsonTable格式数组
      */
-    public function detectInsurance(MedicalRecord $record, IRMIRuleSet $ruleSet, IRMIRuleOption $ruleOption = null): array
+    public function detectInsurance(IRMIRuleSet $ruleSet, MedicalRecord $record, IRMIRuleOption $ruleOption = null): array
     {
         try {
             // 根据规则集合，提取适用的规则依次进行计算

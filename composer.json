@@ -16,9 +16,12 @@
         }
     },
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.0",
+        "fukuball/jieba-php": "^0.34.0",
+        "tga/simhash-php": "^2.0"
     },
     "scripts": {
-        "test": "@php ./tests/App.php"
+        "test": "@php ./tests/App.php",
+        "test-simhash": "@php ./tests/Simhash.php"
     }
 }

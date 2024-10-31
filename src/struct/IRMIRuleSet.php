@@ -6,12 +6,14 @@ namespace hongshanhealth\irmi\struct;
 
 use hongshanhealth\irmi\Driver;
 use hongshanhealth\irmi\IRMIException;
-use hongshanhealth\irmi\Util;
+use hongshanhealth\irmi\struct\{MedicalRecord, IRMIRuleOption};
 
 /**
  * 医保智能审核规则集合
  * 
  * @author 王阮强 <wangruanqiang@hongshanhis.com>
+ * 
+ * @method mixed detectInsurance(MedicalRecord $record, IRMIRuleOption $ruleOption = null)
  */
 class IRMIRuleSet extends Base
 {
@@ -166,17 +168,20 @@ class IRMIRuleSet extends Base
         return $rules;
     }
     /**
-     * 检测
+     * 调用内置驱动类相关方法
      *
-     * @param MedicalRecord $record 病历信息
-     * @param IRMIRuleOption $ruleOption 规则选项
-     * @return array 返回检测结果，JsonTable格式数组
+     * @param string $name 方法名
+     * @param array $arguments 参数
+     * @return mixed
      */
-    public function detectInsurance(MedicalRecord $record, IRMIRuleOption $ruleOption = null): array
+    public function __call(string $name, array $arguments): mixed
     {
-
-        return \is_null($this->driver)
-            ? Util::jerror(1, '驱动未加载')
-            : $this->driver->detectInsurance($record, $this, $ruleOption);
+        if (
+            !\is_null($this->driver)
+            && \method_exists($this->driver, $name)
+        ) {
+            return $this->driver->$name($this, ...$arguments);
+        }
+        throw new IRMIException('未定义的方法：' . $name);
     }
 }
