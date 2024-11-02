@@ -44,7 +44,17 @@
     - date_interval：日期间隔配置
         - num：间隔数量，如5日、三月
         - type：间隔时间类型，1-日，2-月，3-年
-
+- 智能审核规则计算器
+    - insurance：医保相关
+        - type=1，DuplicateCharge，重复收费
+        - type=2，OverStandardCharge，超标准收费
+            - sub_type=1，当前项目计费量超过指定量
+            - sub_type=2，检测多项目同时存在的折扣费用
+        - type=3，OverInsuranceCharge，超医保费用
+        - type=4，UnReasonableTreatment，不合理诊疗
+            - sub_type=1，检测医保项目同时收费或未同时收费
+            - sub_type=2，属性不符合要求
+            
 - 规则示例数据,IRMIRuleSet集合json格式
     ```
     {
