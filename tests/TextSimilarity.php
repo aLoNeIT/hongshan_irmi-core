@@ -26,12 +26,18 @@ class TextSimilarity
             $fp1 = $simhash->hash($content1);
             $fp2 = $simhash->hash($content2);
             $fp3 = $simhash->hash($content3);
-            var_dump((string)$fp1, (string)$fp2, (string)$fp3);
+            var_dump([
+                '指纹1' => (string)$fp1,
+                '指纹2' => (string)$fp2,
+                '指纹3' => (string)$fp3,
+            ]);
             $comparator = new DefaultComparator();
             var_dump(
-                $comparator->compare($fp1, $fp2),
-                $comparator->compare($fp1, $fp3),
-                $comparator->compare($fp2, $fp3)
+                [
+                    '指纹1vs指纹2' => $comparator->compare($fp1, $fp2),
+                    '指纹1vs指纹3' => $comparator->compare($fp1, $fp3),
+                    '指纹2vs指纹3' => $comparator->compare($fp2, $fp3)
+                ],
             );
         } catch (\Throwable $ex) {
             var_dump($ex);

@@ -21,6 +21,7 @@
     },
     "scripts": {
         "test": "@php ./tests/App.php",
+        "irmi": "@php ./tests/IRMI.php",
         "similary": "@php ./tests/TextSimilarity.php"
     }
 }

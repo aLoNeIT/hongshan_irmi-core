@@ -75,9 +75,10 @@ abstract class Driver
      * 切换医保智能审核规则集合
      *
      * @param string $code 医保智能审核规则集合编码
+     * @param boolean $created 是否创建新的集合对象
      * @return IRMIRuleSet 返回指定集合编码的集合对象
      */
-    public function switch(string $code): IRMIRuleSet
+    public function switch(string $code, bool $created = false): IRMIRuleSet
     {
         if (!isset($this->ruleSet[$code])) {
             $this->ruleSets[$code] = (new IRMIRuleSet())->setDriver($this);
@@ -128,13 +129,12 @@ abstract class Driver
      * 加载数据
      *
      * @param string $code 集合编码
-     * @param string $name 集合名称
      * @param array $data 规则集合内容
      * @return static 返回当前驱动实例
      */
-    public function load(string $code, string $name, array $data): self
+    public function load(string $code, array $data): self
     {
-        $ruleSet = $this->switch($code);
+        $ruleSet = $this->switch($code, true);
         $ruleSet->load($data);
         return $this;
     }

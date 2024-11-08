@@ -13,7 +13,7 @@ use hongshanhealth\irmi\struct\{MedicalRecord, IRMIRuleOption};
  * 
  * @author 王阮强 <wangruanqiang@hongshanhis.com>
  * 
- * @method mixed detectInsurance(MedicalRecord $record, IRMIRuleOption $ruleOption = null)
+ * @method array detectInsurance(MedicalRecord $record, IRMIRuleOption $ruleOption = null)
  */
 class IRMIRuleSet extends Base
 {
