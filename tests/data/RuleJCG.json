@@ -9,8 +9,8 @@
     "sub_type": 2,
     "options": {
       "detect_type": 1,
-      "unit_type": "num",
-      "num": 5,
+      "unit_type": "cash",
+      "num": 25,
       "time_range": [
         1535731200,
         null
@@ -22,7 +22,7 @@
     "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
     "item_code": "120100011",
     "item_name": "吸痰护理",
-    "desc": "每日收费最多不超过25元,超出属于超标准收费",
+    "desc": "每日收费最多不超过 5 次,  超\n出属于超标准收费",
     "type": 2,
     "sub_type": 2,
     "options": {
