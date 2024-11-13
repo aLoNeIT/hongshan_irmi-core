@@ -38,6 +38,26 @@ abstract class Base
     }
 
     /**
+     * 当前对象以字符串输出时的魔术方法调用
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
+    }
+
+    /**
+     * 输出为json字符串
+     *
+     * @return string
+     */
+    public function toJson(): string
+    {
+        return \json_encode($this->toArray(), JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * 加载数据
      *
      * @param array $data 数据

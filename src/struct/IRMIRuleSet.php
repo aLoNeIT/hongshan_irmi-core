@@ -102,47 +102,45 @@ class IRMIRuleSet extends Base
     /**
      * 过滤规则，生成新的规则集
      *
-     * @param IRMIRuleOption $ruleOption 规则选项
+     * @param IRMIRuleOption|null $ruleOption 规则选项
      * @param boolean $force 是否强制克隆新对象
      * @return static 返回过滤后的规则集
      */
-    public function filter(IRMIRuleOption $ruleOption, bool $force = false): static
+    public function filter(?IRMIRuleOption $ruleOption = null, bool $force = false): static
     {
-        $whiteList = $ruleOption->whiteList;
-        $blackList = $ruleOption->blackList;
-        // 未设置黑白名单，且不是强制克隆新对象，则直接返回当前对象
-        if (empty($whiteList) && empty($blackList)) {
-            if (false === $force) {
-                return $this;
-            } else {
-                // 构造新对象并返回
-                return (new IRMIRuleSet())->load($this->originData);
-            }
-        }
         $rules = [];
-        $originRules = $this->originData['rules'] ?? [];
-        /** @var array $rule */
-        foreach ($originRules as $rule) {
-            // 白名单
-            if (!empty($whiteList)) {
-                // 白名单非空，则必须在白名单中才可以添加
-                if (\in_array($rule['code'], $whiteList)) {
-                    $rules[] = $rule;
-                    continue;
-                }
-            } else if (!empty($blackList)) {
-                // 黑名单
-                if (!\in_array($rule['code'], $blackList)) {
-                    $rules[] = $rule;
-                    continue;
+        if (!\is_null($ruleOption)) {
+            $whiteList = $ruleOption->whiteList;
+            $blackList = $ruleOption->blackList;
+            if (!empty($whiteList) || !empty($blackList)) {
+                // 任意一个不为空，则继续执行
+                $originRules = $this->originData['rules'] ?? [];
+                /** @var array $rule */
+                foreach ($originRules as $rule) {
+                    // 白名单
+                    if (!empty($whiteList)) {
+                        // 白名单非空，则必须在白名单中才可以添加
+                        if (\in_array($rule['code'], $whiteList)) {
+                            $rules[] = $rule;
+                            continue;
+                        }
+                    } else if (!empty($blackList)) {
+                        // 黑名单
+                        if (!\in_array($rule['code'], $blackList)) {
+                            $rules[] = $rule;
+                            continue;
+                        }
+                    }
                 }
             }
         }
-        return (new IRMIRuleSet())->load([
-            'code' => $this->code,
-            'name' => $this->name,
-            'rules' => $rules
-        ]);
+        return $force ? (new IRMIRuleSet())->load(
+            empty($rules) ? [
+                'code' => $this->code,
+                'name' => $this->name,
+                'rules' => $rules
+            ] : $this->originData
+        ) : $this;
     }
 
     /**

@@ -132,7 +132,7 @@ abstract class Driver
      * @param array $data 规则集合内容
      * @return static 返回当前驱动实例
      */
-    public function load(string $code, array $data): self
+    public function load(string $code, array $data): static
     {
         $ruleSet = $this->switch($code, true);
         $ruleSet->load($data);

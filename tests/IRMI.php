@@ -34,7 +34,10 @@ class IRMI
                 if (!$jResult->setByArray($result)->isSuccess()) {
                     // 失败，记录
                     echo '检测未通过', PHP_EOL;
+                    echo (string)$medicalRecord, PHP_EOL;
                     echo $jResult->toJson(), PHP_EOL;
+                } else {
+                    echo '检测通过', PHP_EOL;
                 }
             }
         } catch (\Throwable $ex) {
@@ -48,4 +51,4 @@ class IRMI
 require __DIR__ . '/../vendor/autoload.php';
 
 // 应用初始化
-(new TextSimilarity())->run();
+(new IRMI())->run();

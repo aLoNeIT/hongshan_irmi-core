@@ -1,0 +1,77 @@
+{
+    "code": "01",
+    "name": "陕西医保智能审核规则集1.0",
+    "rules": [
+        {
+            "code": "01",
+            "name": "重复收费-住院-静脉输液",
+            "item_code": "120400006",
+            "item_name": "静脉输液",
+            "category": 1,
+            "type": 1,
+            "sub_type": 1,
+            "options": {
+                "time_range": [
+                    969356516,
+                    null
+                ],
+                "visit_type": 2,
+                "detect_type": 2,
+                "exclude_items": {
+                    "time_type": 2,
+                    "collection": {
+                        "120400006e": null,
+                        "120400007a": null,
+                        "120400007b": null
+                    }
+                }
+            }
+        },
+        {
+            "code": "02",
+            "name": "重复收费-住院-液基薄层细胞制片术",
+            "item_code": "270800004",
+            "item_name": "液基薄层细胞制片术",
+            "category": 1,
+            "type": 1,
+            "sub_type": 1,
+            "options": {
+                "time_range": [
+                    969356516,
+                    null
+                ],
+                "visit_type": 2,
+                "detect_type": 2,
+                "exclude_items": {
+                    "time_type": 2,
+                    "collection": {
+                        "270800006": null
+                    }
+                }
+            }
+        },
+        {
+            "code": "03",
+            "name": "重复收费-住院-常规心电图",
+            "item_code": "310701001c",
+            "item_name": "常规心电图检查",
+            "category": 1,
+            "type": 1,
+            "sub_type": 1,
+            "options": {
+                "time_range": [
+                    969356516,
+                    null
+                ],
+                "visit_type": 2,
+                "detect_type": 2,
+                "exclude_items": {
+                    "time_type": 2,
+                    "collection": {
+                        "003107010010002-310701001f": null
+                    }
+                }
+            }
+        }
+    ]
+}

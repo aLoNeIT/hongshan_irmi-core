@@ -35,7 +35,7 @@ class Util
      * 获取JsonTable格式数组中的data值
      *
      * @param array $jtable JsonTable格式的数组
-     * @return mix 返回data值
+     * @return mixed 返回data值
      */
     public static function getJData(array $jtable): mixed
     {
@@ -56,11 +56,11 @@ class Util
      * 获取一个JsonTable格式的数组
      *
      * @param integer $state 状态码
-     * @param mix $msg 简要消息
-     * @param mix|null $data 扩展数据
+     * @param mixed $msg 简要消息
+     * @param mixed $data 扩展数据
      * @return array 返回一个JsonTable格式的数组
      */
-    public static function jecho(int $state, $msg, $data = null): array
+    public static function jecho(int $state, mixed $msg, mixed $data = null): array
     {
         $result = \array_merge([
             'state' => $state,
@@ -73,11 +73,11 @@ class Util
     /**
      * 获取一个成功的JsonTable格式的数组
      *
-     * @param mix $msg 简要消息
-     * @param mix|null $data 扩展数据
+     * @param mixed $msg 简要消息
+     * @param mixed $data 扩展数据
      * @return array 返回一个JsonTable格式的数组
      */
-    public static function jsuccess(?mixed $msg = 'success', $data = null): array
+    public static function jsuccess(mixed $msg = 'success', mixed $data = null): array
     {
         return self::jecho(0, $msg ?: 'success', $data);
     }
@@ -85,34 +85,34 @@ class Util
      * 获取一个失败的JsonTable格式的数组
      *
      * @param integer $state 状态码
-     * @param mix $msg 简要消息
-     * @param mix|null $data 扩展数据
+     * @param mixed $msg 简要消息
+     * @param mixed $data 扩展数据
      * @return array 返回一个JsonTable格式的数组
      */
-    public static function jerror(int $state = 1, $msg = 'failed', $data = null): array
+    public static function jerror(int $state = 1, mixed $msg = 'failed', mixed $data = null): array
     {
         return self::jecho($state, $msg, $data);
     }
     /**
      * 获取一个异常的JsonTable格式的数组
      *
-     * @param mix $msg 简要消息
-     * @param mix|null $data 扩展数据
+     * @param mixed $msg 简要消息
+     * @param mixed $data 扩展数据
      * @param integer $state 错误码
      * @return array 返回一个JsonTable格式的数组
      */
-    public static function jexception($msg = 'exception', $data = null, int $state = 1): array
+    public static function jexception(mixed $msg = 'exception', mixed $data = null, int $state = 1): array
     {
         return self::jecho($state, $msg, $data);
     }
     /**
      * 获取一个成功的且带有data节点的JsonTable格式的数组
      *
-     * @param mix|null $data 扩展数据
-     * @param mix $msg 简要消息
+     * @param mixed $data 扩展数据
+     * @param mixed $msg 简要消息
      * @return array 返回一个JsonTable格式的数组
      */
-    public static function jdata($data, $msg = 'success'): array
+    public static function jdata(mixed $data, mixed $msg = 'success'): array
     {
         return self::jecho(0, $msg, $data);
     }
@@ -306,7 +306,7 @@ class Util
      * @param mixed $class 类名
      * @return array
      */
-    public static function classUsesRecursive($class): array
+    public static function classUsesRecursive(mixed $class): array
     {
         if (is_object($class)) {
             $class = get_class($class);
