@@ -22,7 +22,7 @@
     "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
     "item_code": "120100011",
     "item_name": "吸痰护理",
-    "desc": "每日收费最多不超过 5 次,  超\n出属于超标准收费",
+    "desc": "每日收费最多不超过 5 次,  超出属于超标准收费",
     "type": 2,
     "sub_type": 1,
     "options": {
@@ -32,6 +32,61 @@
       "time_range": [
         1535731200,
         null
+      ]
+    }
+  },
+  {
+    "code": "SX14873099724541",
+    "name": "不合理诊疗[性别不符]",
+    "item_code": "331201006a",
+    "item_name": "经尿道前列腺激光术",
+    "type": 3,
+    "sub_type": 2,
+    "options": {
+      "property": [
+        {
+          "name": "sex",
+          "operator": "=",
+          "value": 1
+        }
+      ]
+    }
+  },
+  {
+    "code": "SX14873099724761",
+    "name": "不合理诊疗[性别不符]",
+    "item_code": "311201026",
+    "item_name": "胎心监测",
+    "type": 3,
+    "sub_type": 2,
+    "options": {
+      "property": [
+        {
+          "name": "sex",
+          "operator": "=",
+          "value": 2
+        }
+      ]
+    }
+  },
+  {
+    "code": "CBZ142950000",
+    "name": "超标准收费[指定项目数量超过住院天数]",
+    "item_code": "110200005",
+    "item_name": "住院诊查费",
+    "desc": "住院期间,(\"新生儿暖箱\"与\"多功能新生儿暖箱\")收费数量之和超过住院天数*24,超出属于超标准收费",
+    "type": 2,
+    "sub_type": 1,
+    "visit_type": 2,
+    "options": {
+      "num": {
+        "type": 2,
+        "property": "in_days",
+        "coefficient": 24
+      },
+      "combine_items": [
+        "311202001",
+        "311202001a"
       ]
     }
   }
