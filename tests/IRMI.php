@@ -21,10 +21,10 @@ class IRMI
         try {
             $jResult = new JsonTable();
             // 加载规则集合
-            $ruleSetStr = \file_get_contents(__DIR__ . '/data/RuleSet.json');
+            $ruleSetStr = \file_get_contents(__DIR__ . '/data/TestRuleSet.json');
             $ruleSet = \json_decode($ruleSetStr, true);
             // 加载并立即和
-            $medicalRecordsStr = \file_get_contents(__DIR__ . '/data/MedicalRecords.json');
+            $medicalRecordsStr = \file_get_contents(__DIR__ . '/data/TestMedicalRecords.json');
             $medicalRecords = \json_decode($medicalRecordsStr, true);
             // 读取规则集合
             $shaanxi = IRMIManager::instance()->store('shaanxi');

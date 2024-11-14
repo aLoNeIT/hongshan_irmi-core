@@ -112,7 +112,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             // 获取规则中配置的数量
             $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
             // 根据配置确定当前计算总量是否需要加上合并项目的数量
-            $totalNum = $item['total_num'] + isset($rule->options['combine_items']) ? ($cmItemData[$date]['total_num'] ?? 0) : 0;
+            $totalNum = $item['total_num'] + (isset($rule->options['combine_items']) ? ($cmItemData[$date]['total_num'] ?? 0) : 0);
             if ($totalNum > $ruleNum) {
                 // 当前项目总数量大于指定的数量
                 if ($item['total_num'] > $ruleNum && isset($rule->options['ratio'])) {
