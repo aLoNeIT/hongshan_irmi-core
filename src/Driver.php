@@ -80,7 +80,7 @@ abstract class Driver
      */
     public function switch(string $code, bool $created = false): IRMIRuleSet
     {
-        if (!isset($this->ruleSet[$code])) {
+        if (!isset($this->ruleSets[$code])) {
             $this->ruleSets[$code] = (new IRMIRuleSet())->setDriver($this);
         }
         return $this->ruleSets[$code];
@@ -121,7 +121,7 @@ abstract class Driver
             }
             return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
         } catch (\Throwable $ex) {
-            return $this->jcode(1, $ex->getMessage());
+            return $this->jcode(1, $ex->getMessage(), $ex->getTrace());
         }
     }
 

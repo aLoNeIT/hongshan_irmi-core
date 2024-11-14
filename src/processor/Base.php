@@ -19,9 +19,9 @@ abstract class Base
     /**
      * JsonTable对象结果返回类
      *
-     * @var JsonTable
+     * @var JsonTable|null
      */
-    protected JsonTable $jsonTable = new JsonTable();
+    protected ?JsonTable $jsonTable = null;
     /**
      * 构造函数
      */
@@ -34,7 +34,10 @@ abstract class Base
      *
      * @return void
      */
-    protected function initialize(): void {}
+    protected function initialize(): void
+    {
+        $this->jsonTable = new JsonTable();
+    }
 
     /**
      * 获取规则信息

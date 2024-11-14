@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace hongshanhealth\irmi\struct;
 
 use hongshanhealth\irmi\constant\Key;
+use hongshanhealth\irmi\Util;
 
 /**
  * 病历类
@@ -158,12 +159,17 @@ class MedicalRecord extends Base
         parent::load($data);
         // 加载成功数据后，同时生成临时数据
         $tmpData = [];
-        foreach ($this->medicalInsuranceSet as $date => $items) {
-            foreach ($items as $itemCode => $item) {
-                $tmpData[$itemCode][] = (new MedicalInsuranceItem())->load([
-                    ...$item,
-                    'date' => $date
-                ]);
+        // 第一级，日期=>所有数据
+        foreach ($this->medicalInsuranceSet as $date => $dateItems) {
+            // 第二级，项目编码=>该项目所有数据
+            foreach ($dateItems as $itemCode => $items) {
+                // 第三级，该项目单一数据
+                foreach ($items as $item) {
+                    $tmpData[$itemCode][] = (new MedicalInsuranceItem())->load([
+                        ...$item,
+                        'date' => $date
+                    ]);
+                }
             }
         }
         $this->setTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE, $tmpData);

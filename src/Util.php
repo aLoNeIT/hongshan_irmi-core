@@ -336,4 +336,15 @@ class Util
 
         return $traits;
     }
+
+    /**
+     * 浏览器友好的变量输出
+     * @param mixed $vars 要输出的变量
+     * @return void
+     */
+    public static function dd(...$vars): void
+    {
+        var_dump(...$vars);
+        exit(1);
+    }
 }

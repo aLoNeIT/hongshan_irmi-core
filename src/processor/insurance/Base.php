@@ -20,8 +20,6 @@ use hongshanhealth\irmi\Util;
  */
 class Base extends BaseProcessor
 {
-
-
     /**
      * 检查规则适用的时间范围
      *
@@ -165,10 +163,10 @@ class Base extends BaseProcessor
         $timeType = $includedItems['time_type'] ?? 2;
         $itemCollection = $includedItems['collection'] ?? [];
         // 获取临时数据，同时根据规则有效期进行过滤
-        $tmpMiItemSet = $this->filterMIItemByDateRange(
-            $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE),
-            $rule
-        );
+        $tmpMiItemSet = \array_map(function (array $items) use ($rule) {
+            return $this->filterMIItemByDateRange($items, $rule);
+        }, $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE));
+
         // 循环判断，包含的项目存在 当天或全部 匹配条件
         if (2 === $timeType) {
             // 循环 包含 或 排除 依次判断是否错误
@@ -192,7 +190,11 @@ class Base extends BaseProcessor
                                 continue;
                             }
                         }
-                        if (!isset($config['num']) || $tmpMiItemSet[$code]->num < $config['num']) {
+                        // 汇总计算数组内指定字段的值
+                        $totalNum = \array_reduce($tmpMiItemSet[$code], function (int $sum, MedicalInsuranceItem $miItem) {
+                            return $sum + $miItem->num ?: 0;
+                        }, 0);
+                        if (!isset($config['num']) || $totalNum < $config['num']) {
                             // 收费小于指定数量，则跳过
                             continue;
                         }

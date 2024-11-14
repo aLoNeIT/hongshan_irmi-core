@@ -29,7 +29,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             }
             return $jResult;
         } catch (IRMIException $ex) {
-            return $this->jsonTable->error($ex->getMessage(), 1);
+            return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
         }
     }
     /**
@@ -130,9 +130,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     $dateNum[$item->date] = ($dateNum[$item->date] ?? 0) + 1;
                 });
                 // 进行排序
-                if (!\sort($sortDate, SORT_NUMERIC)) {
-                    continue;
-                };
+                @\sort($sortDate, SORT_NUMERIC);
                 // 开始从小到大进行处理，需要双重循环
                 $i = 0;
                 $j = 0;

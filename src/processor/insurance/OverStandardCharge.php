@@ -8,6 +8,7 @@ use hongshanhealth\irmi\constant\Key;
 use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
 use hongshanhealth\irmi\IRMIException;
 use hongshanhealth\irmi\struct\{MedicalRecord, IRMIRule, JsonTable, MedicalInsuranceItem};
+use hongshanhealth\irmi\Util;
 
 /**
  * 超标准收费处理器
@@ -32,7 +33,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             }
             return $jResult;
         } catch (IRMIException $ex) {
-            return $this->jsonTable->error($ex->getMessage(), 1);
+            return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
         }
     }
     /**

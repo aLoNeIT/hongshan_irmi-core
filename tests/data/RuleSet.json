@@ -88,6 +88,40 @@
                     "sub_num": 5
                 }
             }
+        },
+        {
+            "code": "JCG-02-01",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100011",
+            "item_name": "吸痰护理",
+            "type": 2,
+            "sub_type": 1,
+            "options": {
+                "detect_type": 1,
+                "unit_type": "cash",
+                "num": 25,
+                "time_range": [
+                    1535731200,
+                    null
+                ]
+            }
+        },
+        {
+            "code": "JCG-02-02",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100011",
+            "item_name": "吸痰护理",
+            "type": 2,
+            "sub_type": 1,
+            "options": {
+                "detect_type": 1,
+                "unit_type": "num",
+                "num": 5,
+                "time_range": [
+                    1535731200,
+                    null
+                ]
+            }
         }
     ]
 }

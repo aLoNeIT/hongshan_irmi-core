@@ -7,6 +7,7 @@ namespace hongshanhealth\irmi\tests;
 use hongshanhealth\irmi\IRMI as IRMIManager;
 use hongshanhealth\irmi\struct\JsonTable;
 use hongshanhealth\irmi\struct\MedicalRecord;
+use hongshanhealth\irmi\Util;
 
 /**
  * 医保智能审核测试
@@ -26,16 +27,16 @@ class IRMI
             $medicalRecordsStr = \file_get_contents(__DIR__ . '/data/MedicalRecords.json');
             $medicalRecords = \json_decode($medicalRecordsStr, true);
             // 读取规则集合
-            $irmiManager = IRMIManager::instance()->store('shaanxi');
-            $shaanxi = $irmiManager->load($ruleSet['code'], $ruleSet);
+            $shaanxi = IRMIManager::instance()->store('shaanxi');
+            $shaanxi = $shaanxi->load($ruleSet['code'], $ruleSet);
             foreach ($medicalRecords as $record) {
                 $medicalRecord = (new MedicalRecord())->load($record);
                 $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
                 if (!$jResult->setByArray($result)->isSuccess()) {
                     // 失败，记录
                     echo '检测未通过', PHP_EOL;
-                    echo (string)$medicalRecord, PHP_EOL;
-                    echo $jResult->toJson(), PHP_EOL;
+                    echo '病历：', (string)$medicalRecord, PHP_EOL;
+                    echo '检测结果：', $jResult->toJson(), PHP_EOL;
                 } else {
                     echo '检测通过', PHP_EOL;
                 }
