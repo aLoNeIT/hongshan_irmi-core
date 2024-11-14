@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi\processor\insurance;
 
-use hongshanhealth\irmi\constant\{Key as KeyConst, Map as MapConst};
+use hongshanhealth\irmi\constant\{Map as MapConst};
 use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
 use hongshanhealth\irmi\IRMIException;
-use hongshanhealth\irmi\processor\Base;
 use hongshanhealth\irmi\struct\{MedicalRecord, IRMIRule, JsonTable, MedicalInsuranceItem};
 use hongshanhealth\irmi\Util;
 

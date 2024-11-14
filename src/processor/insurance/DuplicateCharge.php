@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi\processor\insurance;
 
-use hongshanhealth\irmi\constant\Key;
 use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
 use hongshanhealth\irmi\IRMIException;
-use hongshanhealth\irmi\processor\Base;
 use hongshanhealth\irmi\struct\IRMIRule;
 use hongshanhealth\irmi\struct\JsonTable;
-use hongshanhealth\irmi\struct\MedicalInsuranceItem;
 use hongshanhealth\irmi\struct\MedicalRecord;
 
 /**
