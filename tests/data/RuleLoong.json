@@ -1,0 +1,59 @@
+{
+  "code": "04",
+  "name": "规则集-不合理诊疗",
+  "rules": [
+    {
+      "code": "04-01-05",
+      "name": "不合理诊疗[无项目]",
+      "item_code": "310602005",
+      "item_name": "持续呼吸功能监测",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "310603001":null,
+            "310603002":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-06",
+      "name": "不合理诊疗[无项目]",
+      "item_code": "330100008",
+      "item_name": "术后镇痛",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          null,
+          null
+        ],
+        "combine_items":{
+          "330100003a":null,
+          "330100005a":null,
+          "330100005c":null,
+          "330100003":null
+        },
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "330100001":null,
+            "330100001a":null,
+            "330100002":null,
+            "330100003a":null,
+            "330100003":null
+          }
+        }
+      }
+    }
+  ]
+}
