@@ -83,7 +83,7 @@
       }
     },
     {
-      "code": "04-01-07",
+      "code": "04-01-08",
       "name": "不合理诊疗[无重症监护、级别护理]",
       "item_code": "120100006a",
       "item_name": "传染病护理加收",
@@ -106,6 +106,168 @@
           }
         }
       }
+    },
+    {
+      "code": "04-01-09",
+      "name": "不合理诊疗[无重症监护、级别护理]",
+      "item_code": "120100006b",
+      "item_name": "保护性隔离护理加收",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "120100001":null,
+            "120100002":null,
+            "120100003":null,
+            "120100004":null,
+            "120100005":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-10",
+      "name": "不合理诊疗[无重症监护、级别护理]",
+      "item_code": "120100006",
+      "item_name": "特殊疾病护理加收",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "120100001":null,
+            "120100002":null,
+            "120100003":null,
+            "120100004":null,
+            "120100005":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-11",
+      "name": "不合理诊疗[无相关输液项目]",
+      "item_code": "120400006h",
+      "item_name": "使用一次性精密过滤器输液加收|使用精密、避光及精密避光输液器输液加收",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "120400006":null,
+            "120400006d":null,
+            "120400007":null,
+            "120400007a":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-13",
+      "name": "不合理诊疗[无相关输液项目]",
+      "item_code": "120400006j",
+      "item_name": "使用精密、避光及精密避光不含DEHP成分输液器输液加收",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "120400006":null,
+            "120400006d":null,
+            "120400007":null,
+            "120400007a":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-14",
+      "name": "不合理诊疗[无彩色多普勒超声常规检查]",
+      "item_code": "220301001e",
+      "item_name": "彩色多普勒脏器弹性成像加收",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "220301001":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-15",
+      "name": "不合理诊疗[无四肢血管彩色多普勒超声]",
+      "item_code": "220302006a",
+      "item_name": "四肢血管彩色多普勒超声增加血管加收",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "220302006":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-17",
+      "name": "不合理诊疗[无手术标本检查与诊断]",
+      "item_code": "270300005a",
+      "item_name": "手术标本检查与诊断超过两个蜡块加收",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "270300005":null
+          }
+        }
+      }
     }
+
   ]
 }
