@@ -4,7 +4,7 @@
   "rules": [
     {
       "code": "04-01-05",
-      "name": "不合理诊疗[无项目]",
+      "name": "不合理诊疗[无辅助呼吸项目]",
       "item_code": "310602005",
       "item_name": "持续呼吸功能监测",
       "category": 1,
@@ -26,7 +26,7 @@
     },
     {
       "code": "04-01-06",
-      "name": "不合理诊疗[无项目]",
+      "name": "不合理诊疗[无非局麻的麻醉项目]",
       "item_code": "330100008",
       "item_name": "术后镇痛",
       "category": 1,
@@ -51,6 +51,58 @@
             "330100002":null,
             "330100003a":null,
             "330100003":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-07",
+      "name": "不合理诊疗[无针刺类治疗项目]",
+      "item_code": "430000024",
+      "item_name": "子午流注开穴法",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          null,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "430000001a":null,
+            "3401":null,
+            "41":null,
+            "43":null,
+            "44":null,
+            "45":null,
+            "47":null
+          }
+        }
+      }
+    },
+    {
+      "code": "04-01-07",
+      "name": "不合理诊疗[无重症监护、级别护理]",
+      "item_code": "120100006a",
+      "item_name": "传染病护理加收",
+      "category": 1,
+      "type": 4,
+      "sub_type": 1,
+      "options": {
+        "time_range": [
+          1645718400,
+          null
+        ],
+        "exclude_items": {
+          "time_type": 2,
+          "collection": {
+            "120100001":null,
+            "120100002":null,
+            "120100003":null,
+            "120100004":null,
+            "120100005":null
           }
         }
       }
