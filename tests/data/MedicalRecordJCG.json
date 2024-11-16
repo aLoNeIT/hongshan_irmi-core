@@ -1,146 +1,433 @@
 [
-    {
-        "code": "XTHL16239759163573",
-        "desc": "吸痰护理-超标准收费[指定项目当日收费超过X（元、数量）]",
-        "sex": 1,
-        "age": 28,
-        "age_day": null,
-        "weight": null,
-        "birth_weight": null,
-        "in_branch": "01",
-        "out_branch": "02",
-        "in_days": 1,
-        "visit_type": 2,
-        "in_date": 1697299200,
-        "out_date": 1701207200,
-        "medical_insurance_set": {
-            "1697299200": {
-                "120100011": [
-                    {
-                        "code": "120100011",
-                        "name": "吸痰护理",
-                        "time": 1697314520,
-                        "num": 2,
-                        "price": 15,
-                        "cash": 15,
-                        "total_cash": 30
-                    },
-                    {
-                        "code": "120100011",
-                        "name": "吸痰护理",
-                        "time": 1697316236,
-                        "num": 2,
-                        "price": 15,
-                        "cash": 15,
-                        "total_cash": 30
-                    },
-                    {
-                        "code": "120100011",
-                        "name": "吸痰护理",
-                        "time": 1697330931,
-                        "num": 2,
-                        "price": 15,
-                        "cash": 15,
-                        "total_cash": 30
-                    },
-                    {
-                        "code": "120100011",
-                        "name": "吸痰护理",
-                        "time": 1697333141,
-                        "num": 2,
-                        "price": 15,
-                        "cash": 15,
-                        "total_cash": 30
-                    },
-                    {
-                        "code": "120100011",
-                        "name": "吸痰护理",
-                        "time": 1697336495,
-                        "num": 2,
-                        "price": 15,
-                        "cash": 15,
-                        "total_cash": 30
-                    },
-                    {
-                        "code": "120100011",
-                        "name": "吸痰护理",
-                        "time": 1697356632,
-                        "num": 2,
-                        "price": 15,
-                        "cash": 15,
-                        "total_cash": 30
-                    },
-                    {
-                        "code": "120100011",
-                        "name": "吸痰护理",
-                        "time": 1697368027,
-                        "num": 2,
-                        "price": 15,
-                        "cash": 15,
-                        "total_cash": 30
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "code": "XTHL16239759164281",
-        "desc": "不合理诊疗[性别不符]",
-        "sex": 1,
-        "age": 28,
-        "age_day": null,
-        "weight": null,
-        "birth_weight": null,
-        "in_branch": "01",
-        "out_branch": "02",
-        "in_days": 1,
-        "visit_type": 2,
-        "in_date": 1697299200,
-        "out_date": 1701207200,
-        "medical_insurance_set": {
-            "1697299200": {
-                "120100011": [
-                    {
-                        "code": "331201006a",
-                        "name": "经尿道前列腺激光术",
-                        "time": 1697335200,
-                        "num": 1,
-                        "price": 1500,
-                        "cash": 1500,
-                        "total_cash": 1500
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "code": "XTHL16239759164354",
-        "desc": "不合理诊疗[性别不符]",
-        "sex": 2,
-        "age": 28,
-        "age_day": null,
-        "weight": null,
-        "birth_weight": null,
-        "in_branch": "01",
-        "out_branch": "02",
-        "in_days": 1,
-        "visit_type": 2,
-        "in_date": 1697299200,
-        "out_date": 1701207200,
-        "medical_insurance_set": {
-            "1697299200": {
-                "120100011": [
-                    {
-                        "code": "311201026",
-                        "name": "胎心监测",
-                        "time": 1697335200,
-                        "num": 1,
-                        "price": 500,
-                        "cash": 500,
-                        "total_cash": 500
-                    }
-                ]
-            }
-        }
+  {
+    "code": "CBZSF16295027361398",
+    "desc": "超标准收费[指定项目当日收费超过X（元、数量）]",
+    "sex": 1,
+    "age": 28,
+    "age_day": null,
+    "weight": null,
+    "birth_weight": null,
+    "in_branch": "01",
+    "out_branch": "02",
+    "in_days": 1,
+    "visit_type": 2,
+    "in_date": 1697299200,
+    "out_date": 1701207200,
+    "medical_insurance_set": {
+      "1697299200": {
+        "120100011": [
+          {
+            "code": "120100011",
+            "name": "吸痰护理",
+            "time": 1697300697,
+            "num": 2,
+            "price": 15,
+            "cash": 15,
+            "total_cash": 30
+          },
+          {
+            "code": "120100011",
+            "name": "吸痰护理",
+            "time": 1697312040,
+            "num": 2,
+            "price": 15,
+            "cash": 15,
+            "total_cash": 30
+          },
+          {
+            "code": "120100011",
+            "name": "吸痰护理",
+            "time": 1697325732,
+            "num": 2,
+            "price": 15,
+            "cash": 15,
+            "total_cash": 30
+          },
+          {
+            "code": "120100011",
+            "name": "吸痰护理",
+            "time": 1697341274,
+            "num": 2,
+            "price": 15,
+            "cash": 15,
+            "total_cash": 30
+          },
+          {
+            "code": "120100011",
+            "name": "吸痰护理",
+            "time": 1697350070,
+            "num": 2,
+            "price": 15,
+            "cash": 15,
+            "total_cash": 30
+          },
+          {
+            "code": "120100011",
+            "name": "吸痰护理",
+            "time": 1697363512,
+            "num": 2,
+            "price": 15,
+            "cash": 15,
+            "total_cash": 30
+          },
+          {
+            "code": "120100011",
+            "name": "吸痰护理",
+            "time": 1697368551,
+            "num": 2,
+            "price": 15,
+            "cash": 15,
+            "total_cash": 30
+          }
+        ]
+      }
     }
+  },
+  {
+    "code": "BHLZL16295027361809",
+    "desc": "不合理诊疗[性别不符]",
+    "sex": 1,
+    "age": 28,
+    "age_day": null,
+    "weight": null,
+    "birth_weight": null,
+    "in_branch": "01",
+    "out_branch": "02",
+    "in_days": 1,
+    "visit_type": 2,
+    "in_date": 1697299200,
+    "out_date": 1701207200,
+    "medical_insurance_set": {
+      "1697299200": {
+        "120100011": [
+          {
+            "code": "331201006a",
+            "name": "经尿道前列腺激光术",
+            "time": 1697335200,
+            "num": 1,
+            "price": 1500,
+            "cash": 1500,
+            "total_cash": 1500
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "BHLZL16295027361998",
+    "desc": "不合理诊疗[性别不符]",
+    "sex": 2,
+    "age": 28,
+    "age_day": null,
+    "weight": null,
+    "birth_weight": null,
+    "in_branch": "01",
+    "out_branch": "02",
+    "in_days": 1,
+    "visit_type": 2,
+    "in_date": 1697299200,
+    "out_date": 1701207200,
+    "medical_insurance_set": {
+      "1697299200": {
+        "120100011": [
+          {
+            "code": "311201026",
+            "name": "胎心监测",
+            "time": 1697335200,
+            "num": 1,
+            "price": 500,
+            "cash": 500,
+            "total_cash": 500
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "CBZSF16295027361924",
+    "desc": "超标准收费[组合项目收费数量之和超过住院天数]",
+    "sex": 1,
+    "age": 0,
+    "age_day": 10,
+    "weight": null,
+    "birth_weight": 2900,
+    "in_branch": "A05",
+    "out_branch": "A05",
+    "in_days": 1,
+    "visit_type": 2,
+    "in_date": 1697299200,
+    "out_date": 1697558400,
+    "medical_insurance_set": {
+      "311202001": [
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697300438,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697301580,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697315718,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697340348,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697353414,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖 箱",
+          "time": 1697356887,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697362845,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697369189,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697374798,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        },
+        {
+          "code": "311202001",
+          "name": "新生儿暖箱",
+          "time": 1697379114,
+          "num": 1,
+          "price": 160.05,
+          "cash": 160.05,
+          "total_cash": 160.05
+        }
+      ],
+      "311202001a": [
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697299221,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697308195,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697309317,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697313315,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697319042,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697320614,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697334158,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697341256,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": " 多功能新生儿暖箱",
+          "time": 1697343411,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697363560,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697370439,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697370982,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697373122,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697375611,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        },
+        {
+          "code": "311202001a",
+          "name": "多功能新生儿暖箱",
+          "time": 1697384153,
+          "num": 1,
+          "price": 170.05,
+          "cash": 170.05,
+          "total_cash": 170.05
+        }
+      ]
+    }
+  },
+  {
+    "code": "CFSF16295027362584",
+    "desc": "重复收费[指定项目重复收费]",
+    "sex": 2,
+    "age": 28,
+    "age_day": null,
+    "weight": null,
+    "birth_weight": null,
+    "in_branch": "01",
+    "out_branch": "02",
+    "in_days": 1,
+    "visit_type": 2,
+    "in_date": 1697299200,
+    "out_date": 1701207200,
+    "medical_insurance_set": {
+      "1697299200": {
+        "311300002": [
+          {
+            "code": "311300002",
+            "name": "关节穿刺术",
+            "time": 1697335200,
+            "num": 1,
+            "price": 2000,
+            "cash": 2000,
+            "total_cash": 2000
+          }
+        ],
+        "311300003": [
+          {
+            "code": "311300003",
+            "name": "关节腔灌注治疗",
+            "time": 1697338800,
+            "num": 1,
+            "price": 1800,
+            "cash": 1800,
+            "total_cash": 1800
+          }
+        ]
+      }
+    }
+  }
 ]
