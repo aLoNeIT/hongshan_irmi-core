@@ -32,6 +32,9 @@
         - time_type：时间类型，1-按日，2-全部
         - collection：排除项目明细集合，是一个对象，每个key都是排除的项目编码，如果为null则代表没有更具体配置
             - combine_items：需要联合其他的项目才不触发
+    - include_items：包含项目配置，只要有一个项目包含就可以
+        - time_type：时间类型，1-按日，2-全部
+        - collection：包含项目明细集合，是一个对象，每个key都是包含的项目编码，如果为null则代表没有更具体配置
     - discount_target：打折目标，1-其他项目打折，2-自己打折；
     - ratio：折扣比例，自身折扣比例，如果存在num配置，说明要超过指定数量部分才打折；
     - discount_items：打折的其他项目，key是目标项目编码，value是对象

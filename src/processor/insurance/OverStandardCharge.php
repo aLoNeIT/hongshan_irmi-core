@@ -83,7 +83,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 遍历当前项目数据，进行汇总
         \array_walk($miItem, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName, $rule) {
             $key = 1 == $detectType ? $item->date : 'all';
-            $totalPrice = bcmul((string)$item->price, (string)$item->num);
+            $totalPrice = \bcmul((string)$item->price, (string)$item->num);
             $itemData[$key] = [
                 'total_num' => ($itemData[$key]['total_num'] ?? 0) + $item->$varName,
                 'total_cash' => \bcadd((string)($itemData[$key]['total_cash'] ?? 0), (string)$item->totalCash),
