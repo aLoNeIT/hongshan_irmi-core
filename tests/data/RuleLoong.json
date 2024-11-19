@@ -15,7 +15,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "310603001":null,
@@ -68,7 +68,7 @@
           null,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "430000001a":null,
@@ -95,7 +95,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "120100001":null,
@@ -120,7 +120,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "120100001":null,
@@ -145,7 +145,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "120100001":null,
@@ -170,7 +170,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "120400006":null,
@@ -194,7 +194,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "120400006":null,
@@ -218,7 +218,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "220301001":null
@@ -239,7 +239,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "220302006":null
@@ -260,7 +260,7 @@
           1645718400,
           null
         ],
-        "exclude_items": {
+        "include_items": {
           "time_type": 2,
           "collection": {
             "270300005":null
@@ -268,6 +268,5 @@
         }
       }
     }
-
   ]
 }
