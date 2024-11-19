@@ -50,7 +50,7 @@ abstract class Base
         return [
             'code' => $rule->code,
             'name' => $rule->name,
-            'item' => $rule->itemCode,
+            'item_code' => $rule->itemCode,
             'item_name' => $rule->itemName
         ];
     }
