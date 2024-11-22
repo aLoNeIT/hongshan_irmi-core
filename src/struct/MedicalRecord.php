@@ -92,6 +92,18 @@ class MedicalRecord extends Base
      */
     public ?int $outDate = null;
     /**
+     * 诊断集合
+     * 
+     * @var string[]
+     */
+    public string $diagnosis = [];
+    /**
+     * 手术集合
+     *
+     * @var string[]
+     */
+    public string $procedure = [];
+    /**
      * 医院编码
      *
      * @var string|null
