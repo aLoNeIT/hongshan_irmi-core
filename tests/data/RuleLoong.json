@@ -1,272 +1,1167 @@
-{
-  "code": "04",
-  "name": "规则集-不合理诊疗",
-  "rules": [
-    {
-      "code": "04-01-05",
-      "name": "不合理诊疗[无辅助呼吸项目]",
-      "item_code": "310602005",
-      "item_name": "持续呼吸功能监测",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "310603001":null,
-            "310603002":null
+[
+  {
+    "code": "03",
+    "name": "规则集-超医保支付范围",
+    "rules": [
+      {
+        "code": "03-01",
+        "name": "超医保支付范围[间隔时间未达指定天数]",
+        "item_code": "310401022",
+        "item_name": "平衡试验",
+        "type": 3,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1475164800,
+            null
+          ],
+          "date_interval": {
+            "num": 14,
+            "type": 1
+          }
+        }
+      },
+      {
+        "code": "03-02",
+        "name": "超医保支付范围[间隔时间未达指定天数]",
+        "item_code": "340200005",
+        "item_name": "手功能评定",
+        "type": 3,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1475164800,
+            null
+          ],
+          "date_interval": {
+            "num": 14,
+            "type": 1
           }
         }
       }
-    },
-    {
-      "code": "04-01-06",
-      "name": "不合理诊疗[无非局麻的麻醉项目]",
-      "item_code": "330100008",
-      "item_name": "术后镇痛",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          null,
-          null
-        ],
-        "combine_items":{
-          "330100003a":null,
-          "330100005a":null,
-          "330100005c":null,
-          "330100003":null
-        },
-        "exclude_items": {
-          "time_type": 2,
-          "collection": {
-            "330100001":null,
-            "330100001a":null,
-            "330100002":null,
+    ]
+  },
+  {
+    "code": "04",
+    /** 性别类型金春光负责暂未处理 **/
+    "name": "规则集-不合理诊疗",
+    "rules": [
+      {
+        "code": "04-01-05",
+        "name": "不合理诊疗[无辅助呼吸项目]",
+        "item_code": "310602005",
+        "item_name": "持续呼吸功能监测",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "310603001":null,
+              "310603002":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-06",
+        "name": "不合理诊疗[无非局麻的麻醉项目]",
+        "item_code": "330100008",
+        "item_name": "术后镇痛",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            null,
+            null
+          ],
+          "combine_items":{
             "330100003a":null,
+            "330100005a":null,
+            "330100005c":null,
             "330100003":null
+          },
+          "exclude_items": {
+            "time_type": 2,
+            "collection": {
+              "330100001":null,
+              "330100001a":null,
+              "330100002":null,
+              "330100003a":null,
+              "330100003":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-07",
+        "name": "不合理诊疗[无针刺类治疗项目]",
+        "item_code": "430000024",
+        "item_name": "子午流注开穴法",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            null,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "430000001a":null,
+              "3401":null,
+              "41":null,
+              "43":null,
+              "44":null,
+              "45":null,
+              "47":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-08",
+        "name": "不合理诊疗[无重症监护、级别护理]",
+        "item_code": "120100006a",
+        "item_name": "传染病护理加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "120100001":null,
+              "120100002":null,
+              "120100003":null,
+              "120100004":null,
+              "120100005":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-09",
+        "name": "不合理诊疗[无重症监护、级别护理]",
+        "item_code": "120100006b",
+        "item_name": "保护性隔离护理加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "120100001":null,
+              "120100002":null,
+              "120100003":null,
+              "120100004":null,
+              "120100005":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-10",
+        "name": "不合理诊疗[无重症监护、级别护理]",
+        "item_code": "120100006",
+        "item_name": "特殊疾病护理加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "120100001":null,
+              "120100002":null,
+              "120100003":null,
+              "120100004":null,
+              "120100005":null
+            }
+          }
+        }
+      },
+
+      {
+        "code": "04-01-11",
+        "name": "不合理诊疗[无相关输液项目]",
+        "item_code": "120400006h",
+        "item_name": "使用一次性精密过滤器输液加收|使用精密、避光及精密避光输液器输液加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "120400006":null,
+              "120400006d":null,
+              "120400007":null,
+              "120400007a":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-13",
+        "name": "不合理诊疗[无相关输液项目]",
+        "item_code": "120400006j",
+        "item_name": "使用精密、避光及精密避光不含DEHP成分输液器输液加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "120400006":null,
+              "120400006d":null,
+              "120400007":null,
+              "120400007a":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-14",
+        "name": "不合理诊疗[无彩色多普勒超声常规检查]",
+        "item_code": "220301001e",
+        "item_name": "彩色多普勒脏器弹性成像加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "220301001":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-15",
+        "name": "不合理诊疗[无四肢血管彩色多普勒超声]",
+        "item_code": "220302006a",
+        "item_name": "四肢血管彩色多普勒超声增加血管加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "220302006":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-17",
+        "name": "不合理诊疗[无手术标本检查与诊断]",
+        "item_code": "270300005a",
+        "item_name": "手术标本检查与诊断超过两个蜡块加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "270300005":null
+            }
+          }
+        }
+      },
+
+      {
+        "code": "04-01-18",
+        "name": "不合理诊疗[无经胃镜治疗项目]",
+        "item_code": "310902006e",
+        "item_name": "经胃镜激光、电切肿物加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "310902006b":null,
+              "310902006d":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-19",
+        "name": "不合理诊疗[无经胃镜微波治疗]",
+        "item_code": "310902006f",
+        "item_name": "经胃镜微波肿物加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "310902006a":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-20",
+        "name": "不合理诊疗[无经胃镜电凝治疗或经胃镜相关的项目]",
+        "item_code": "310902006g",
+        "item_name": "经胃镜电凝出血点加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "310902005b":null,
+              "310902005a":null,
+              "310902006a":null,
+              "310902006b":null,
+              "310902006d":null,
+              "310902006c":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-21",
+        "name": "不合理诊疗[无经肠镜激光治疗]",
+        "item_code": "310903010e",
+        "item_name": "经肠镜激光、电切肿物加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "310903010b":null,
+              "310903010d":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-22",
+        "name": "不合理诊疗[无经肠镜微波治疗]",
+        "item_code": "310903010f",
+        "item_name": "经肠镜微波肿物加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "310903010a":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-23",
+        "name": "不合理诊疗[无经肠镜电凝治疗或肠镜相关的项目]",
+        "item_code": "310903010g",
+        "item_name": "经肠镜电凝出血点加收",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "310902005b":null,
+              "310902005a":null,
+              "310903005b":null,
+              "310904001":null,
+              "310903010d":null,
+              "310903010a":null,
+              "310903010b":null,
+              "310903010c":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-26",
+        "name": "不合理诊疗[无全身麻醉]",
+        "item_code": "330100005b",
+        "item_name": "全身麻醉延时",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "330100005b":null,
+              "330100005c":null,
+              "330100003":null,
+              "330100003b":null,
+              "330100005a":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-27",
+        "name": "不合理诊疗[无麻醉监护下镇静术]",
+        "item_code": "330100019a",
+        "item_name": "麻醉监护下镇静延时",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "330100019":null
+            }
+          }
+        }
+      },
+
+      {
+        "code": "04-01-28",
+        "name": "不合理诊疗[无其它超声收费]",
+        "item_code": "220800001",
+        "item_name": "黑白热敏打印照片",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "210102015":null,
+              "220600001":null,
+              "220600002":null,
+              "220302006":null,
+              "220600007":null,
+              "220201006":null,
+              "311201020e":null,
+              "311100004":null,
+              "220301001":null,
+              "220302003":null,
+              "220301001d":null,
+              "220301001c":null
+            }
+          }
+        }
+      },
+      {
+        "code": "04-01-31",
+        "name": "不合理诊疗[非麻醉科、手术室]",
+        "item_code": "330100016",
+        "item_name": "控制性降压",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "26": null,
+            "04": null,
+            "0401": null,
+            "040101": null,
+            "040102": null,
+            "040103": null,
+            "0402": null,
+            "0403": null,
+            "0404": null,
+            "040401": null,
+            "0405": null,
+            "040501": null,
+            "0406": null,
+            "040601": null,
+            "0407": null,
+            "0408": null,
+            "0409": null
+          }
+        }
+      },
+
+      {
+        "code": "04-01-32-1",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "120400006d",
+        "item_name": "小儿门诊静脉输液(输血)",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-2",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "120400007",
+        "item_name": "小儿静脉输液",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-3",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "120400007a",
+        "item_name": "小儿微量泵或输液泵静脉输液",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-4",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "220400003",
+        "item_name": "多普勒小儿血压检测",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-5",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "310300004a",
+        "item_name": "小儿视网膜病变成像检查",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-6",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "311100001",
+        "item_name": "小儿包茎气囊导管扩张术",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-7",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "311100002a",
+        "item_name": "小儿包皮粘连手法分离术",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-8",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "330703015",
+        "item_name": "小儿鸡胸矫正术",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-9",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "331003005",
+        "item_name": "小儿原发性肠套叠手术复位",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-10",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "450000010",
+        "item_name": "小儿捏脊治疗",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+      {
+        "code": "04-01-32-11",
+        "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+        "item_code": "450000013",
+        "item_name": "小儿斜颈推拿治疗",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,12]
+        }
+      },
+
+      {
+        "code": "04-01-33",
+        "name": "不合理诊疗[非新生儿]",
+        "item_code": "HC00905",
+        "item_name": "一次性新生儿专用氧饱和度探头",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "age_range":[null,1]
+        }
+      },
+      {
+        "code": "04-01-34",
+        "name": "不合理诊疗[非耳鼻喉科]",
+        "item_code": "331700001i",
+        "item_name": "视频鼻咽喉镜使用费",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "11": null,
+            "1101": null,
+            "1102": null,
+            "1103": null,
+            "1104": null
+          }
+        }
+      },
+
+      {
+        "code": "04-01-35",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503007",
+        "item_name": "胰岛素低血糖和休克治疗",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-36",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503011",
+        "item_name": "脑反射治疗",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-37",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503012",
+        "item_name": "脑电治疗(A620)",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-38",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503013",
+        "item_name": "智能电针治疗",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-39",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503014",
+        "item_name": "经络氧疗法",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-40",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503015",
+        "item_name": "311503015",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-41",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503018",
+        "item_name": "音乐治疗",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-42",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "松驰治疗",
+        "item_name": "松驰治疗",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-43",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503022",
+        "item_name": "听力整合及语言训练",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-44",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503025",
+        "item_name": "麻醉分析",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      {
+        "code": "04-01-45",
+        "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+        "item_code": "311503026",
+        "item_name": "催眠治疗",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_branch":{
+            "15": null,
+            "1501": null,
+            "1502": null,
+            "1503": null,
+            "1504": null,
+            "1505": null,
+            "1506": null,
+            "1507": null,
+            "1508": null
+          },
+          "property": [
+            {
+              "name": "hospital_type",
+              "value": "A520"
+            }
+          ]
+        }
+      },
+      /**下面是暂时没写完的   220600007  250403056a   240700001  311201056**/
+      {
+        "code": "04-01-30",
+        "name": "不合理诊疗[非终止妊娠病人]",
+        "item_code": "311201056",
+        "item_name": "药物性引产处置术",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+          "time_range": [
+            1645718400,
+            null
+          ],
+          "include_items": {
+            "time_type": 2,
+            "collection": {
+              "330100005b":null,
+              "330100005c":null,
+              "330100003":null,
+              "330100003b":null,
+              "330100005a":null
+            }
           }
         }
       }
-    },
-    {
-      "code": "04-01-07",
-      "name": "不合理诊疗[无针刺类治疗项目]",
-      "item_code": "430000024",
-      "item_name": "子午流注开穴法",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          null,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "430000001a":null,
-            "3401":null,
-            "41":null,
-            "43":null,
-            "44":null,
-            "45":null,
-            "47":null
-          }
-        }
-      }
-    },
-    {
-      "code": "04-01-08",
-      "name": "不合理诊疗[无重症监护、级别护理]",
-      "item_code": "120100006a",
-      "item_name": "传染病护理加收",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "120100001":null,
-            "120100002":null,
-            "120100003":null,
-            "120100004":null,
-            "120100005":null
-          }
-        }
-      }
-    },
-    {
-      "code": "04-01-09",
-      "name": "不合理诊疗[无重症监护、级别护理]",
-      "item_code": "120100006b",
-      "item_name": "保护性隔离护理加收",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "120100001":null,
-            "120100002":null,
-            "120100003":null,
-            "120100004":null,
-            "120100005":null
-          }
-        }
-      }
-    },
-    {
-      "code": "04-01-10",
-      "name": "不合理诊疗[无重症监护、级别护理]",
-      "item_code": "120100006",
-      "item_name": "特殊疾病护理加收",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "120100001":null,
-            "120100002":null,
-            "120100003":null,
-            "120100004":null,
-            "120100005":null
-          }
-        }
-      }
-    },
-    {
-      "code": "04-01-11",
-      "name": "不合理诊疗[无相关输液项目]",
-      "item_code": "120400006h",
-      "item_name": "使用一次性精密过滤器输液加收|使用精密、避光及精密避光输液器输液加收",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "120400006":null,
-            "120400006d":null,
-            "120400007":null,
-            "120400007a":null
-          }
-        }
-      }
-    },
-    {
-      "code": "04-01-13",
-      "name": "不合理诊疗[无相关输液项目]",
-      "item_code": "120400006j",
-      "item_name": "使用精密、避光及精密避光不含DEHP成分输液器输液加收",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "120400006":null,
-            "120400006d":null,
-            "120400007":null,
-            "120400007a":null
-          }
-        }
-      }
-    },
-    {
-      "code": "04-01-14",
-      "name": "不合理诊疗[无彩色多普勒超声常规检查]",
-      "item_code": "220301001e",
-      "item_name": "彩色多普勒脏器弹性成像加收",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "220301001":null
-          }
-        }
-      }
-    },
-    {
-      "code": "04-01-15",
-      "name": "不合理诊疗[无四肢血管彩色多普勒超声]",
-      "item_code": "220302006a",
-      "item_name": "四肢血管彩色多普勒超声增加血管加收",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "220302006":null
-          }
-        }
-      }
-    },
-    {
-      "code": "04-01-17",
-      "name": "不合理诊疗[无手术标本检查与诊断]",
-      "item_code": "270300005a",
-      "item_name": "手术标本检查与诊断超过两个蜡块加收",
-      "category": 1,
-      "type": 4,
-      "sub_type": 1,
-      "options": {
-        "time_range": [
-          1645718400,
-          null
-        ],
-        "include_items": {
-          "time_type": 2,
-          "collection": {
-            "270300005":null
-          }
-        }
-      }
-    }
-  ]
-}
+    ]
+  }
+]
