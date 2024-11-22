@@ -5,7 +5,7 @@
         "name": "陕西医保智能审核规则集1.0",
         "rules": [
             {
-                "code": "JCG-02-01",
+                "code": "CBZSF16288560926702",
                 "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
                 "item_code": "120100011",
                 "item_name": "吸痰护理",
@@ -22,7 +22,7 @@
                 }
             },
             {
-                "code": "JCG-02-02",
+                "code": "CBZSF16288426944008",
                 "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
                 "item_code": "120100011",
                 "item_name": "吸痰护理",
@@ -36,6 +36,45 @@
                         1535731200,
                         null
                     ]
+                }
+            },
+            {
+                "code": "BHLZL16288206451182",
+                "name": "不合理诊疗[性别不符]",
+                "item_code": "331201006a",
+                "item_name": "经尿道前列腺激光术",
+                "type": 4,
+                "sub_type": 2,
+                "options": {
+                    "property": [
+                        {
+                            "name": "sex",
+                            "operator": "=",
+                            "value": 1
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-05",
+                "name": "不合理诊疗[无辅助呼吸项目]",
+                "item_code": "310602005",
+                "item_name": "持续呼吸功能监测",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "310603001": null,
+                            "310603002": null
+                        }
+                    }
                 }
             }
         ]
@@ -120,6 +159,145 @@
                             "price": 15,
                             "cash": 15,
                             "total_cash": 30
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "code": "BHLZL16410525114541",
+            "desc": "不合理诊疗[性别不符]",
+            "sex": 2,
+            "age": 28,
+            "age_day": null,
+            "weight": null,
+            "birth_weight": null,
+            "in_branch": "01",
+            "out_branch": "02",
+            "in_days": 1,
+            "visit_type": 2,
+            "in_date": 1697299200,
+            "out_date": 1701207200,
+            "medical_insurance_set": {
+                "1697299200": {
+                    "331201006a": [
+                        {
+                            "code": "331201006a",
+                            "name": "经尿道前列腺激光术",
+                            "time": 1697335200,
+                            "num": 1,
+                            "price": 1500,
+                            "cash": 1500,
+                            "total_cash": 1500
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "description": "不合理诊疗-无项目(呼吸监测无辅助呼吸；术后镇痛只有局麻或无麻醉；无针刺类治疗项目；无重症监护、级别护理)",
+            "code": "2024111500001",
+            "sex": 1,
+            "age": 20,
+            "age_day": null,
+            "weight": null,
+            "birth_weight": null,
+            "in_branch": "01",
+            "out_branch": "02",
+            "in_days": 1,
+            "visit_type": 2,
+            "in_date": 1731340800,
+            "out_date": 1732639255,
+            "medical_insurance_set": {
+                "1731639255": {
+                    "310602005": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "330100008": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "430000024": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "120100006a": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "120100006b": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "120100006": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "120400006h": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "120400006j": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "220301001e": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
+                        }
+                    ],
+                    "270300005a": [
+                        {
+                            "time": 1731609255,
+                            "num": 1,
+                            "price": 10.00,
+                            "cash": 10.00,
+                            "total_cash": 20.00
                         }
                     ]
                 }
