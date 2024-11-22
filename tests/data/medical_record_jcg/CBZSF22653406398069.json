@@ -1,0 +1,107 @@
+{
+    "rule": {
+        "code": "CBZSF16288560926702",
+        "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+        "item_code": "120100011",
+        "item_name": "吸痰护理",
+        "desc": "每日收费最多不超过25元,超出属于超标准收费",
+        "type": 2,
+        "sub_type": 1,
+        "options": {
+            "detect_type": 1,
+            "unit_type": "cash",
+            "num": 25,
+            "time_range": [
+                1535731200,
+                null
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": {
+            "code": "CBZSF22653406398069",
+            "desc": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "sex": 1,
+            "age": 28,
+            "age_day": null,
+            "weight": null,
+            "birth_weight": null,
+            "in_branch": "01",
+            "out_branch": "02",
+            "in_days": 1,
+            "visit_type": 2,
+            "in_date": 1697299200,
+            "out_date": 1701207200,
+            "medical_insurance_set": {
+                "1697299200": {
+                    "120100011": [
+                        {
+                            "code": "120100011",
+                            "name": "吸痰护理",
+                            "time": 1697309783,
+                            "num": 2,
+                            "price": 15,
+                            "cash": 15,
+                            "total_cash": 30
+                        },
+                        {
+                            "code": "120100011",
+                            "name": "吸痰护理",
+                            "time": 1697313020,
+                            "num": 2,
+                            "price": 15,
+                            "cash": 15,
+                            "total_cash": 30
+                        },
+                        {
+                            "code": "120100011",
+                            "name": "吸痰护理",
+                            "time": 1697322093,
+                            "num": 2,
+                            "price": 15,
+                            "cash": 15,
+                            "total_cash": 30
+                        },
+                        {
+                            "code": "120100011",
+                            "name": "吸痰护理",
+                            "time": 1697326011,
+                            "num": 2,
+                            "price": 15,
+                            "cash": 15,
+                            "total_cash": 30
+                        },
+                        {
+                            "code": "120100011",
+                            "name": "吸痰护理",
+                            "time": 1697339837,
+                            "num": 2,
+                            "price": 15,
+                            "cash": 15,
+                            "total_cash": 30
+                        },
+                        {
+                            "code": "120100011",
+                            "name": "吸痰护理",
+                            "time": 1697345907,
+                            "num": 2,
+                            "price": 15,
+                            "cash": 15,
+                            "total_cash": 30
+                        },
+                        {
+                            "code": "120100011",
+                            "name": "吸痰护理",
+                            "time": 1697358826,
+                            "num": 2,
+                            "price": 15,
+                            "cash": 15,
+                            "total_cash": 30
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
