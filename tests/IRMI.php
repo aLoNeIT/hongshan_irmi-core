@@ -20,30 +20,72 @@ class IRMI
     {
         try {
             $jResult = new JsonTable();
-            // 加载规则集合
-            $ruleSetStr = \file_get_contents(__DIR__ . '/data/TestRuleSet.json');
-            $ruleSet = \json_decode($ruleSetStr, true);
-            // 加载并立即和
-            $medicalRecordsStr = \file_get_contents(__DIR__ . '/data/TestMedicalRecords.json');
-            $medicalRecords = \json_decode($medicalRecordsStr, true);
+            $files = $this->getCaseFile();
             // 读取规则集合
             $shaanxi = IRMIManager::instance()->store('shaanxi');
-            $shaanxi = $shaanxi->load($ruleSet['code'], $ruleSet);
-            foreach ($medicalRecords as $record) {
-                $medicalRecord = (new MedicalRecord())->load($record);
-                $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
-                if (!$jResult->setByArray($result)->isSuccess()) {
-                    // 失败，记录
-                    echo '检测未通过', PHP_EOL;
-                    echo '病历：', (string)$medicalRecord, PHP_EOL;
-                    echo '检测结果：', $jResult->toJson(), PHP_EOL;
-                } else {
-                    echo '检测通过', PHP_EOL;
+            $failNum = 0;
+            foreach ($files as $file) {
+                $caseStr = \file_get_contents($file);
+                $caseObj = \json_decode($caseStr, true);
+                $rule = $caseObj['rule'];
+                $medicalRecords = $caseObj['medical_records'];
+                // 加载规则
+                $shaanxi->load('01', [
+                    'code' => '01',
+                    'name' => '测试集合',
+                    'rules' => [$rule]
+                ]);
+                // 使用测试用例进行检测
+                $mrSuccess = $medicalRecords['success'];
+                $mrFail = $medicalRecords['fail'];
+                // 先执行成功用例
+                foreach ($mrSuccess as $record) {
+                    $medicalRecord = (new MedicalRecord())->load($record);
+                    $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
+                    if (!$jResult->setByArray($result)->isSuccess()) {
+                        // 失败，记录
+                        echo '测试用例未通过', PHP_EOL;
+                        echo '病历：', (string)$medicalRecord, PHP_EOL;
+                        echo '检测结果：', $jResult->toJson(), PHP_EOL;
+                        $failNum++;
+                    }
+                }
+                // 执行失败的用例
+                foreach ($mrFail as $record) {
+                    $medicalRecord = (new MedicalRecord())->load($record);
+                    $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
+                    if ($jResult->setByArray($result)->isSuccess()) {
+                        // 失败，记录
+                        echo '测试用例未通过', PHP_EOL;
+                        // echo '病历：', (string)$medicalRecord, PHP_EOL;
+                        echo '检测结果：', $jResult->toJson(), PHP_EOL;
+                        $failNum++;
+                    }
                 }
             }
+            echo  '测试用例执行完毕，失败用例数量：' . $failNum . PHP_EOL;
         } catch (\Throwable $ex) {
             var_dump($ex);
         }
+    }
+    /**
+     * 获取测试用例文件
+     *
+     * @return string[]
+     */
+    protected function getCaseFile(): array
+    {
+        $dirs = ['medical_record_jcg'];
+        // 获取指定目录下所有后缀为json的文件
+        $files = [];
+        foreach ($dirs as $dir) {
+            $dirPath = __DIR__ . '/data/' . $dir;
+            // 使用glob函数获取指定目录下的文件列表
+            $fileList = \glob($dirPath . '/*.json');
+            // 将文件列表添加到数组中
+            $files = \array_merge($files, $fileList);
+        }
+        return $files;
     }
 }
 

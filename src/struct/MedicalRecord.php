@@ -96,13 +96,13 @@ class MedicalRecord extends Base
      * 
      * @var string[]
      */
-    public string $diagnosis = [];
+    public array $diagnosis = [];
     /**
      * 手术集合
      *
      * @var string[]
      */
-    public string $procedure = [];
+    public array $procedure = [];
     /**
      * 医院编码
      *

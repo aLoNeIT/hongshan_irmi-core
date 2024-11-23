@@ -17,46 +17,48 @@
     },
     "medical_records": {
         "success": [],
-        "fail": {
-            "code": "CBZSF22653406399321",
-            "desc": "住院期间(\"住院诊查费\"与\"住院中医辨证论治\")收费数量之和超过住院天数,超出属于超标准收费",
-            "sex": 2,
-            "age": 28,
-            "age_day": null,
-            "weight": null,
-            "birth_weight": null,
-            "in_branch": "01",
-            "out_branch": "02",
-            "in_days": 1,
-            "visit_type": 2,
-            "in_date": 1697299200,
-            "out_date": 1701207200,
-            "medical_insurance_set": {
-                "1697299200": {
-                    "311300002": [
-                        {
-                            "code": "311300002",
-                            "name": "关节穿刺术",
-                            "time": 1697335200,
-                            "num": 1,
-                            "price": 2000,
-                            "cash": 2000,
-                            "total_cash": 2000
-                        }
-                    ],
-                    "311300003": [
-                        {
-                            "code": "311300003",
-                            "name": "关节腔灌注治疗",
-                            "time": 1697338800,
-                            "num": 1,
-                            "price": 1800,
-                            "cash": 1800,
-                            "total_cash": 1800
-                        }
-                    ]
+        "fail": [
+            {
+                "code": "CBZSF22653406399321",
+                "desc": "住院期间(\"住院诊查费\"与\"住院中医辨证论治\")收费数量之和超过住院天数,超出属于超标准收费",
+                "sex": 2,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1697299200,
+                "out_date": 1701207200,
+                "medical_insurance_set": {
+                    "1697299200": {
+                        "311300002": [
+                            {
+                                "code": "311300002",
+                                "name": "关节穿刺术",
+                                "time": 1697335200,
+                                "num": 1,
+                                "price": 2000,
+                                "cash": 2000,
+                                "total_cash": 2000
+                            }
+                        ],
+                        "311300003": [
+                            {
+                                "code": "311300003",
+                                "name": "关节腔灌注治疗",
+                                "time": 1697338800,
+                                "num": 1,
+                                "price": 1800,
+                                "cash": 1800,
+                                "total_cash": 1800
+                            }
+                        ]
+                    }
                 }
             }
-        }
+        ]
     }
 }
