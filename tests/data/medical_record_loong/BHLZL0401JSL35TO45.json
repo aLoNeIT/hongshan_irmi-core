@@ -1,0 +1,537 @@
+{
+    "rule":  {
+        "code": "JSL040135TO45",
+        "name": "规则集-不合理诊疗-非精神病医院或综合医院的非精神科",
+        "rules": [
+            {
+                "code": "04-01-35",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503007",
+                "item_name": "胰岛素低血糖和休克治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-36",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503011",
+                "item_name": "脑反射治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-37",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503012",
+                "item_name": "脑电治疗(A620)",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-38",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503013",
+                "item_name": "智能电针治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-39",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503014",
+                "item_name": "经络氧疗法",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-40",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503015",
+                "item_name": "感觉统合治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-41",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503018",
+                "item_name": "音乐治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-42",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503020",
+                "item_name": "松驰治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-43",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503022",
+                "item_name": "听力整合及语言训练",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-44",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503025",
+                "item_name": "麻醉分析",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+            {
+                "code": "04-01-45",
+                "name": "不合理诊疗[非精神病医院或综合医院的非精神科]",
+                "item_code": "311503026",
+                "item_name": "催眠治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_branch":{
+                        "15": null,
+                        "1501": null,
+                        "1502": null,
+                        "1503": null,
+                        "1504": null,
+                        "1505": null,
+                        "1506": null,
+                        "1507": null,
+                        "1508": null
+                    },
+                    "property": [
+                        {
+                            "name": "hospital_type",
+                            "value": "A520"
+                        }
+                    ]
+                }
+            },
+        ]
+    },
+    "medical_records": {
+        "success": [
+            {
+                "desc": "不合理诊疗-非精神病医院或综合医院的非精神科",
+                "code": "2024111500002",
+                "sex": 1,
+                "age": 20,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "1501",
+                "out_branch": "1507",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1731340800,
+                "out_date": 1732639255,
+                "medical_insurance_set": {
+                    "1731639255": {
+                        "311503007":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503011":   [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503012":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503013":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503015":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503014":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503018":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503020":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503022":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503025":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503026":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": [
+            {
+                "desc": "不合理诊疗-非精神病医院或综合医院的非精神科",
+                "code": "2024111500001",
+                "sex": 1,
+                "age": 20,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1731340800,
+                "out_date": 1732639255,
+                "medical_insurance_set": {
+                    "1731639255": {
+                        "311503007":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503011":   [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503012":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503013":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503015":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503014":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503018":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503020":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503022":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503025":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ],
+                        "311503026":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1
+                            }
+                        ]
+                    }
+                }
+            }
+
+        ]
+    }
+}

@@ -1,0 +1,87 @@
+{
+    "rule":  {
+        "code": "04",
+        "name": "规则集-不合理诊疗",
+        "rules": [
+            {
+                "code": "04-01-33",
+                "name": "不合理诊疗[非新生儿]",
+                "item_code": "HC00905",
+                "item_name": "一次性新生儿专用氧饱和度探头",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,1]
+                }
+            }
+        ]
+    },
+    "medical_records": {
+        "success": [
+            {
+                "description": "不合理诊疗-不合规-非新生儿",
+                "code": "2024112500006",
+                "sex": 1,
+                "age": null,
+                "age_day": 12,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1731340800,
+                "out_date": 1732639255,
+                "medical_insurance_set": {
+                    "1731639255": {
+                        "HC00905": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ]
+                    }
+                }
+            }
+
+        ],
+        "fail": [
+            {
+                "description": "不合理诊疗-不合规-非新生儿",
+                "code": "2024112500006",
+                "sex": 1,
+                "age": 20,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1731340800,
+                "out_date": 1732639255,
+                "medical_insurance_set": {
+                    "1731639255": {
+                        "HC00905": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

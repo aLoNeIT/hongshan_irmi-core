@@ -1,0 +1,428 @@
+{
+    "rule":  {
+        "code": "JSL040135TO45",
+        "name": "规则集-不合理诊疗-非儿童使用小儿医疗项目",
+        "rules":[
+            {
+                "code": "04-01-32-1",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "120400006d",
+                "item_name": "小儿门诊静脉输液(输血)",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-2",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "120400007",
+                "item_name": "小儿静脉输液",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-3",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "120400007a",
+                "item_name": "小儿微量泵或输液泵静脉输液",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-4",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "220400003",
+                "item_name": "多普勒小儿血压检测",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-5",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "310300004a",
+                "item_name": "小儿视网膜病变成像检查",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-6",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "311100001",
+                "item_name": "小儿包茎气囊导管扩张术",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-7",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "311100002a",
+                "item_name": "小儿包皮粘连手法分离术",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-8",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "330703015",
+                "item_name": "小儿鸡胸矫正术",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-9",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "331003005",
+                "item_name": "小儿原发性肠套叠手术复位",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-10",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "450000010",
+                "item_name": "小儿捏脊治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            },
+            {
+                "code": "04-01-32-11",
+                "name": "不合理诊疗[非儿童使用小儿医疗项目]",
+                "item_code": "450000013",
+                "item_name": "小儿斜颈推拿治疗",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "age_range":[null,12]
+                }
+            }
+        ]
+    },
+    "medical_records": {
+        "success": [
+            {
+                "desc": "不合理诊疗-非儿童使用小儿医疗项目",
+                "code": "2024112500002",
+                "sex": 1,
+                "age": 5,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1731340800,
+                "out_date": 1732639255,
+                "medical_insurance_set": {
+                    "1731639255": {
+                        "120400006d": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120400007": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120400007a": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "220400003": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "310300004a": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "311100001": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "311100002a": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "330703015": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "331003005": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "450000010": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "450000013": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ]
+                    }
+                }
+            }
+
+        ],
+        "fail": [
+            {
+                "desc": "不合理诊疗-非儿童使用小儿医疗项目",
+                "code": "2024112500001",
+                "sex": 1,
+                "age": 20,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1731340800,
+                "out_date": 1732639255,
+                "medical_insurance_set": {
+                    "1731639255": {
+                        "120400006d": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120400007": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120400007a": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "220400003": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "310300004a": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "311100001": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "311100002a": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "330703015": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "331003005": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "450000010": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "450000013": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ]
+                    }
+                }
+            }
+
+        ]
+    }
+}

@@ -1,0 +1,389 @@
+{
+    "rule":  {
+        "code": "04",
+        "name": "规则集-不合理诊疗",
+        "rules": [
+            {
+                "code": "04-01-05",
+                "name": "不合理诊疗[无辅助呼吸项目]",
+                "item_code": "310602005",
+                "item_name": "持续呼吸功能监测",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "310603001":null,
+                            "310603002":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-06",
+                "name": "不合理诊疗[无非局麻的麻醉项目]",
+                "item_code": "330100008",
+                "item_name": "术后镇痛",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        null,
+                        null
+                    ],
+                    "combine_items":{
+                        "330100003a":null,
+                        "330100005a":null,
+                        "330100005c":null,
+                        "330100003":null
+                    },
+                    "exclude_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "330100001":null,
+                            "330100001a":null,
+                            "330100002":null,
+                            "330100003a":null,
+                            "330100003":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-07",
+                "name": "不合理诊疗[无针刺类治疗项目]",
+                "item_code": "430000024",
+                "item_name": "子午流注开穴法",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        null,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "430000001a":null,
+                            "3401":null,
+                            "41":null,
+                            "43":null,
+                            "44":null,
+                            "45":null,
+                            "47":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-08",
+                "name": "不合理诊疗[无重症监护、级别护理]",
+                "item_code": "120100006a",
+                "item_name": "传染病护理加收",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "120100001":null,
+                            "120100002":null,
+                            "120100003":null,
+                            "120100004":null,
+                            "120100005":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-09",
+                "name": "不合理诊疗[无重症监护、级别护理]",
+                "item_code": "120100006b",
+                "item_name": "保护性隔离护理加收",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "120100001":null,
+                            "120100002":null,
+                            "120100003":null,
+                            "120100004":null,
+                            "120100005":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-10",
+                "name": "不合理诊疗[无重症监护、级别护理]",
+                "item_code": "120100006",
+                "item_name": "特殊疾病护理加收",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "120100001":null,
+                            "120100002":null,
+                            "120100003":null,
+                            "120100004":null,
+                            "120100005":null
+                        }
+                    }
+                }
+            },
+
+            {
+                "code": "04-01-11",
+                "name": "不合理诊疗[无相关输液项目]",
+                "item_code": "120400006h",
+                "item_name": "使用一次性精密过滤器输液加收|使用精密、避光及精密避光输液器输液加收",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "120400006":null,
+                            "120400006d":null,
+                            "120400007":null,
+                            "120400007a":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-13",
+                "name": "不合理诊疗[无相关输液项目]",
+                "item_code": "120400006j",
+                "item_name": "使用精密、避光及精密避光不含DEHP成分输液器输液加收",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "120400006":null,
+                            "120400006d":null,
+                            "120400007":null,
+                            "120400007a":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-14",
+                "name": "不合理诊疗[无彩色多普勒超声常规检查]",
+                "item_code": "220301001e",
+                "item_name": "彩色多普勒脏器弹性成像加收",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "220301001":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-15",
+                "name": "不合理诊疗[无四肢血管彩色多普勒超声]",
+                "item_code": "220302006a",
+                "item_name": "四肢血管彩色多普勒超声增加血管加收",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "220302006":null
+                        }
+                    }
+                }
+            },
+            {
+                "code": "04-01-17",
+                "name": "不合理诊疗[无手术标本检查与诊断]",
+                "item_code": "270300005a",
+                "item_name": "手术标本检查与诊断超过两个蜡块加收",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "time_range": [
+                        1645718400,
+                        null
+                    ],
+                    "include_items": {
+                        "time_type": 2,
+                        "collection": {
+                            "270300005":null
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "description": "不合理诊疗-不合规-无项目(呼吸监测无辅助呼吸；术后镇痛只有局麻或无麻醉；无针刺类治疗项目；无重症监护、级别护理等)",
+                "code": "2024111500001",
+                "sex": 1,
+                "age": 20,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1731340800,
+                "out_date": 1732639255,
+                "medical_insurance_set": {
+                    "1731639255": {
+                        "310602005": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "330100008": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "430000024": [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120100006a":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120100006b":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120100006":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120400006h":   [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "120400006j":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "220301001e":  [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ],
+                        "270300005a":   [
+                            {
+                                "time": 1731609255,
+                                "num": 1,
+                                "price": 10.00,
+                                "cash": 10.00,
+                                "total_cash": 20.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
