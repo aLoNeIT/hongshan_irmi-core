@@ -1,10 +1,10 @@
 {
     "rule": {
-        "code": "CBZSF-TTSJXZ-11262437645181891",
+        "code": "CBZSF-TTSJXZ-11262572573283165",
         "name": "超标准收费[单日总数量超过指定数量]",
-        "item_code": "120300003",
-        "item_name": "智能监控氧气吸入",
-        "desc": "同天\"智能监控氧气吸入\"收费数量超过16小时,超出属于超标准收费",
+        "item_code": "120300002a",
+        "item_name": "密闭式加压给氧",
+        "desc": "同天\"呼吸机辅助呼吸\"与\"密闭式加压给氧\"收费数量之和超过24小时,超出属于超标准收费",
         "type": 2,
         "sub_type": 1,
         "visit_type": 2,
@@ -12,16 +12,18 @@
             "num": {
                 "type": 2,
                 "property": "in_days",
-                "coefficient": 24,
-                "value": 16
-            }
+                "coefficient": 24
+            },
+            "combine_items": [
+                "310603001"
+            ]
         }
     },
     "medical_records": {
         "success": [],
         "fail": [
             {
-                "code": "CBZSF-TTSJXZ-11262437645181501",
+                "code": "CBZSF-TTSJXZ-11262572573283414",
                 "desc": "超标准收费[同天\"智能监控氧气吸入\"收费数量超过16小时,超出属于超标准收费]",
                 "sex": 1,
                 "age": 28,
@@ -39,12 +41,24 @@
                         "120300003": [
                             {
                                 "code": "120300003",
-                                "name": "智能监控氧气吸入",
+                                "name": "$item_name",
                                 "time": 1728954930,
-                                "num": 26,
+                                "num": 24,
                                 "price": 1,
                                 "cash": 1,
-                                "total_cash": 26,
+                                "total_cash": 24,
+                                "duration": 24
+                            }
+                        ],
+                        "310603001": [
+                            {
+                                "code": "310603001",
+                                "name": "呼吸机辅助呼吸",
+                                "time": 1728954930,
+                                "num": 24,
+                                "price": 1,
+                                "cash": 1,
+                                "total_cash": 24,
                                 "duration": 24
                             }
                         ]

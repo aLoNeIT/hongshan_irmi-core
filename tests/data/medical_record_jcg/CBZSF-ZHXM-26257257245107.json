@@ -1,0 +1,267 @@
+{
+    "rule": {
+        "code": "CBZSF-11262572572446682",
+        "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+        "item_code": "311202009a",
+        "item_name": "新生儿蓝光治疗",
+        "desc": "超标准收费[指定项目数量超过住院天数]",
+        "type": 2,
+        "sub_type": 1,
+        "visit_type": 2,
+        "options": {
+            "num": {
+                "type": 2,
+                "property": "in_days",
+                "coefficient": 24
+            },
+            "combine_items": [
+                "311202009a",
+                "311202009b"
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [
+            {
+                "code": "CBZSF-11262572572449663",
+                "desc": "超标准收费[指定项目数量超过住院天数]",
+                "sex": 2,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1728835200,
+                "out_date": 1728921600,
+                "medical_insurance_set": {
+                    "1728921600": {
+                        "311202009a": [
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728923127,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728924330,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728929668,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728934145,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728959114,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728965615,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728974865,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728982443,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728996329,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1728997966,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009a",
+                                "name": "新生儿蓝光治疗",
+                                "time": 1729001717,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            }
+                        ],
+                        "311202009b": [
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728924803,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728927622,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728928287,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728934721,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728946340,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728953258,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728953267,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728972663,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728980689,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728988069,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728991764,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1728993548,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202009b",
+                                "name": "新生儿蓝光治疗(冷光源蓝光)",
+                                "time": 1729007354,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": []
+    }
+}

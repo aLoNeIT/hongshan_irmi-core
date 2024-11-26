@@ -1,28 +1,31 @@
 {
     "rule": {
-        "code": "CBZSF-TTSJXZ-11262437646405966",
-        "name": "超标准收费[单日总数量超过指定数量]",
-        "item_code": "330100008",
-        "item_name": "术后镇痛",
-        "desc": "2018年9月1日后,\"术后镇痛\" 每日收费数量大于1次,超出属于超标准收费",
-        "type": 2,
+        "code": "04-01-08",
+        "name": "不合理诊疗[项目加收]",
+        "item_code": "220301001e",
+        "item_name": "彩色多普勒脏器弹性成像加收",
+        "desc": "无\"彩色多普勒超声常规检查\"时, 收取 \"彩色多普勒脏器弹性成像加收\",属于不合理诊疗",
+        "category": 1,
+        "type": 4,
         "sub_type": 1,
-        "visit_type": 2,
         "options": {
-            "detect_type": 1,
-            "unit_type": "num",
-            "num": 1,
             "time_range": [
-                1535731200,
+                1645718400,
                 null
-            ]
+            ],
+            "include_items": {
+                "time_type": 2,
+                "collection": {
+                    "220301001": null
+                }
+            }
         }
     },
     "medical_records": {
         "success": [],
         "fail": [
             {
-                "code": "CBZSF-TTSJXZ-11262437646405783",
+                "code": "CBZSF-TTSJXZ-11262572573534734",
                 "desc": "超标准收费[2018年9月1日后,\"术后镇痛\" 每日收费数量大于1次,超出属于超标准收费]",
                 "sex": 1,
                 "age": 28,
@@ -37,16 +40,15 @@
                 "out_date": 1732862930,
                 "medical_insurance_set": {
                     "1728921600": {
-                        "330100008": [
+                        "220301001": [
                             {
-                                "code": "330100008",
-                                "name": "术后镇痛",
+                                "code": "220301001",
+                                "name": "彩色多普勒脏器弹性成像加收",
                                 "time": 1728954930,
                                 "num": 3,
                                 "price": 10,
                                 "cash": 10,
-                                "total_cash": 10,
-                                "duration": 30
+                                "total_cash": 30
                             }
                         ]
                     }

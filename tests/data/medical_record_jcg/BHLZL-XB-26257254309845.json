@@ -1,9 +1,9 @@
 {
     "rule": {
-        "code": "BHLZL-XB-11262437615993572",
+        "code": "BHLZL-XB-11262572543096624",
         "name": "不合理诊疗[性别不符]",
-        "item_code": "210103031",
-        "item_name": "子宫输卵管碘油造影",
+        "item_code": "230200051",
+        "item_name": "阴道尿道瘘显像",
         "type": 3,
         "sub_type": 2,
         "options": {
@@ -17,11 +17,12 @@
         }
     },
     "medical_records": {
-        "success": [
+        "success": [],
+        "fail": [
             {
-                "code": "BHLZL-XB-11262437615994494",
+                "code": "BHLZL-XB-11262572543097418",
                 "desc": "不合理诊疗[性别不符]",
-                "sex": "2",
+                "sex": 1,
                 "age": 28,
                 "age_day": null,
                 "weight": null,
@@ -34,21 +35,20 @@
                 "out_date": 1729180800,
                 "medical_insurance_set": {
                     "1728921600": {
-                        "210103031": [
+                        "230200051": [
                             {
-                                "code": "210103031",
-                                "name": "子宫输卵管碘油造影",
-                                "time": 1729001020,
+                                "code": "230200051",
+                                "name": "阴道尿道瘘显像",
+                                "time": 1728955437,
                                 "num": 1,
-                                "price": 115,
-                                "cash": 115,
-                                "total_cash": 115
+                                "price": 148,
+                                "cash": 148,
+                                "total_cash": 148
                             }
                         ]
                     }
                 }
             }
-        ],
-        "fail": []
+        ]
     }
 }
