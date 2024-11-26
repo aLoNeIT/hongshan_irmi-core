@@ -1,6 +1,6 @@
 {
     "rule": {
-        "code": "BHLZL-XB-11262428754697603",
+        "code": "BHLZL-XB-11262437616121935",
         "name": "不合理诊疗[性别不符]",
         "item_code": "220202001",
         "item_name": "经阴道B超检查",
@@ -19,7 +19,7 @@
     "medical_records": {
         "success": [
             {
-                "code": "BHLZL-XB-11262428754699266",
+                "code": "BHLZL-XB-11262437616122812",
                 "desc": "不合理诊疗[性别不符]",
                 "sex": "2",
                 "age": 28,
@@ -38,11 +38,11 @@
                             {
                                 "code": "220202001",
                                 "name": "经阴道B超检查",
-                                "time": 1728989639,
+                                "time": 1728941085,
                                 "num": 1,
-                                "price": 15,
-                                "cash": 15,
-                                "total_cash": 15
+                                "price": 125,
+                                "cash": 125,
+                                "total_cash": 125
                             }
                         ]
                     }

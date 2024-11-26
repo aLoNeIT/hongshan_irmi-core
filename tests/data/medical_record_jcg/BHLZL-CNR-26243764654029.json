@@ -21,7 +21,7 @@
         "success": [],
         "fail": [
             {
-                "code": "CBZSF-TTSJXZ-11262428784602332",
+                "code": "CBZSF-TTSJXZ-11262437646538649",
                 "desc": "超标准收费[小儿相关医疗项目为小儿专用]",
                 "sex": 1,
                 "age": 28,
@@ -42,10 +42,10 @@
                                 "name": "小儿斜颈推拿治疗",
                                 "time": 1728954930,
                                 "num": 3,
-                                "price": 10,
-                                "cash": 10,
-                                "total_cash": 10,
-                                "duration": 30
+                                "price": 100,
+                                "cash": 100,
+                                "total_cash": 100,
+                                "duration": 300
                             }
                         ]
                     }
