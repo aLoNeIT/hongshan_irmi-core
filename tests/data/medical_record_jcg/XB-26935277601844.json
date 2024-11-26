@@ -1,0 +1,54 @@
+{
+    "rule": {
+        "code": "BHLZL-XB-11269352776015531",
+        "name": "不合理诊疗[性别不符]",
+        "item_code": "331304003",
+        "item_name": "阴道扩张术",
+        "type": 3,
+        "sub_type": 2,
+        "options": {
+            "property": [
+                {
+                    "name": "sex",
+                    "operator": "=",
+                    "value": "2"
+                }
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [
+            {
+                "code": "BHLZL-XB-11269352776017544",
+                "desc": "不合理诊疗[性别不符]",
+                "sex": "2",
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1728489600,
+                "out_date": 1729180800,
+                "medical_insurance_set": {
+                    "1728921600": {
+                        "331304003": [
+                            {
+                                "code": "331304003",
+                                "name": "阴道扩张术",
+                                "time": 1728947277,
+                                "num": 1,
+                                "price": 112,
+                                "cash": 112,
+                                "total_cash": 112
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": []
+    }
+}

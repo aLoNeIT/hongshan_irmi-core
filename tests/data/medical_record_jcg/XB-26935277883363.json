@@ -1,0 +1,54 @@
+{
+    "rule": {
+        "code": "BHLZL-XB-11269352778830435",
+        "name": "不合理诊疗[性别不符]",
+        "item_code": "331305001a",
+        "item_name": "小阴唇粘连分离术",
+        "type": 3,
+        "sub_type": 2,
+        "options": {
+            "property": [
+                {
+                    "name": "sex",
+                    "operator": "=",
+                    "value": "2"
+                }
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "BHLZL-XB-11269352778832530",
+                "desc": "不合理诊疗[性别不符]",
+                "sex": 1,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1728489600,
+                "out_date": 1729180800,
+                "medical_insurance_set": {
+                    "1728921600": {
+                        "331305001a": [
+                            {
+                                "code": "331305001a",
+                                "name": "小阴唇粘连分离术",
+                                "time": 1728963125,
+                                "num": 1,
+                                "price": 132,
+                                "cash": 132,
+                                "total_cash": 132
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

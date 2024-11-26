@@ -1,0 +1,54 @@
+{
+    "rule": {
+        "code": "BHLZL-XB-11269352786370450",
+        "name": "不合理诊疗[性别不符]",
+        "item_code": "331203007",
+        "item_name": "输精管插管术",
+        "type": 3,
+        "sub_type": 2,
+        "options": {
+            "property": [
+                {
+                    "name": "sex",
+                    "operator": "=",
+                    "value": "1"
+                }
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "BHLZL-XB-11269352786372719",
+                "desc": "不合理诊疗[性别不符]",
+                "sex": 2,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1728489600,
+                "out_date": 1729180800,
+                "medical_insurance_set": {
+                    "1728921600": {
+                        "331203007": [
+                            {
+                                "code": "331203007",
+                                "name": "输精管插管术",
+                                "time": 1728994300,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
