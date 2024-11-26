@@ -1,0 +1,79 @@
+{
+    "rule": {
+        "code": "CBZSF-11262020655823389",
+        "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+        "item_code": "110900001a",
+        "item_name": "A类4人及以上间",
+        "desc": "超标准收费[指定项目数量超过住院天数]",
+        "type": 2,
+        "sub_type": 1,
+        "visit_type": 2,
+        "options": {
+            "num": {
+                "type": 2,
+                "property": "in_days",
+                "coefficient": 1
+            },
+            "combine_items": [
+                "110900001a",
+                "110900001b",
+                "110900001c",
+                "110900001g",
+                "110900001h",
+                "110900001k",
+                "110900001l",
+                "110900001m",
+                "110900001n",
+                "110900002",
+                "110900002a",
+                "110900004"
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "CBZSF-11262020655825215",
+                "desc": "超标准收费[指定项目数量超过住院天数]",
+                "sex": 2,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1728835200,
+                "out_date": 1728921600,
+                "medical_insurance_set": {
+                    "1728921600": {
+                        "110900001c": [
+                            {
+                                "code": "110900001c",
+                                "name": "A类2人间",
+                                "time": 1728961477,
+                                "num": 2,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 300
+                            }
+                        ],
+                        "110900001n": [
+                            {
+                                "code": "110900001n",
+                                "name": "B类单人间",
+                                "time": 1728974278,
+                                "num": 2,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 300
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

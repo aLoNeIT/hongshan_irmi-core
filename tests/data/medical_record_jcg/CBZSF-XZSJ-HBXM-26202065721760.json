@@ -1,0 +1,71 @@
+{
+    "rule": {
+        "code": "CBZSF-TTSJXZ-11262020657214295",
+        "name": "超标准收费[单日总数量超过指定数量]",
+        "item_code": "120300002a",
+        "item_name": "密闭式加压给氧",
+        "desc": "同天\"呼吸机辅助呼吸\"与\"密闭式加压给氧\"收费数量之和超过24小时,超出属于超标准收费",
+        "type": 2,
+        "sub_type": 1,
+        "visit_type": 2,
+        "options": {
+            "num": {
+                "type": 2,
+                "property": "in_days",
+                "coefficient": 24,
+                "value": 24
+            },
+            "combine_items": [
+                "310603001"
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "CBZSF-TTSJXZ-11262020657215655",
+                "desc": "超标准收费[同天\"智能监控氧气吸入\"收费数量超过16小时,超出属于超标准收费]",
+                "sex": 1,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1728954930,
+                "out_date": 1732862930,
+                "medical_insurance_set": {
+                    "1728921600": {
+                        "120300003": [
+                            {
+                                "code": "120300003",
+                                "name": "$item_name",
+                                "time": 1728954930,
+                                "num": 24,
+                                "price": 1,
+                                "cash": 1,
+                                "total_cash": 24,
+                                "duration": 24
+                            }
+                        ],
+                        "310603001": [
+                            {
+                                "code": "310603001",
+                                "name": "呼吸机辅助呼吸",
+                                "time": 1728954930,
+                                "num": 24,
+                                "price": 1,
+                                "cash": 1,
+                                "total_cash": 24,
+                                "duration": 24
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

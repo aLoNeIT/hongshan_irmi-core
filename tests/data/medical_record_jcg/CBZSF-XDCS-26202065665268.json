@@ -1,0 +1,64 @@
+{
+    "rule": {
+        "code": "CBZSF16288560926702",
+        "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+        "item_code": "120100011",
+        "item_name": "吸痰护理",
+        "desc": "每日收费最多不超过25元,超出属于超标准收费",
+        "type": 2,
+        "sub_type": 1,
+        "options": {
+            "detect_type": 1,
+            "unit_type": "num",
+            "num": 25,
+            "time_range": [
+                1535731200,
+                null
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "CBZSF26202065664985",
+                "desc": "超标准收费[指定项目当日收费超过X（元、数量）]",
+                "sex": 1,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1728954930,
+                "out_date": 1732862930,
+                "medical_insurance_set": {
+                    "1697299200": {
+                        "120100011": [
+                            {
+                                "code": "120100011",
+                                "name": "吸痰护理",
+                                "time": 1697331967,
+                                "num": 26,
+                                "price": 1,
+                                "cash": 1,
+                                "total_cash": 26
+                            },
+                            {
+                                "code": "120100011",
+                                "name": "吸痰护理",
+                                "time": 1697345596,
+                                "num": 26,
+                                "price": 1,
+                                "cash": 1,
+                                "total_cash": 26
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

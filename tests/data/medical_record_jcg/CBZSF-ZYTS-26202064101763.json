@@ -1,0 +1,54 @@
+{
+    "rule": {
+        "code": "CBZSF-11262020641015827",
+        "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+        "item_code": "120100015",
+        "item_name": "机械辅助排痰",
+        "desc": "超标准收费[指定项目数量超过住院天数]",
+        "type": 2,
+        "sub_type": 1,
+        "visit_type": 2,
+        "options": {
+            "num": {
+                "type": 2,
+                "property": "in_days",
+                "coefficient": 1
+            }
+        }
+    },
+    "medical_records": {
+        "success": [
+            {
+                "code": "CBZSF-11262020641016476",
+                "desc": "超标准收费[指定项目数量超过住院天数]",
+                "sex": 2,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1728835200,
+                "out_date": 1728921600,
+                "medical_insurance_set": {
+                    "1728921600": {
+                        "120100015": [
+                            {
+                                "code": "120100015",
+                                "name": "机械辅助排痰",
+                                "time": 1728954930,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": []
+    }
+}
