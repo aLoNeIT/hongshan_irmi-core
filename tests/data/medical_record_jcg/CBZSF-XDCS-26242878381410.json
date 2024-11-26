@@ -9,7 +9,7 @@
         "sub_type": 1,
         "options": {
             "detect_type": 1,
-            "unit_type": "cash",
+            "unit_type": "num",
             "num": 25,
             "time_range": [
                 1535731200,
@@ -21,7 +21,7 @@
         "success": [],
         "fail": [
             {
-                "code": "CBZSF26202065654193",
+                "code": "CBZSF26242878381240",
                 "desc": "超标准收费[指定项目当日收费超过X（元、数量）]",
                 "sex": 1,
                 "age": 28,
@@ -40,19 +40,19 @@
                             {
                                 "code": "120100011",
                                 "name": "吸痰护理",
-                                "time": 1697373142,
-                                "num": 2,
-                                "price": 13,
-                                "cash": 13,
+                                "time": 1697311297,
+                                "num": 26,
+                                "price": 1,
+                                "cash": 1,
                                 "total_cash": 26
                             },
                             {
                                 "code": "120100011",
                                 "name": "吸痰护理",
-                                "time": 1697377330,
-                                "num": 2,
-                                "price": 13,
-                                "cash": 13,
+                                "time": 1697366181,
+                                "num": 26,
+                                "price": 1,
+                                "cash": 1,
                                 "total_cash": 26
                             }
                         ]

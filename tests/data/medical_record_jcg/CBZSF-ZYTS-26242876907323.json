@@ -1,9 +1,9 @@
 {
     "rule": {
-        "code": "CBZSF-11262020654945657",
+        "code": "CBZSF-11262428769072948",
         "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
-        "item_code": "110200005",
-        "item_name": "住院诊查费",
+        "item_code": "120100015",
+        "item_name": "机械辅助排痰",
         "desc": "超标准收费[指定项目数量超过住院天数]",
         "type": 2,
         "sub_type": 1,
@@ -13,16 +13,14 @@
                 "type": 2,
                 "property": "in_days",
                 "coefficient": 1
-            },
-            "combine_items": [
-                "110200005"
-            ]
+            }
         }
     },
     "medical_records": {
-        "success": [
+        "success": [],
+        "fail": [
             {
-                "code": "CBZSF-11262020654947625",
+                "code": "CBZSF-11262428769072802",
                 "desc": "超标准收费[指定项目数量超过住院天数]",
                 "sex": 2,
                 "age": 28,
@@ -37,21 +35,20 @@
                 "out_date": 1728921600,
                 "medical_insurance_set": {
                     "1728921600": {
-                        "110200005": [
+                        "120100015": [
                             {
-                                "code": "110200005",
-                                "name": "住院诊查费",
-                                "time": 1728923634,
-                                "num": 1,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 150
+                                "code": "120100015",
+                                "name": "机械辅助排痰",
+                                "time": 1728954930,
+                                "num": 2,
+                                "price": 300,
+                                "cash": 300,
+                                "total_cash": 300
                             }
                         ]
                     }
                 }
             }
-        ],
-        "fail": []
+        ]
     }
 }

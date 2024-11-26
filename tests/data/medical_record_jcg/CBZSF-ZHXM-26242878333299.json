@@ -1,6 +1,6 @@
 {
     "rule": {
-        "code": "CBZSF-11262020656110886",
+        "code": "CBZSF-11262428783327621",
         "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
         "item_code": "311202001",
         "item_name": "新生儿暖箱",
@@ -21,10 +21,9 @@
         }
     },
     "medical_records": {
-        "success": [],
-        "fail": [
+        "success": [
             {
-                "code": "CBZSF-11262020656113570",
+                "code": "CBZSF-11262428783330654",
                 "desc": "超标准收费[指定项目数量超过住院天数]",
                 "sex": 2,
                 "age": 28,
@@ -43,234 +42,226 @@
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728922256,
-                                "num": 2,
+                                "time": 1728922427,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728926672,
-                                "num": 2,
+                                "time": 1728939531,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728928208,
-                                "num": 2,
+                                "time": 1728940954,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728930920,
-                                "num": 2,
+                                "time": 1728946024,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728949643,
-                                "num": 2,
+                                "time": 1728951102,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728955803,
-                                "num": 2,
+                                "time": 1728960270,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728958787,
-                                "num": 2,
+                                "time": 1728961933,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728967465,
-                                "num": 2,
+                                "time": 1728962062,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728977013,
-                                "num": 2,
+                                "time": 1728964562,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728981061,
-                                "num": 2,
+                                "time": 1728968085,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728981856,
-                                "num": 2,
+                                "time": 1728974719,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1728997434,
-                                "num": 2,
+                                "time": 1728976813,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1729000347,
-                                "num": 2,
+                                "time": 1728980813,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001",
                                 "name": "新生儿暖箱",
-                                "time": 1729001276,
-                                "num": 2,
+                                "time": 1728988002,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202001",
+                                "name": "新生儿暖箱",
+                                "time": 1728992465,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202001",
+                                "name": "新生儿暖箱",
+                                "time": 1729003141,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "311202001",
+                                "name": "新生儿暖箱",
+                                "time": 1729006330,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
                             }
                         ],
                         "311202001a": [
                             {
                                 "code": "311202001a",
                                 "name": "多功能新生儿暖箱",
-                                "time": 1728923031,
-                                "num": 2,
+                                "time": 1728942147,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001a",
                                 "name": "多功能新生儿暖箱",
-                                "time": 1728926009,
-                                "num": 2,
+                                "time": 1728943172,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001a",
                                 "name": "多功能新生儿暖箱",
-                                "time": 1728941114,
-                                "num": 2,
+                                "time": 1728972219,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001a",
                                 "name": "多功能新生儿暖箱",
-                                "time": 1728945499,
-                                "num": 2,
+                                "time": 1728973517,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001a",
                                 "name": "多功能新生儿暖箱",
-                                "time": 1728947498,
-                                "num": 2,
+                                "time": 1728988974,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001a",
                                 "name": "多功能新生儿暖箱",
-                                "time": 1728962970,
-                                "num": 2,
+                                "time": 1728989889,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "311202001a",
                                 "name": "多功能新生儿暖箱",
-                                "time": 1728966450,
-                                "num": 2,
+                                "time": 1728994670,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "311202001a",
-                                "name": "多功能新生儿暖箱",
-                                "time": 1728970366,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "311202001a",
-                                "name": "多功能新生儿暖箱",
-                                "time": 1728971342,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "311202001a",
-                                "name": "多功能新生儿暖箱",
-                                "time": 1728992083,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "311202001a",
-                                "name": "多功能新生儿暖箱",
-                                "time": 1729002800,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             }
                         ]
                     }
                 }
             }
-        ]
+        ],
+        "fail": []
     }
 }

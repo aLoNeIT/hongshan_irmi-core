@@ -1,10 +1,10 @@
 {
     "rule": {
-        "code": "CBZSF-TTSJXZ-11262020657286659",
+        "code": "CBZSF-TTSJXZ-11262428784081316",
         "name": "超标准收费[单日总数量超过指定数量]",
-        "item_code": "120300003a",
-        "item_name": "智能监控加压给氧",
-        "desc": "同天\"呼吸机辅助呼吸\"与\"智能监控加压给氧\"收费数量之和超过24小时,超出属于超标准收费",
+        "item_code": "120300002",
+        "item_name": "密闭式氧气吸入",
+        "desc": "同天\"呼吸机辅助呼吸\"与\"密闭式氧气吸入\"收费数量之和超过24小时,超出属于超标准收费",
         "type": 2,
         "sub_type": 1,
         "visit_type": 2,
@@ -12,8 +12,7 @@
             "num": {
                 "type": 2,
                 "property": "in_days",
-                "coefficient": 24,
-                "value": 24
+                "coefficient": 24
             },
             "combine_items": [
                 "310603001"
@@ -24,7 +23,7 @@
         "success": [],
         "fail": [
             {
-                "code": "CBZSF-TTSJXZ-11262020657286563",
+                "code": "CBZSF-TTSJXZ-11262428784081561",
                 "desc": "超标准收费[同天\"智能监控氧气吸入\"收费数量超过16小时,超出属于超标准收费]",
                 "sex": 1,
                 "age": 28,

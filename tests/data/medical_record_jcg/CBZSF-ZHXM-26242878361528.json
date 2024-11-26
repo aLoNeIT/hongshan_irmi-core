@@ -1,6 +1,6 @@
 {
     "rule": {
-        "code": "CBZSF-11262020656391776",
+        "code": "CBZSF-11262428783610689",
         "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
         "item_code": "330803025",
         "item_name": "体外人工膜肺(pc0)",
@@ -21,10 +21,9 @@
         }
     },
     "medical_records": {
-        "success": [],
-        "fail": [
+        "success": [
             {
-                "code": "CBZSF-11262020656394988",
+                "code": "CBZSF-11262428783613961",
                 "desc": "超标准收费[指定项目数量超过住院天数]",
                 "sex": 2,
                 "age": 28,
@@ -39,238 +38,230 @@
                 "out_date": 1728921600,
                 "medical_insurance_set": {
                     "1728921600": {
-                        "330803025": [
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728922713,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728927445,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728932978,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728937684,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728939400,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728940740,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728946984,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728955634,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728963957,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728965211,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728967769,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728976169,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728976548,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            },
-                            {
-                                "code": "330803025",
-                                "name": "体外人工膜肺(pc0)",
-                                "time": 1728998175,
-                                "num": 2,
-                                "price": 150,
-                                "cash": 150,
-                                "total_cash": 300
-                            }
-                        ],
                         "330803025a": [
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728923576,
-                                "num": 2,
+                                "time": 1728922788,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728925586,
-                                "num": 2,
+                                "time": 1728949656,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728930604,
-                                "num": 2,
+                                "time": 1728950492,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728946300,
-                                "num": 2,
+                                "time": 1728961161,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728949683,
-                                "num": 2,
+                                "time": 1728965052,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728964544,
-                                "num": 2,
+                                "time": 1728970235,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728968306,
-                                "num": 2,
+                                "time": 1728985280,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728973605,
-                                "num": 2,
+                                "time": 1728986458,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728990189,
-                                "num": 2,
+                                "time": 1728990901,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1728994838,
-                                "num": 2,
+                                "time": 1728991636,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
                             },
                             {
                                 "code": "330803025a",
                                 "name": "体外人工膜肺(pc0)",
-                                "time": 1729001430,
-                                "num": 2,
+                                "time": 1728991940,
+                                "num": 1,
                                 "price": 150,
                                 "cash": 150,
-                                "total_cash": 300
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025a",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728994238,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025a",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728999473,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            }
+                        ],
+                        "330803025": [
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728926598,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728940017,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728946727,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728954943,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728959615,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728973908,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728984186,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728984240,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728988870,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1728989333,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
+                            },
+                            {
+                                "code": "330803025",
+                                "name": "体外人工膜肺(pc0)",
+                                "time": 1729002721,
+                                "num": 1,
+                                "price": 150,
+                                "cash": 150,
+                                "total_cash": 150
                             }
                         ]
                     }
                 }
             }
-        ]
+        ],
+        "fail": []
     }
 }

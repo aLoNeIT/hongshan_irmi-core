@@ -1,9 +1,9 @@
 {
     "rule": {
-        "code": "BHLZL-XB-11262020626740237",
+        "code": "BHLZL-XB-11262428754082102",
         "name": "不合理诊疗[性别不符]",
-        "item_code": "220202001",
-        "item_name": "经阴道B超检查",
+        "item_code": "210103030",
+        "item_name": "子宫造影",
         "type": 3,
         "sub_type": 2,
         "options": {
@@ -17,11 +17,12 @@
         }
     },
     "medical_records": {
-        "success": [
+        "success": [],
+        "fail": [
             {
-                "code": "BHLZL-XB-11262020626741517",
+                "code": "BHLZL-XB-11262428754085268",
                 "desc": "不合理诊疗[性别不符]",
-                "sex": "2",
+                "sex": 1,
                 "age": 28,
                 "age_day": null,
                 "weight": null,
@@ -34,21 +35,20 @@
                 "out_date": 1729180800,
                 "medical_insurance_set": {
                     "1728921600": {
-                        "220202001": [
+                        "210103030": [
                             {
-                                "code": "220202001",
-                                "name": "经阴道B超检查",
-                                "time": 1728966980,
+                                "code": "210103030",
+                                "name": "子宫造影",
+                                "time": 1728976693,
                                 "num": 1,
-                                "price": 91,
-                                "cash": 91,
-                                "total_cash": 91
+                                "price": 100,
+                                "cash": 100,
+                                "total_cash": 100
                             }
                         ]
                     }
                 }
             }
-        ],
-        "fail": []
+        ]
     }
 }
