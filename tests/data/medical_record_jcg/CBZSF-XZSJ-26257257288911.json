@@ -10,9 +10,7 @@
         "visit_type": 2,
         "options": {
             "num": {
-                "type": 2,
-                "property": "in_days",
-                "coefficient": 24,
+                "type": 1,
                 "value": 16
             }
         }
@@ -44,8 +42,7 @@
                                 "num": 26,
                                 "price": 1,
                                 "cash": 1,
-                                "total_cash": 26,
-                                "duration": 24
+                                "total_cash": 26
                             }
                         ]
                     }

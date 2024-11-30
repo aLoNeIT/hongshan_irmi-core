@@ -4,14 +4,14 @@
         "name": "不合理诊疗[性别不符]",
         "item_code": "220201006",
         "item_name": "输卵管超声造影",
-        "type": 3,
+        "type": 4,
         "sub_type": 2,
         "options": {
             "property": [
                 {
                     "name": "sex",
                     "operator": "=",
-                    "value": "2"
+                    "value": 2
                 }
             ]
         }

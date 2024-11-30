@@ -4,7 +4,7 @@
         "name": "不合理诊疗[性别不符]",
         "item_code": "220202001",
         "item_name": "经阴道B超检查",
-        "type": 3,
+        "type": 4,
         "sub_type": 2,
         "options": {
             "property": [
@@ -21,7 +21,7 @@
             {
                 "code": "BHLZL-XB-11262572543045509",
                 "desc": "不合理诊疗[性别不符]",
-                "sex": "2",
+                "sex": 2,
                 "age": 28,
                 "age_day": null,
                 "weight": null,

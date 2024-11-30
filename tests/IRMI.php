@@ -24,7 +24,13 @@ class IRMI
             // 读取规则集合
             $shaanxi = IRMIManager::instance()->store('shaanxi');
             $failNum = 0;
+            $totalNum = 0;
+            $successNum = 0;
             foreach ($files as $file) {
+                if (false === strpos($file, 'CBZSF-XZSJ-26257257288911.json')) {
+                    continue;
+                }
+                echo '正在处理文件：' . $file, PHP_EOL;
                 $caseStr = \file_get_contents($file);
                 $caseObj = \json_decode($caseStr, true);
                 $rule = $caseObj['rule'];
@@ -44,11 +50,14 @@ class IRMI
                     $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
                     if (!$jResult->setByArray($result)->isSuccess()) {
                         // 失败，记录
-                        echo '测试用例未通过', PHP_EOL;
+                        echo '成功测试用例未通过', PHP_EOL;
                         echo '病历：', (string)$medicalRecord, PHP_EOL;
                         echo '检测结果：', $jResult->toJson(), PHP_EOL;
                         $failNum++;
+                    } else {
+                        $successNum++;
                     }
+                    $totalNum++;
                 }
                 // 执行失败的用例
                 foreach ($mrFail as $record) {
@@ -56,14 +65,17 @@ class IRMI
                     $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
                     if ($jResult->setByArray($result)->isSuccess()) {
                         // 失败，记录
-                        echo '测试用例未通过', PHP_EOL;
-                        // echo '病历：', (string)$medicalRecord, PHP_EOL;
+                        echo '失败测试用例未通过', PHP_EOL;
+                        echo '病历：', (string)$medicalRecord, PHP_EOL;
                         echo '检测结果：', $jResult->toJson(), PHP_EOL;
                         $failNum++;
+                    } else {
+                        $successNum++;
                     }
+                    $totalNum++;
                 }
             }
-            echo  '测试用例执行完毕，失败用例数量：' . $failNum . PHP_EOL;
+            echo  "测试用例执行完毕，用例总量：{$totalNum}，成功用例量：{$successNum}，失败用例量：{$failNum}", PHP_EOL;
         } catch (\Throwable $ex) {
             var_dump($ex);
         }

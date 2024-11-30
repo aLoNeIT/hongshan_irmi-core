@@ -33,14 +33,14 @@ class Base extends BaseProcessor
         $timeRange = $rule->options['time_range'] ?? null;
         if (!\is_null($timeRange)) {
             if (
-                ((\is_null($timeRange[0]) || $date >= $timeRange[0])
+                !((\is_null($timeRange[0]) || $date >= $timeRange[0])
                     && (\is_null($timeRange[1]) || $date < $timeRange[1]))
             ) {
-                // 时间符合规则要求的范围
-                return true;
+                // 时间不符合规则要求的范围
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**

@@ -4,14 +4,14 @@
         "name": "不合理诊疗[性别不符]",
         "item_code": "230200051",
         "item_name": "阴道尿道瘘显像",
-        "type": 3,
+        "type": 4,
         "sub_type": 2,
         "options": {
             "property": [
                 {
                     "name": "sex",
                     "operator": "=",
-                    "value": "2"
+                    "value": 2
                 }
             ]
         }

@@ -4,14 +4,14 @@
         "name": "不合理诊疗[性别不符]",
         "item_code": "210103031",
         "item_name": "子宫输卵管碘油造影",
-        "type": 3,
+        "type": 4,
         "sub_type": 2,
         "options": {
             "property": [
                 {
                     "name": "sex",
                     "operator": "=",
-                    "value": "2"
+                    "value": 2
                 }
             ]
         }
@@ -21,7 +21,7 @@
             {
                 "code": "BHLZL-XB-11262572542925418",
                 "desc": "不合理诊疗[性别不符]",
-                "sex": "2",
+                "sex": 2,
                 "age": 28,
                 "age_day": null,
                 "weight": null,

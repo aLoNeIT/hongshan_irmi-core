@@ -204,20 +204,25 @@ class Util
      * 获取当前类的公共属性
      *
      * @param object $object 待处理的对象
+     * @param boolean $origined 是否返回属性原始值，默认true，为false返回ReflectionProperty对象，且snaked和ignoreNull不生效
      * @param boolean $snaked 是否转换为下划线风格，默认false
      * @param boolean $ignoreNull 是否忽略null值，默认false
      * @return array 包含属性名和属性值的kv数组
      */
-    public static function getPublicProps(object $object, bool $snaked = false, bool $ignoreNull = false): array
+    public static function getPublicProps(object $object, bool $valued = true, bool $snaked = false, bool $ignoreNull = false): array
     {
         $props = [];
         $reflection = new \ReflectionObject($object);
         foreach ($reflection->getProperties() as $key => $value) {
             if ($value->isPublic()) {
                 // 只有public类型的才需要记录
-                $v = $value->getValue($object);
-                if ($ignoreNull && \is_null($v)) {
-                    continue;
+                if ($valued) {
+                    $v = $value->getValue($object);
+                    if ($ignoreNull && \is_null($v)) {
+                        continue;
+                    }
+                } else {
+                    $v = $value;
                 }
                 $k = $snaked ? self::snake($value->getName()) : $value->getName();
                 $props[$k] = $v;
