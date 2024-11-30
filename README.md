@@ -1,6 +1,13 @@
 # hongshan_irmi-core
 红杉健康医保智能审核核心类库，Intelligent review of medical insurance
 
+## 测试用例执行方法
+
+- 当前支持参数，`-p`为指定的测试目录，`-n`为指定的文件名`（无需后缀，默认json后缀）`
+- 执行全部测试：`composer irmi`
+- 执行指定目录下所有文件：`composer irmi -- -p alone`
+- 执行指定目录下指定文件：`composer irmi -- -p alone -n case1`
+
 ## 智能审核规则结构，IRMIRule
 
 - 规则结构参数介绍  

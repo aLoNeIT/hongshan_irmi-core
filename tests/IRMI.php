@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi\tests;
 
+use GetOpt\{GetOpt, Option};
 use hongshanhealth\irmi\IRMI as IRMIManager;
 use hongshanhealth\irmi\struct\JsonTable;
 use hongshanhealth\irmi\struct\MedicalRecord;
@@ -16,11 +17,29 @@ use hongshanhealth\irmi\Util;
  */
 class IRMI
 {
+    protected ?GetOpt $getOpt = null;
+    public function __construct()
+    {
+        $this->getOpt = new GetOpt();
+        // 命令行参数请求构造
+        $this->getOpt->addOptions([
+            Option::create('p', 'path', GetOpt::REQUIRED_ARGUMENT),
+            Option::create('n', 'name', GetOpt::REQUIRED_ARGUMENT),
+        ]);
+    }
+
     public function run(): void
     {
         try {
+            $argv =  array_filter((array)$_SERVER['argv'], function ($value) {
+                return '--' != $value;
+            });
+            $this->getOpt->process($argv);
+            // 获取请求参数
+            $path = $this->getOpt->getOption('p');
+            $name = $this->getOpt->getOption('n');
             $jResult = new JsonTable();
-            $files = $this->getCaseFile();
+            $files = $this->getCaseFile($path, $name);
             // 读取规则集合
             $shaanxi = IRMIManager::instance()->store('shaanxi');
             $failNum = 0;
@@ -85,15 +104,20 @@ class IRMI
      *
      * @return string[]
      */
-    protected function getCaseFile(): array
+    protected function getCaseFile(?string $dir = null, ?string $file = null): array
     {
-        $dirs = ['medical_record_jcg'];
+        if (!\is_null($dir) && '' !== $dir) {
+            $dirs = [$dir];
+        } else {
+            $dirs = ['medical_record_jcg'];
+        }
+        $pattern = \is_null($file) ? '/*.json' : "/{$file}.json";
         // 获取指定目录下所有后缀为json的文件
         $files = [];
         foreach ($dirs as $dir) {
             $dirPath = __DIR__ . '/data/' . $dir;
             // 使用glob函数获取指定目录下的文件列表
-            $fileList = \glob($dirPath . '/*.json');
+            $fileList = \glob($dirPath . $pattern);
             // 将文件列表添加到数组中
             $files = \array_merge($files, $fileList);
         }

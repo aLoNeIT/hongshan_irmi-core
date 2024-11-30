@@ -17,11 +17,12 @@
     },
     "require": {
         "php": ">=8.0",
-        "alonetech/simhash": "~0.0"
+        "alonetech/simhash": "~0.0",
+        "ulrichsg/getopt-php": "^4.0"
     },
     "scripts": {
         "test": "@php ./tests/App.php",
-        "irmi": "@php ./tests/IRMI.php",
+        "irmi": "@php ./tests/IRMI.php --",
         "similary": "@php ./tests/TextSimilarity.php"
     }
 }
