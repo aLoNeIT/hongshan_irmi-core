@@ -27,8 +27,8 @@ class IRMI
             $totalNum = 0;
             $successNum = 0;
             foreach ($files as $file) {
-                if (false === strpos($file, 'CBZSF-XZSJ-26257257288911.json')) {
-                    continue;
+                if (false === strpos($file, '94057.json')) {
+                    // continue;
                 }
                 echo '正在处理文件：' . $file, PHP_EOL;
                 $caseStr = \file_get_contents($file);

@@ -75,7 +75,7 @@ class Base extends BaseProcessor
                     $property = Util::camel($rule->options['num']['property']);
                     // 计算系数
                     $coefficient = $rule->options['num']['coefficient'] ?? 1;
-                    $result = \bcmul((string)$medicalRecord->$property, (string)$coefficient);
+                    $result = (int)\bcmul((string)$medicalRecord->$property, (string)$coefficient);
                     break;
                 case 3: // 基于另外一个项目的数量
                     // 继续查询指定项目数据
@@ -94,7 +94,7 @@ class Base extends BaseProcessor
                     break;
             }
         }
-        return $result;
+        return (int)$result;
     }
 
     /**
