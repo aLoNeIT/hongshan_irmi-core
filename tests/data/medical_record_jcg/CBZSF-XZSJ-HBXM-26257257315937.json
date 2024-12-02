@@ -9,6 +9,11 @@
         "sub_type": 1,
         "visit_type": 2,
         "options": {
+            "detect_type": 1,
+            "unit_type":"num",
+            "num": {
+                "value": 24
+            },
             "period": {
                 "type": 2,
                 "num": 1,
