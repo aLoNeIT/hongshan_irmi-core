@@ -12,6 +12,7 @@
             "detect_type": 1,
             "unit_type":"num",
             "num": {
+                "type": 1,
                 "value": 24
             },
             "period": {

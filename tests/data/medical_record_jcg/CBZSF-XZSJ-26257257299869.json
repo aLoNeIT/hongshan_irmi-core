@@ -12,9 +12,7 @@
             "detect_type": 1,
             "unit_type":"num",
             "num": {
-                "type": 2,
-                "property": "in_days",
-                "coefficient": 24,
+                "type": 1,
                 "value": 16
             }
         }

@@ -93,6 +93,7 @@ class IRMIRuleSet extends Base
         unset($data['rules']);
         parent::load($data);
         $this->rules = [];
+        $this->itemRules = [];
         foreach ($rules as $rule) {
             $rule = (new IRMIRule())->load($rule);
             $this->rules[$rule->code] = $rule;
