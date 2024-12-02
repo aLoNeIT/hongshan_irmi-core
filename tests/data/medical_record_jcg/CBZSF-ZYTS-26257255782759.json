@@ -9,6 +9,8 @@
         "sub_type": 1,
         "visit_type": 2,
         "options": {
+            "detect_type": 1,
+            "unit_type":"num",
             "num": {
                 "type": 2,
                 "property": "in_days",

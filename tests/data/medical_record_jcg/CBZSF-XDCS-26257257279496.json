@@ -9,7 +9,7 @@
         "sub_type": 1,
         "options": {
             "detect_type": 1,
-            "unit_type": "num",
+            "unit_type": "cash",
             "num": 25,
             "time_range": [
                 1535731200,

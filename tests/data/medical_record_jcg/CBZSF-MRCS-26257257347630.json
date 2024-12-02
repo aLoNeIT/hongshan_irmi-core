@@ -10,8 +10,11 @@
         "visit_type": 2,
         "options": {
             "detect_type": 1,
-            "unit_type": "num",
-            "num": 1,
+            "unit_type":"num",
+            "num": {
+                "type": 1,
+                "value": 1
+            },
             "time_range": [
                 1535731200,
                 null
