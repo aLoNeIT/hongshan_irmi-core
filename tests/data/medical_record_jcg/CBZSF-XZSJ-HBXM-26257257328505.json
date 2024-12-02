@@ -9,12 +9,10 @@
         "sub_type": 1,
         "visit_type": 2,
         "options": {
-            "detect_type": 1,
-            "unit_type":"num",
-            "num": {
+            "period": {
                 "type": 2,
-                "property": "in_days",
-                "coefficient": 24
+                "num": 1,
+                "sub_num": 24
             },
             "combine_items": [
                 "310603001"
