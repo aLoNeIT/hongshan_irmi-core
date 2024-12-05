@@ -227,7 +227,7 @@ class Base extends BaseProcessor
             /** @var MedicalInsuranceItem[] $currItems */
             $currItems = $tmpMiItemSet[$rule->itemCode];
             /** @var MedicalInsuranceItem $miItem */
-            foreach ($currItems[$rule->itemCode] as $miItem) {
+            foreach ($currItems as $miItem) {
                 $date = $miItem->date;
                 /** @var array $dateMiItems */
                 $dateMiItems = $medicalRecord->medicalInsuranceSet[$date];
