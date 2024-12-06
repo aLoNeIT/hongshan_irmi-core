@@ -7,8 +7,8 @@
         "desc": "同天\"氧气吸入\"收费数量超过 16小时,超出属于超标准收费",
         "type": 2,
         "sub_type": 1,
-        "visit_type": 2,
         "options": {
+            "visit_type": 2,
             "detect_type": 1,
             "unit_type":"num",
             "num": {

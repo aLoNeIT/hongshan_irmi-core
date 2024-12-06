@@ -7,8 +7,8 @@
         "desc": "同天\"呼吸机辅助呼吸\"与\"无创辅助通气\"收费数量之和超过24小时,超出属于超标准收费",
         "type": 2,
         "sub_type": 1,
-        "visit_type": 2,
         "options": {
+            "visit_type": 2,
             "period": {
                 "type": 2,
                 "num": 1,

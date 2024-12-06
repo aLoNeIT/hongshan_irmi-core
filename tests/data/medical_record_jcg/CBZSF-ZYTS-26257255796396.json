@@ -7,8 +7,8 @@
         "desc": "超标准收费[指定项目数量超过住院天数]",
         "type": 2,
         "sub_type": 1,
-        "visit_type": 2,
         "options": {
+            "visit_type": 2,
             "detect_type": 1,
             "unit_type":"num",
             "num": {

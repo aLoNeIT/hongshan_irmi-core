@@ -7,8 +7,8 @@
         "desc": "2018年9月1日后,\"术后镇痛\" 每日收费数量大于1次,超出属于超标准收费",
         "type": 2,
         "sub_type": 1,
-        "visit_type": 2,
         "options": {
+            "visit_type": 2,
             "detect_type": 1,
             "unit_type":"num",
             "num": {
