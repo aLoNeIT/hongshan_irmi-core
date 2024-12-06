@@ -352,4 +352,26 @@ class Util
         var_dump(...$vars);
         exit(1);
     }
+
+    /**
+     * 浏览器友好的变量输出
+     * @param mixed $vars 要输出的变量
+     * @return void
+     */
+    public static function dump(...$vars): void
+    {
+        ob_start();
+        var_dump(...$vars);
+        $output = ob_get_clean();
+        $output = preg_replace('/\]\=\>\n(\s+)/m', '] => ', $output);
+
+        if (PHP_SAPI == 'cli') {
+            $output = PHP_EOL . $output . PHP_EOL;
+        } else {
+            $output = '<pre>' . $output . '</pre>';
+        }
+
+        echo $output;
+    }
+
 }

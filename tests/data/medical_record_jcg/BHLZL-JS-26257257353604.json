@@ -14,7 +14,7 @@
                 null
             ],
             "include_items": {
-                "time_type": 2,
+                "time_type": 1,
                 "collection": {
                     "220301001": null
                 }

@@ -52,8 +52,7 @@
                                 "num": 24,
                                 "price": 1,
                                 "cash": 1,
-                                "total_cash": 24,
-                                "duration": 24
+                                "total_cash": 24
                             }
                         ],
                         "310603001": [
@@ -64,8 +63,7 @@
                                 "num": 24,
                                 "price": 1,
                                 "cash": 1,
-                                "total_cash": 24,
-                                "duration": 24
+                                "total_cash": 24
                             }
                         ]
                     }

@@ -61,12 +61,12 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         }
         // 获取医保项目集合
         $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
+
         // 获取当前项目数据集合
         /** @var MedicalInsuranceItem[] $miItem */
         $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
-        $varName = 'cash';
-        $unit = '元';
-        switch ($rule->options['unit_type']) {
+
+        switch ($rule->options['unit_type'] ?? '') {
             case 'cash':
                 $varName = 'cash';
                 $unit = '元';
@@ -76,20 +76,26 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 $unit = '次';
                 break;
         }
+
         // 判断该规则是按日，还是周期
         $detectType = $rule->options['detect_type'] ?? 2;
+
         // 存储待检测的数据，如果是按日检测，key是日期，如果是按周期，key是'all'
         $itemData = [];
         // 遍历当前项目数据，进行汇总
         \array_walk($miItem, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName, $rule) {
+
             $key = 1 == $detectType ? $item->date : 'all';
+
             $totalPrice = \bcmul((string)$item->price, (string)$item->num);
+
             $itemData[$key] = [
                 'total_num' => ($itemData[$key]['total_num'] ?? 0) + $item->$varName,
                 'total_cash' => \bcadd((string)($itemData[$key]['total_cash'] ?? 0), (string)$item->totalCash),
                 'total_price' => \bcadd((string)($itemData[$key]['total_price'] ?? 0), (string)$totalPrice),
             ];
         });
+
         // 合并项目的计算数据
         $cmItemData = [];
         if (isset($rule->options['combine_items'])) {
@@ -107,12 +113,16 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 }
             });
         }
+
         // 循环判断是否存在某一天/全部数据不符合要求
         foreach ($itemData as $date => $item) {
             // 获取规则中配置的数量
             $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
+
             // 根据配置确定当前计算总量是否需要加上合并项目的数量
             $totalNum = $item['total_num'] + (isset($rule->options['combine_items']) ? ($cmItemData[$date]['total_num'] ?? 0) : 0);
+
+
             if ($totalNum > $ruleNum) {
                 // 当前项目总数量大于指定的数量
                 if ($item['total_num'] > $ruleNum && isset($rule->options['ratio'])) {
