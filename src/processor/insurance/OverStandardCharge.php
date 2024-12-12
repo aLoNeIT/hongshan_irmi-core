@@ -256,7 +256,6 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                         foreach ($items as $item) {
                             // 规则中应该收的费用
                             $ruleCash = \bcmul((string)$item->price, (string)$ratio);
-                            Util::dump([$ratio, $item, $item->price, $ruleCash]);
                             if ($item->cash > $ruleCash) {
                                 // 实收费用大于折扣后费用，则认为超收
                                 $percent = bcmul((string)$ratio, '100');
