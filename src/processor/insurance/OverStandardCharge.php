@@ -61,11 +61,9 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         }
         // 获取医保项目集合
         $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-
         // 获取当前项目数据集合
         /** @var MedicalInsuranceItem[] $miItem */
         $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
-
         switch ($rule->options['unit_type'] ?? '') {
             case 'cash':
                 $varName = 'cash';
@@ -76,19 +74,14 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 $unit = '次';
                 break;
         }
-
         // 判断该规则是按日，还是周期
         $detectType = $rule->options['detect_type'] ?? 2;
-
         // 存储待检测的数据，如果是按日检测，key是日期，如果是按周期，key是'all'
         $itemData = [];
         // 遍历当前项目数据，进行汇总
         \array_walk($miItem, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName, $rule) {
-
             $key = 1 == $detectType ? $item->date : 'all';
-
             $totalPrice = \bcmul((string)$item->price, (string)$item->num);
-
             $itemData[$key] = [
                 'total_num' => ($itemData[$key]['total_num'] ?? 0) + $item->$varName,
                 'total_cash' => \bcadd((string)($itemData[$key]['total_cash'] ?? 0), (string)$item->totalCash),
@@ -121,8 +114,6 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
 
             // 根据配置确定当前计算总量是否需要加上合并项目的数量
             $totalNum = $item['total_num'] + (isset($rule->options['combine_items']) ? ($cmItemData[$date]['total_num'] ?? 0) : 0);
-
-
             if ($totalNum > $ruleNum) {
                 // 当前项目总数量大于指定的数量
                 if ($item['total_num'] > $ruleNum && isset($rule->options['ratio'])) {
@@ -192,7 +183,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 处理时间后的待检测的数据
         $detectCurrItems = [];
         // 循环当前项目数据，循环过程中若按天检测，则数据归属到日期的key下，如果为所有数据，则归到all下面
-        \array_walk($miItemSet[$rule->itemCode], function (MedicalInsuranceItem $miItem) use ($rule) {
+        \array_walk($miItemSet[$rule->itemCode], function (MedicalInsuranceItem $miItem) use ($rule, &$detectCurrItems) {
             if ($this->checkDateRange($miItem->date, $rule)) {
                 $key = 1 == $rule->options['detect_type'] ? $miItem->date : 'all';
                 $detectCurrItems[$key][] = $miItem;
@@ -234,7 +225,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             // 判断同时存在的项目是否为空，非空则开始进行折扣计算
             if (!empty($detectDisItems)) {
                 // 最后再对$ratioItems进行遍历，本次根据规则中的折扣目标来计算谁应该打折
-                if (2 == $rule->options['discount_type']) {
+                if (2 == $rule->options['discount_target']) {
                     // 自己打折
                     $ratio = $rule->options['ratio'];
                     \array_walk($currItems, function (MedicalInsuranceItem $item) use (&$errors, $ratio, $rule) {
@@ -258,22 +249,27 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                     // 1，其他项目打折
                     \array_walk($detectDisItems, function (array $disItem) use (&$errors, $rule) {
                         $ratio = $disItem['ratio'];
-                        /** @var MedicalInsuranceItem $item */
-                        $item = $disItem['data'];
-                        // 规则中应该收的费用
-                        $ruleCash = \bcmul((string)$item->price, (string)$ratio);
-                        if ($item->cash > $ruleCash) {
-                            // 实收费用大于折扣后费用，则认为超收
-                            $percent = bcmul((string)$ratio, '100');
-                            $errors[] = [
-                                'msg' => "当前项目[{$item->name}]应按[{$percent}%]收取费用[{$ruleCash}]，实收费用[{$item->cash}]",
-                                'data' => [
-                                    'rule' => $this->getRuleInfo($rule),
-                                    'item' => $item,
-                                    'rule_cash' => $ruleCash,
-                                    'cash' => $item->cash,
-                                ]
-                            ];
+                        // 获取指定项目数据集合，
+                        /** @var MedicalInsuranceItem[] $items */
+                        $items = $disItem['data'];
+                        // 遍历集合中每一个元素，进行折扣计算
+                        foreach ($items as $item) {
+                            // 规则中应该收的费用
+                            $ruleCash = \bcmul((string)$item->price, (string)$ratio);
+                            Util::dump([$ratio, $item, $item->price, $ruleCash]);
+                            if ($item->cash > $ruleCash) {
+                                // 实收费用大于折扣后费用，则认为超收
+                                $percent = bcmul((string)$ratio, '100');
+                                $errors[] = [
+                                    'msg' => "当前项目[{$item->name}]应按[{$percent}%]收取费用[{$ruleCash}]，实收费用[{$item->cash}]",
+                                    'data' => [
+                                        'rule' => $this->getRuleInfo($rule),
+                                        'item' => $item,
+                                        'rule_cash' => $ruleCash,
+                                        'cash' => $item->cash,
+                                    ]
+                                ];
+                            }
                         }
                     });
                 }

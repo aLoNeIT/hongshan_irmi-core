@@ -84,7 +84,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         if (isset($rule->options['total_days'])) {
             $totalDays = $rule->options['total_days'];
             $dates = [];
-            \array_walk($currItems, function (MedicalInsuranceItem $item) use ($dates) {
+            \array_walk($currItems, function (MedicalInsuranceItem $item) use (&$dates) {
                 $dates[$item->date] = 1;
             });
             $days = \count($dates);

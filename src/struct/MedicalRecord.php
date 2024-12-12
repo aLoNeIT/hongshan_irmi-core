@@ -172,12 +172,16 @@ class MedicalRecord extends Base
         // 加载成功数据后，同时生成临时数据
         $tmpData = [];
         // 第一级，日期=>所有数据
-        foreach ($this->medicalInsuranceSet as $date => $dateItems) {
+        foreach ($this->medicalInsuranceSet as $date => &$dateItems) {
             // 第二级，项目编码=>该项目所有数据
-            foreach ($dateItems as $itemCode => $items) {
+            foreach ($dateItems as $itemCode => &$items) {
                 // 第三级，该项目单一数据
-                foreach ($items as $item) {
+                foreach ($items as &$item) {
                     $tmpData[$itemCode][] = (new MedicalInsuranceItem())->load([
+                        ...$item,
+                        'date' => $date
+                    ]);
+                    $item = (new MedicalInsuranceItem())->load([
                         ...$item,
                         'date' => $date
                     ]);
