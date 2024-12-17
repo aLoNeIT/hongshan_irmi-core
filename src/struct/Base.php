@@ -34,7 +34,7 @@ abstract class Base
      */
     public function toArray(): array
     {
-        return Util::getPublicProps($this);
+        return \json_decode(\json_encode(Util::getPublicProps($this)), true);
     }
 
     /**
