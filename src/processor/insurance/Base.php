@@ -212,7 +212,7 @@ class Base extends BaseProcessor
                         'include_items' => \array_keys($itemCollection)
                     ]
                 ];
-            } else if ($included && \is_array($existed) && !empty($existed)) {
+            } else if (!$included && \is_array($existed) && !empty($existed)) {
                 // 未匹配到组合项目，则当前项目重复收费
                 $errors[] = [
                     'msg' => "当前项目[{$rule->itemName}]与指定排除项目同时收费",
