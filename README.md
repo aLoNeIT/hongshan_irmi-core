@@ -51,20 +51,42 @@
         - num：周期数量，如1次、5日、十周；
         - sub_num：周期内的子数量，比如周期是日，子数量是2
     - age_range：年龄范围，数组，第一个为开始年龄（大于），第二个为结束年龄（小于），如果为null，则不限制年龄，示例`[18,null]`
-    - date_interval：日期间隔配置
+    - `(暂未实现)`date_interval：日期间隔配置 
         - num：间隔数量，如5日、三月
         - type：间隔时间类型，1-日，2-月，3-年
 - 智能审核规则计算器
     - insurance：医保相关
         - type=1，DuplicateCharge，重复收费
+            - sub_type=1，重复收费
+                - time_range
+                - include_items、exclude_items
         - type=2，OverStandardCharge，超标准收费
             - sub_type=1，当前项目计费量超过指定量
+                - time_range
+                - include_branch、exclude_branch
+                - unit_type、num、
+                - detect_type
+                - combine_items
             - sub_type=2，检测多项目同时存在的折扣费用
+                - time_range
+                - detect_type
+                - discount_items、discount_target、ratio
         - type=3，OverInsuranceCharge，超医保费用
+            - sub_type=1，超医保费用
+                - time_range
+                - visit_type
+                - age_range
+                - total_days
+                - period
+                - include_items、exclude_items
         - type=4，UnReasonableTreatment，不合理诊疗
             - sub_type=1，检测医保项目同时收费或未同时收费
+                - time_range
+                - include_items、exclude_items
             - sub_type=2，属性不符合要求
-            
+                - time_range
+                - include_branch、exclude_branch
+                - property
 - 规则示例数据,IRMIRuleSet集合json格式
     ```
     {
