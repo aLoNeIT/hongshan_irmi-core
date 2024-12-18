@@ -160,6 +160,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 $errors[] = [
                     'msg' => $dateStr . "当前项目[{$rule->itemName}]的计费数量[{$totalNum}{$unit}]超过[{$ruleNum}{$unit}]",
                     'data' => [
+                        'rule' => $this->getRuleInfo($rule),
                         'date' => $date,
                         'item' => $miItem,
                     ]

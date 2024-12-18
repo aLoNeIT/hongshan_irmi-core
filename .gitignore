@@ -1,2 +1,4 @@
 /vendor/
 .idea
+tests/data/testing
+tests/data/develop

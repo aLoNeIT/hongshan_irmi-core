@@ -140,7 +140,7 @@ class IRMIRuleSet extends Base
             empty($rules) ? [
                 'code' => $this->code,
                 'name' => $this->name,
-                'rules' => $rules
+                'rules' => []
             ] : $this->originData
         ) : $this;
     }
