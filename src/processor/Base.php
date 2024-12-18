@@ -48,6 +48,8 @@ abstract class Base
     protected function getRuleInfo(IRMIRule $rule): array
     {
         return [
+            'type' => $rule->type,
+            'sub_type' => $rule->subType,
             'code' => $rule->code,
             'name' => $rule->name,
             'item_code' => $rule->itemCode,
