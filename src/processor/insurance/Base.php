@@ -257,8 +257,6 @@ class Base extends BaseProcessor
                             if ($totalNum < $config['num']) {
                                 continue;
                             }
-                            // 数量未超过限制
-                            continue;
                         }
                         // 循环写入错误信息
                         $errors[] = [
