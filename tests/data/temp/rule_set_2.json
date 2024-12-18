@@ -1,0 +1,5364 @@
+{
+    "code": "01",
+    "name": "规则集",
+    "rules": [
+        {
+            "code": "A004",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010060000-311201006",
+            "item_name": "阴道灌洗上药",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": 1
+                    }
+                ],
+                "include_items": {
+                    "time_type": 1,
+                    "collection": {
+                        "003112010120000-311201012": null,
+                        "003112010200000-311201020f": null,
+                        "003112010060000-311201006": null,
+                        "002501020210000-250102021": null,
+                        "003112010150000-311201015": null
+                    }
+                }
+            }
+        },
+        {
+            "code": "A002",
+            "name": "超标准收费[床位费超过住院天数]",
+            "item_code": "001109000010200-110900001c",
+            "item_name": "普通病房床位费(双人间)",
+            "type": 2,
+            "sub_type": 1,
+            "options": {
+                "visit_type": 2,
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                },
+                "combine_items": [
+                    "001109000010300-110900001l",
+                    "001109000010400-110900001k",
+                    "001109000010200-110900001m",
+                    "001109000010100-110900001n",
+                    "001109000030200-110900003",
+                    "001109000050000-110900005",
+                    "001109000010400-110900001a",
+                    "001109000010300-110900001b",
+                    "001109000010100-110900001g"
+                ],
+                "time_range": [
+                    null,
+                    null
+                ]
+            }
+        },
+        {
+            "code": "A01",
+            "name": "重复收费",
+            "item_code": "004300000160000-430000016",
+            "item_name": "电针",
+            "type": 1,
+            "options": {
+                "exclude_items": {
+                    "time_type": 1,
+                    "collection": {
+                        "004300000010000-430000001b": null,
+                        "004300000010000-430000001a": null
+                    }
+                },
+                "time_range": [
+                    969356516,
+                    null
+                ]
+            }
+        },
+        {
+            "code": "A003",
+            "name": "超标准收费[甲型流感病毒抗原检测与乙型流感病毒抗原检测当天同时检测，乙型流感病毒抗原检测未按50%收费]",
+            "item_code": "002504030820000-250403083",
+            "item_name": "甲型流感病毒抗原检测",
+            "type": 2,
+            "sub_type": 2,
+            "options": {
+                "visit_type": 2,
+                "detect_type": 1,
+                "discount_target": 1,
+                "discount_item": {
+                    "002504030820000-250403083a": {
+                        "ratio": 0.5
+                    }
+                },
+                "time_range": [
+                    null,
+                    null
+                ],
+                "period": {
+                    "type": "2",
+                    "num": "1",
+                    "sub_num": "1"
+                }
+            }
+        },
+        {
+            "code": "12111559794089737",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002101030300000-210103030",
+            "item_name": "子宫造影",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559054857713",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002101030310000-210103031",
+            "item_name": "子宫输卵管碘油造影",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559183612201",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002202010060000-220201006",
+            "item_name": "输卵管超声造影",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559312117265",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002202020010000-220202001",
+            "item_name": "经阴道B超检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559440592646",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002302000510000-230200051",
+            "item_name": "阴道尿道瘘显像",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559570539010",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501020210000-250102021",
+            "item_name": "尿妊娠试验",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559699723217",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501020220000-250102022",
+            "item_name": "卵泡刺激素(LH)排卵预测",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559828179781",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040150000-250104015",
+            "item_name": "羊水结晶检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559957626906",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "612501040510000-250104024",
+            "item_name": "细菌性阴道病快速检测",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559087423386",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002504020220000-250402022",
+            "item_name": "抗卵巢抗体测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559216230916",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002504020230000-250402023",
+            "item_name": "抗子宫内膜抗体测定(EMAb)",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559344883576",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002505010390000-250501039",
+            "item_name": "细菌性阴道病唾液酸酶测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559474629434",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002708000020000-270800002",
+            "item_name": "宫颈细胞学计算机辅助诊断",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559603197894",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010020000-311201002",
+            "item_name": "外阴活检术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559731953439",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010040000-311201004",
+            "item_name": "阴道镜检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559860697572",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010070000-311201007",
+            "item_name": "后穹窿穿刺术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559989638207",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010080000-311201008",
+            "item_name": "宫颈活检术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559118774932",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010110000-311201011",
+            "item_name": "宫颈内口探查术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559247417121",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010120000-311201012",
+            "item_name": "子宫托治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559376153280",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010130000-311201013",
+            "item_name": "子宫内膜活检术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559505553379",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010140000-311201014",
+            "item_name": "子宫直肠凹封闭术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559635507418",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010150000-311201015",
+            "item_name": "子宫输卵管通液术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559763897933",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010170000-311201017",
+            "item_name": "宫腔吸片",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559892779590",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010180000-311201018",
+            "item_name": "宫腔粘连分离术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559021427336",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010200000-311201020",
+            "item_name": "妇科特殊治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559150763871",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010220000-311201022",
+            "item_name": "妇科晚期恶性肿瘤减瘤术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559279213990",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010240000-311201024",
+            "item_name": "电子骨盆内测量",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559408032293",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010290000-311201029",
+            "item_name": "羊膜镜检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559536948766",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010310000-311201031",
+            "item_name": "经皮脐静脉穿刺术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559666044812",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010320000-311201032",
+            "item_name": "羊水泡沫振荡试验",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559794720925",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010330000-311201033",
+            "item_name": "羊水中胎肺成熟度LB记数检测",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559922691110",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010340000-311201034",
+            "item_name": "羊水置换",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559050775583",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010380000-311201038",
+            "item_name": "B超下卵巢囊肿穿刺术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559178859369",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010390000-311201039",
+            "item_name": "胎盘成熟度检测",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559307367110",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010470000-311201047",
+            "item_name": "输卵管绝育术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559435931097",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010480000-311201048",
+            "item_name": "宫内节育器放置(取出)术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559564548223",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010490000-311201049",
+            "item_name": "避孕药皮下埋植(取出)术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559693497881",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010500000-311201050",
+            "item_name": "刮宫术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559821810804",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010520000-311201052",
+            "item_name": "葡萄胎刮宫术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559950036311",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010530000-311201053",
+            "item_name": "人工流产术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559078459035",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010560000-311201056",
+            "item_name": "药物性引产处置术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559207689956",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "613112010910000-311201064",
+            "item_name": "小阴唇手法分离术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559344787358",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003311030190000-331103019",
+            "item_name": "膀胱阴道瘘修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559473901190",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003311040140000-331104014",
+            "item_name": "尿道阴道瘘修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559602520307",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010010000-331301001",
+            "item_name": "经阴道卵巢囊肿穿刺术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559730991469",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010020000-331301002",
+            "item_name": "卵巢囊肿剔除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559859712589",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010030000-331301003",
+            "item_name": "卵巢修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559988806253",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010040000-331301004",
+            "item_name": "卵巢楔形切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559117118164",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010050000-331301005",
+            "item_name": "卵巢切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559245460706",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010060000-331301006",
+            "item_name": "卵巢癌根治术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559374732899",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010070000-331301007",
+            "item_name": "卵巢癌探查术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559505987456",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010080000-331301008",
+            "item_name": "卵巢输卵管切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559634199545",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010090000-331301009",
+            "item_name": "卵巢移位术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559762596136",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010100000-331301010",
+            "item_name": "卵巢移植术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559889576935",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020010000-331302001",
+            "item_name": "输卵管结扎术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559017906971",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020020000-331302002",
+            "item_name": "显微外科输卵管吻合术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559146595508",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020030000-331302003",
+            "item_name": "输卵管修复整形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559275146339",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020050000-331302005",
+            "item_name": "输卵管移植术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559403795757",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020060000-331302006",
+            "item_name": "经输卵管镜插管通水术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559532256957",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020070000-331302007",
+            "item_name": "输卵管选择性插管术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559660936490",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020080000-331302008",
+            "item_name": "经腹腔镜输卵管高压洗注术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559791819099",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020090000-331302009",
+            "item_name": "输卵管宫角植入术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111559920751027",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313020100000-331302010",
+            "item_name": "输卵管介入治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600049209899",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030010000-331303001",
+            "item_name": "宫颈息肉切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600177479661",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030020000-331303002",
+            "item_name": "宫颈肌瘤剔除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600305133045",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030030000-331303003",
+            "item_name": "宫颈残端切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600434364310",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030040000-331303004",
+            "item_name": "宫颈锥形切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600563705334",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030050000-331303005",
+            "item_name": "宫颈环形电切术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600692439237",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030060000-331303006",
+            "item_name": "非孕期子宫内口矫正术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600821215511",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030070000-331303007",
+            "item_name": "孕期子宫内口缝合术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600950095899",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030080000-331303008",
+            "item_name": "曼氏手术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600078273281",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030090000-331303009",
+            "item_name": "子宫颈截除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600206726894",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030100000-331303010",
+            "item_name": "子宫修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600335782542",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030110000-331303011",
+            "item_name": "经腹子宫肌瘤剔除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600464293770",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030120000-331303012",
+            "item_name": "子宫次全切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600593067886",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030130000-331303013",
+            "item_name": "阴式全子宫切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600721585319",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030140000-331303014",
+            "item_name": "腹式全子宫切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600850926862",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030150000-331303015",
+            "item_name": "全子宫+双附件切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600978894474",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030160000-331303016",
+            "item_name": "次广泛子宫切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600107472325",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030170000-331303017",
+            "item_name": "广泛性子宫切除+盆腹腔淋巴结清除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600236772906",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030180000-331303018",
+            "item_name": "经腹阴道联合子宫切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600366314967",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030190000-331303019",
+            "item_name": "子宫整形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600495116505",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030200000-331303020",
+            "item_name": "开腹取环术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600623968886",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030210000-331303021",
+            "item_name": "经腹腔镜取环术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600752495153",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030230000-331303023",
+            "item_name": "子宫悬吊术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600881013260",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030260000-331303026",
+            "item_name": "阔韧带内肿瘤切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600008952041",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030270000-331303027",
+            "item_name": "热球子宫内膜去除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600137676588",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030280000-331303028",
+            "item_name": "根治性宫颈切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600265739159",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030290000-331303029",
+            "item_name": "粘膜下子宫肌瘤圈套术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600401475091",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030300000-331303030",
+            "item_name": "宫颈悬吊术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600532622290",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040010000-331304001",
+            "item_name": "阴道异物取出术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600662469510",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040020000-331304002",
+            "item_name": "阴道裂伤缝合术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600790785505",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040030000-331304003",
+            "item_name": "阴道扩张术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600920080158",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040040000-331304004",
+            "item_name": "阴道疤痕切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600048854229",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040050000-331304005",
+            "item_name": "阴道横纵膈切开术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600176985014",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040060000-331304006",
+            "item_name": "阴道闭锁切开术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600306185875",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040070000-331304007",
+            "item_name": "阴道良性肿物切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600434538130",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040080000-331304008",
+            "item_name": "阴道成形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600563760271",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040090000-331304009",
+            "item_name": "阴道直肠瘘修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600693074499",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040110000-331304011",
+            "item_name": "阴道前后壁修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600821999096",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040120000-331304012",
+            "item_name": "阴道中隔成形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600950745660",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040130000-331304013",
+            "item_name": "后穹窿损伤缝合术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600078286797",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040140000-331304014",
+            "item_name": "阴道缩紧术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600207222547",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040150000-331304015",
+            "item_name": "全阴道切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600336996252",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313050040000-331305004",
+            "item_name": "外阴脓肿切开引流术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600477204335",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313050060000-331305006",
+            "item_name": "阴蒂肥大整复术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600606015083",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313050070000-331305007",
+            "item_name": "阴蒂短缩成型术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600735385285",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313050120000-331305012",
+            "item_name": "前庭大腺囊肿造口术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600864233357",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313050130000-331305013",
+            "item_name": "前庭大腺囊肿切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600992120305",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313050140000-331305014",
+            "item_name": "处女膜切开术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600120482075",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060010000-331306001",
+            "item_name": "经腹腔镜取卵术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600248458344",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060030000-311201069",
+            "item_name": "宫腔镜检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600376654180",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060040000-331306004",
+            "item_name": "经宫腔镜检查及取环术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600505206094",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060050000-331306005",
+            "item_name": "经宫腔镜输卵管插管术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600634632252",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060060000-331306006",
+            "item_name": "经宫腔镜宫腔粘连分离术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600763326070",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060070000-331306007",
+            "item_name": "经宫腔镜子宫纵隔切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600891416601",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060080000-331306008",
+            "item_name": "经宫腔镜子宫肌瘤切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600020561533",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060090000-331306009",
+            "item_name": "经宫腔镜子宫内膜剥离术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600150111414",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000160000-331400016",
+            "item_name": "腹腔妊娠取胎术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600279116503",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000170000-331400017",
+            "item_name": "选择性减胎术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600407760870",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000190000-331400019",
+            "item_name": "子宫颈管环扎术(MC-Donald)",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600536781064",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002503100040100-250310004a",
+            "item_name": "血清促卵泡刺激素测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600664980957",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010040001-311201004a",
+            "item_name": "阴道镜检查(电子镜)",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600793957646",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010200100-311201020a",
+            "item_name": "妇科激光治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600921758829",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010200200-311201020b",
+            "item_name": "妇科微波治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600048074233",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010200300-311201020c",
+            "item_name": "妇科电熨治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600177343408",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010200400-311201020d",
+            "item_name": "妇科冷冻治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600307783594",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010200000-311201020e",
+            "item_name": "妇科聚焦超声治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600436344697",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010200000-311201020f",
+            "item_name": "妇科臭氧治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600564784147",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010480001-311201048a",
+            "item_name": "双子官宫内节育器放置(取出)术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600693886032",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010530000-311201053b",
+            "item_name": "人工流产术(畸形子宫、疤痕子宫、哺乳期子宫)",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600822933121",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010530004-311201053d",
+            "item_name": "人工流产钳刮术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600952006466",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003114000020000-311400002b",
+            "item_name": "性病检查(女)",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600080081799",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010040200-331301004a",
+            "item_name": "多囊卵巢打孔术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600208482950",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313010060001-331301006a",
+            "item_name": "卵巢癌根治术联合膀胱或肠管部分切除",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600337933558",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030050001-331303005a",
+            "item_name": "使用Leep刀宫颈环形电切术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600466070357",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030280300-331303028a",
+            "item_name": "经腹膜外根治性宫颈切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600594554124",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030280200-331303028b",
+            "item_name": "经腹根治性宫颈切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600723735612",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030280100-331303028c",
+            "item_name": "经阴道根治性宫颈切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600853015986",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313050010000-331305001a",
+            "item_name": "小阴唇粘连分离术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600981813442",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313060040100-331306004a",
+            "item_name": "经宫腔镜宫腔内异物取出术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600110591975",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "613300000010000-331700001c",
+            "item_name": "宫腔镜使用费",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600240239492",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002101030280000-210103028",
+            "item_name": "阴茎海绵体造影",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600369066490",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002101030290000-210103029",
+            "item_name": "输精管造影",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600497791776",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002302000520000-230200052",
+            "item_name": "阴囊显像",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600626189344",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040040000-250104004",
+            "item_name": "精液常规检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600755867287",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040050000-250104005",
+            "item_name": "精液酸性磷酸酶测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600886713573",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040060000-250104006",
+            "item_name": "精液果糖测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600015906918",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040070000-250104007",
+            "item_name": "精液c-葡萄糖苷酶测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600144320006",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040130000-250104013",
+            "item_name": "前列腺液常规检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600272293429",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040270000-250104027",
+            "item_name": "精浆弹性硬蛋白酶定量测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600400699308",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040290000-250104029",
+            "item_name": "精浆中性a-葡萄糖苷酶活性测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600528839012",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040300000-250104030",
+            "item_name": "精液白细胞过氧化物酶染色检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600656576362",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040310000-250104031",
+            "item_name": "精浆锌测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600785109137",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040320000-250104032",
+            "item_name": "精浆柠檬酸测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600913034693",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040230000-250104036",
+            "item_name": "精液渗透压测定",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600041058382",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000020000-311100002",
+            "item_name": "嵌顿包茎手法复位术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600169974366",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000030000-311100003",
+            "item_name": "夜间阴茎胀大试验",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600297751062",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000040000-311100004",
+            "item_name": "阴茎超声血流图检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600425432906",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000050000-311100005",
+            "item_name": "阴茎勃起神经检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600554561536",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000060000-311100006",
+            "item_name": "睾丸阴茎海绵体活检术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600683257098",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000080000-311100008",
+            "item_name": "促射精电动按摩",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600812253099",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000090000-311100009",
+            "item_name": "阴茎海绵体内药物注射",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600941123511",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000100000-311100010",
+            "item_name": "阴茎赞生物电灼术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600073921891",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000110000-311100011",
+            "item_name": "阴茎动脉测压术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600203850009",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000120000-311100012",
+            "item_name": "阴茎海绵体灌流治疗术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600333173831",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000130000-311100013",
+            "item_name": "B超引导下前列腺活检术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600461471883",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000140000-311100014",
+            "item_name": "前列腺针吸细胞学活检术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600590234077",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000150000-311100015",
+            "item_name": "前列腺按摩",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600718217451",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000160000-311100016",
+            "item_name": "前列腺注射",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600846614658",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000170000-311100017",
+            "item_name": "前列腺特殊治疗",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600974880149",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003111000180000-311100018",
+            "item_name": "鞘膜积液穿刺抽液术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600103443732",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003311040160000-331104016",
+            "item_name": "会阴阴囊皮瓣尿道成型术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600232061561",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003311040250000-331104025",
+            "item_name": "尿道下裂阴茎下弯矫治术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600360238604",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010010000-331201001",
+            "item_name": "前列腺癌根治术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600492340257",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010020000-331201002",
+            "item_name": "耻骨上前列腺切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600620994966",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010030000-331201003",
+            "item_name": "耻骨后前列腺切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600750817571",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010040000-331201004",
+            "item_name": "前列腺囊肿切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600879142104",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010050000-331201005",
+            "item_name": "前列腺脓肿切开术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600008069436",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010060000-331201006",
+            "item_name": "经尿道前列腺电切术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600137051765",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010070000-331201007",
+            "item_name": "经尿道前列腺气囊扩张术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600265939544",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010080000-331201008",
+            "item_name": "经尿道前列腺支架置入术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600396036210",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010090000-331201009",
+            "item_name": "精囊肿物切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600524026260",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020010000-331202001",
+            "item_name": "阴囊坏死扩创术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600653379011",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020020000-331202002",
+            "item_name": "阴囊脓肿引流术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600781507724",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020030000-331202003",
+            "item_name": "阴囊成形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600912508214",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020040000-331202004",
+            "item_name": "阴囊肿物切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600041082940",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020050000-331202005",
+            "item_name": "高位隐睾下降固定术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600169005267",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020060000-331202006",
+            "item_name": "睾丸鞘膜翻转术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600298158572",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020070000-331202007",
+            "item_name": "交通性鞘膜积液修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600428222301",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020080000-331202008",
+            "item_name": "睾丸附件扭转探查术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600556747866",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020090000-331202009",
+            "item_name": "睾丸破裂修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600685424917",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020100000-331202010",
+            "item_name": "睾丸固定术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600814517453",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020110000-331202011",
+            "item_name": "睾丸切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600943564237",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020120000-331202012",
+            "item_name": "睾丸肿瘤腹膜后淋巴结清扫术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600074051473",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020130000-331202013",
+            "item_name": "自体睾丸移植术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600201755885",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312020140000-331202014",
+            "item_name": "经腹腔镜隐睾探查术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600329790269",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030010000-331203001",
+            "item_name": "附睾切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600458863908",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030020000-331203002",
+            "item_name": "输精管附睾吻合术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600587707384",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030030000-331203003",
+            "item_name": "精索静脉转流术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600716556127",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030040000-331203004",
+            "item_name": "精索静脉瘤切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600844669559",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030050000-331203005",
+            "item_name": "精索静脉曲张栓塞术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600976399126",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030060000-331203006",
+            "item_name": "精索静脉曲张高位结扎术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600104757850",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030070000-331203007",
+            "item_name": "输精管插管术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600233435282",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030080000-331203008",
+            "item_name": "输精管结扎术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600362247861",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030090000-331203009",
+            "item_name": "输精管粘堵术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600492104546",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030100000-331203010",
+            "item_name": "输精管角性结节切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600623298434",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030110000-331203011",
+            "item_name": "输精管吻合术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600751934758",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030130000-331203013",
+            "item_name": "经尿道射精管切开术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600881474132",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040010000-331204001",
+            "item_name": "嵌顿包茎松解术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600009782720",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040020000-331204002",
+            "item_name": "包皮环切术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600137495536",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040030000-331204003",
+            "item_name": "阴茎包皮过短整形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600266750097",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040040000-331204004",
+            "item_name": "阴茎外伤清创术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600396549151",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040050000-331204005",
+            "item_name": "阴茎再植术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600525828269",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040060000-331204006",
+            "item_name": "阴茎囊肿切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600653058628",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040070000-331204007",
+            "item_name": "阴茎部分切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600781371873",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040080000-331204008",
+            "item_name": "阴茎全切术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600910066660",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040090000-331204009",
+            "item_name": "阴茎阴囊全切术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600038081933",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040100000-331204010",
+            "item_name": "阴茎重建成形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600166439932",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040110000-331204011",
+            "item_name": "阴茎再造术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600295096126",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040120000-331204012",
+            "item_name": "阴茎假体置放术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600423351204",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040130000-331204013",
+            "item_name": "阴茎畸型整形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600552321590",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040140000-331204014",
+            "item_name": "阴茎延长术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600680820902",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040150000-331204015",
+            "item_name": "阴茎阴囊移位整形术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600809409306",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040160000-331204016",
+            "item_name": "尿道阴茎海绵体分流术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600938430595",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040170000-331204017",
+            "item_name": "阴茎血管重建术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600068391609",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040180000-331204018",
+            "item_name": "阴茎海绵体分离术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600196924096",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040190000-331204019",
+            "item_name": "阴茎静脉结扎术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600324961234",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003114000020000-311400002a",
+            "item_name": "性病检查(男)",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600453588860",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312010060000-331201006a",
+            "item_name": "经尿道前列腺激光术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600582963455",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "613312010110000-331201006b",
+            "item_name": "经尿道前列腺激光+前列腺组织粉碎术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600712214832",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "613312010120000-331201006c",
+            "item_name": "经尿道前列腺绿激光切除术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600840801980",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312030060001-331203006a",
+            "item_name": "精索静脉曲张高位结扎术+分流术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600969842235",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040090001-331204009a",
+            "item_name": "阴茎阴囊全切术+尿路改道",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600100396324",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003312040150001-331204015a",
+            "item_name": "阴茎阴囊移位整形术+会阴型尿道下裂修补",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600231713763",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "002501040140000-250104014",
+            "item_name": "阴道分泌物检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600363165456",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010050000-311201005",
+            "item_name": "阴道填塞",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600494144654",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010060000-311201006",
+            "item_name": "阴道灌洗上药",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600623913690",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010230000-311201023",
+            "item_name": "产前检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600753549347",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010260000-311201026",
+            "item_name": "胎心监测",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600888755032",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010280000-311201028",
+            "item_name": "胎儿脐血流监测",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600019157639",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000020000-331400002",
+            "item_name": "单胎顺产接生",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600148677647",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000070000-331400007",
+            "item_name": "难产接生",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600278987261",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000150000-331400015",
+            "item_name": "二次剖宫产术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600409133108",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000180000-331400018",
+            "item_name": "子宫颈裂伤修补术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600539682761",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "612203010040000-220301001d",
+            "item_name": "超声羊水检查",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600667664901",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010260000-311201026a",
+            "item_name": "多普勒胎心监测",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600796762627",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010090000-311201009",
+            "item_name": "宫颈注射",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600926000092",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010100000-311201010",
+            "item_name": "宫颈扩张术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600054793723",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010160000-311201016",
+            "item_name": "子宫内翻复位术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600182972970",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010190000-311201019",
+            "item_name": "宫腔填塞",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600312570054",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010510000-311201051",
+            "item_name": "产后刮宫术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600443191355",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010540000-311201054",
+            "item_name": "子宫内水囊引产术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600572759317",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003112010550000-311201055",
+            "item_name": "催产素滴注引产术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600702125898",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313030220000-331303022",
+            "item_name": "子宫动脉结扎术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600830953315",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003313040100000-331304010",
+            "item_name": "阴道壁血肿切开术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600960039285",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000030000-331400003",
+            "item_name": "双胎接生",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600088051858",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000040000-331400004",
+            "item_name": "多胎接生",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600217807724",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000050000-331400005",
+            "item_name": "死胎接生",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600348556870",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000080000-331400008",
+            "item_name": "外倒转术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600481000909",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000090000-331400009",
+            "item_name": "内倒转术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600611467785",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000100000-331400010",
+            "item_name": "手取胎盘术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600741632384",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000120000-331400012",
+            "item_name": "剖宫产术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600872163669",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000130000-331400013",
+            "item_name": "剖宫产术中子宫全切术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600001565282",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000140000-331400014",
+            "item_name": "剖宫产术中子宫次全切术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600130905591",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000120100-331400012a",
+            "item_name": "古典式剖宫产术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600259616392",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000120200-331400012b",
+            "item_name": "子宫下段剖宫产术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600388102422",
+            "name": "不合理诊疗[性别不符]",
+            "item_code": "003314000120000-331400012d",
+            "item_name": "双胎剖宫产术",
+            "type": 4,
+            "sub_type": 2,
+            "options": {
+                "property": [
+                    {
+                        "name": "sex",
+                        "operator": "=",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        {
+            "code": "12111600714549427",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "110900003",
+            "item_name": "监护病房床位费",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600844400344",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100006",
+            "item_name": "特殊疾病护理加收",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600974730828",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100007",
+            "item_name": "新生儿护理",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600104215616",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100010",
+            "item_name": "气管切开护理",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600234108976",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100015",
+            "item_name": "机械辅助排痰",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600363519087",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100016",
+            "item_name": "使用防褥疮气垫加收",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600493538044",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100017",
+            "item_name": "压疮护理",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600623081974",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100018",
+            "item_name": "三腔两囊管护理",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600755527525",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120300001b",
+            "item_name": "持续吸氧",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600886150540",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120300002b",
+            "item_name": "密闭式持续吸氧",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600016324269",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120300003b",
+            "item_name": "智能监控持续吸氧",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600146894855",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120900001",
+            "item_name": "胃肠减压",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600276702132",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "121600003",
+            "item_name": "持续膀胱冲洗",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600406709429",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310208001",
+            "item_name": "胰岛素泵持续皮下注射胰|岛素",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600537012550",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "311400053",
+            "item_name": "翻身床治疗",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600666233682",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "420000010",
+            "item_name": "外固定架使用",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600796198291",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120100006b",
+            "item_name": "保护性隔离护理加收",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600925453796",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120900001c",
+            "item_name": "封闭创面负压吸引",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600055153052",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "121600001c",
+            "item_name": "留置导尿",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600185110418",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "311300004a",
+            "item_name": "术后持续封闭式灌注冲洗",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 1
+                }
+            }
+        },
+        {
+            "code": "12111600313895674",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310602005",
+            "item_name": "持续呼吸功能监测",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600443907007",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310603001",
+            "item_name": "呼吸机辅助呼吸",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600573620555",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310100005",
+            "item_name": "脑电图录象监测",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600705567004",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310100014",
+            "item_name": "颅内压监测",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600836157513",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310100022",
+            "item_name": "多功能神经肌肉功能监测",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600965405736",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310100025",
+            "item_name": "肌电图监测",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600095728060",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310701008",
+            "item_name": "遥测心电监护",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600225590166",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310701024",
+            "item_name": "肺动脉压和右心房压力监测",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600355673803",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310701025",
+            "item_name": "动脉内压力监测",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600485723589",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310701028",
+            "item_name": "血氧饱和度监测",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600616269197",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310702006",
+            "item_name": "临时起搏器应用",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600746098733",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "311000002",
+            "item_name": "腹透机自动腹膜透析",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600876181150",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "311000011",
+            "item_name": "连续性血液净化",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600007159804",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "311202007",
+            "item_name": "新生儿监护",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600138167941",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "311202012",
+            "item_name": "新生儿辐射抢救治疗",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600267272092",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "330803026",
+            "item_name": "左右心室辅助循环",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600400223204",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "120400011a",
+            "item_name": "中心静脉测压",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600530571136",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310100002a",
+            "item_name": "128导频脑电图",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600661430543",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "310100002b",
+            "item_name": "192导频脑电图",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600790405670",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "320500009a",
+            "item_name": "经皮主动脉气囊反搏动术后监测(IABP)",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        },
+        {
+            "code": "12111600919834614",
+            "name": "超标准收费[指定项目当日收费超过X（元、数量）]",
+            "item_code": "330803017a",
+            "item_name": "心脏表面临时起搏器使用",
+            "desc": "超标准收费[指定项目数量超过住院天数]",
+            "type": 2,
+            "sub_type": 1,
+            "visit_type": 2,
+            "options": {
+                "num": {
+                    "type": 2,
+                    "property": "in_days",
+                    "coefficient": 24
+                }
+            }
+        }
+    ]
+}
