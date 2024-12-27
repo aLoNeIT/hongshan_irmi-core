@@ -8,6 +8,12 @@ error_reporting(E_ALL);
 
 defined('DEBUG') || define('DEBUG', true);
 
+// 获取测试数据
+define('IRMI_DS', DIRECTORY_SEPARATOR);
+define('MEDICAL_RECORD_DIR', __DIR__ . IRMI_DS . 'data' . IRMI_DS . 'develop');
+define('RULES_DIR', __DIR__ . IRMI_DS . 'data' . IRMI_DS . 'testing');
+
+
 use hongshanhealth\irmi\struct\{JsonTable, MedicalRecord};
 use hongshanhealth\irmi\{IRMI, IRMI as IRMIManager, Util};
 use PDO;
@@ -16,112 +22,108 @@ use SplFileObject;
 
 class App
 {
+    /**
+     * @var string[]
+     */
+    protected array $typeMap = [
+        1 => '重复收费',
+        2 => '超标准收费',
+        3 => '超医保费用',
+        4 => '不合理诊疗',
+    ];
+    /**
+     * @var string[]
+     */
+    protected array $visitTypeMap = [
+        1 => '门诊',
+        2 => '住院',
+    ];
 
     /**
-     * 项目明细格式化输出
-     * @param $decodedArray
-     * @return array
+     * 导出CSV文件
+     * @param array $data
+     * @param string $filename
+     * @param string|null $localPath
+     * @return void
      */
-    function getMedicalDetailMessage($decodedArray): array
+    function exportCsv(array $data, string $filename = 'export.csv', string $localPath = null): void
     {
-        // 初始化insuranceData数组
-        $insuranceData = [];
-
-        // 遍历medical_insurance_set数组
-        foreach ($decodedArray['medical_insurance_set'] as $date => $items) {
-            // 将每个item数组添加到insuranceData中
-            foreach ($items as $itemCode => $itemArray) {
-                foreach ($itemArray as $item) {
-
-                    /*
-                    array(7) {
-                      ["code"]=>
-                      string(26) "001204000060000-120400006h"
-                      ["name"]=>
-                      string(12) "静脉输液"
-                      ["time"]=>
-                      int(1727484640)
-                      ["num"]=>
-                      int(2)
-                      ["price"]=>
-                      int(6)
-                      ["cash"]=>
-                      int(6)
-                      ["total_cash"]=>
-                      int(12)
-                    }
-                    */
-
-                    $item['code'] = '编码:'.$item['code'];
-                    $item['name'] = '名称:'.$item['name'];
-                    $item['time'] = '时间:'.date('Y-m-d H:i:s', $item['time']);
-                    $item['num'] = '数量:'.$item['num'];
-                    $item['price'] = '标准价:'.number_format($item['price'], 2);
-                    $item['cash'] = '实收价:'.number_format( $item['cash'], 2);
-                    $item['total_cash'] = '实收总价:'.number_format($item['total_cash'] , 2);
-
-                    $insuranceData[] =  join(' ' , $item);
-                }
-            }
+        $output = @fopen($localPath . $filename, 'w');
+        if (!$output) {
+            die("无法打开本地文件进行写入，请检查文件路径及权限");
         }
 
-        // 返回最下层的数据列表
-        return $insuranceData;
+        foreach ($data as $row) {
+            $encodedRow = array_map(
+                'iconv',
+                array_fill(0, count($row), 'UTF-8'),
+                array_fill(0, count($row), 'GBK'),
+                $row
+            );
+            fputcsv($output, $encodedRow, ',', '"');
+        }
+
+        // 关闭输出流
+        fclose($output);
     }
 
 
-    public function run()
+    public function run($hospitalCode): void
     {
 
         try {
-
-            // 获取测试数据
-            define('IRMI_DS', DIRECTORY_SEPARATOR);
-            define('MEDICAL_RECORD_DIR', __DIR__ . IRMI_DS . 'data'.IRMI_DS . 'develop');
-            define('RULES_DIR', __DIR__ . IRMI_DS . 'data'.IRMI_DS . 'testing');
-
-
             $ruleArray = [];
-            foreach (glob(RULES_DIR.IRMI_DS.'*.json') as $file){
-
+            foreach (glob(RULES_DIR . IRMI_DS . '*.json') as $file) {
                 $fileContent = file_get_contents($file);
                 $fileContentArray = json_decode($fileContent, true);
                 $ruleArray[] = $fileContentArray['rule'];
-
             }
+
 
             // 读取规则集合
             $shaanxi = IRMIManager::instance()->store('shaanxi');
 
             // 加载规则
             $shaanxi->load('01', [
-                'code' => '01',
-                'name' => '测试集合',
-                'rules' => $ruleArray
+                'code'  => '01',
+                'name'  => '测试集合',
+                'rules' => $ruleArray,
             ]);
 
 
-            // 获取预设数据
             $files = [
-                MEDICAL_RECORD_DIR.IRMI_DS.'27481028_opt.log',
-                MEDICAL_RECORD_DIR.IRMI_DS.'27481028_ipt.log',
-                MEDICAL_RECORD_DIR.IRMI_DS.'28996679_opt.log',
-                MEDICAL_RECORD_DIR.IRMI_DS.'28996679_ipt.log',
+                MEDICAL_RECORD_DIR . IRMI_DS . $hospitalCode . '_opt.log',
+                MEDICAL_RECORD_DIR . IRMI_DS . $hospitalCode . '_ipt.log',
             ];
 
-            foreach ($files as $filepath){
+
+
+            $checkResultArray = [];
+            $checkResultArray[] = [
+                '医院名称',
+                '就诊类型',
+                '姓名',
+                '就诊日期',
+                '年龄',
+                '就诊号',
+                '审核规则',
+                '规则名称',
+                '规则项目名称',
+                '规则项目编码',
+                '审核结果',
+            ];
+            foreach ($files as $filepath) {
 
                 $file = new SplFileObject($filepath);
                 while (!$file->eof()) {
 
-                    $record = json_decode(trim($file->fgets()),true);
-                    if(is_null($record)){
+                    $record = json_decode(trim($file->fgets()), true);
+                    if (is_null($record)) {
                         continue;
                     }
 
 
                     $medicalRecord = (new MedicalRecord())->load($record);
-
 
                     $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
 
@@ -129,34 +131,36 @@ class App
 
                     if (!$jResult->setByArray($result)->isSuccess()) {
 
-                        $resmsg = "解析成功,用例未通过[{$record['code']}]";
-                        // echo "解析成功,用例未通过[{$record['code']}]", PHP_EOL;
-                        // echo '病历：', (string)$medicalRecord, PHP_EOL;
-                        // echo '检测结果：', $jResult->toJson(), PHP_EOL;
-
                         $resultToArray = $jResult->toArray();
 
-
-                        foreach ($resultToArray['data'] as $rdata_item){
-
-
-                            // var_dump($rdata_item['data']);
-                            foreach ($rdata_item['data']['errors'] as $error){
+                        foreach ($resultToArray['data'] as $rdata_item) {
 
 
-                                $typeMap = [
-                                    1 => '重复收费',
-                                    2 => '超标准收费',
-                                    3 => '超医保费用',
-                                    4 => '不合理诊疗'
-                                ];
+                            foreach ($rdata_item['data']['errors'] as $error) {
+
 
                                 $checkRule = $error['data']['rule'];
-                                $checkRule['type'] = $typeMap[$checkRule['type']]?? '-';
-                                $resmsg.= ' : '.join(/*PHP_EOL*/' # ',$checkRule);
 
-                                // echo $error['msg']."[$resmsg]".PHP_EOL;
-                                echo $resmsg.PHP_EOL;
+
+                                // 就诊类型
+                                $medicalRecordInfo = explode('-', $record['code'] ?? '');
+                                $visitType = $this->visitTypeMap[$medicalRecordInfo[1]] ?? '';
+
+                                $checkResultArray[] = [
+                                    $record['hosp_name'],
+                                    $visitType,
+                                    $record['realname'],
+                                    "\t".date('Y-m-d H:i:s',$record['in_date']),
+                                    $record['age'],
+                                    "\t".$medicalRecordInfo[2],
+                                        $this->typeMap[$checkRule['type']] ?? '-',
+                                        $checkRule['name'],
+                                        $checkRule['item_name'],
+                                        $checkRule['item_code'],
+                                        $error['msg'],
+                                ];
+
+
                             }
                         }
 
@@ -164,6 +168,17 @@ class App
                 }
 
                 $file = null;
+
+                Util::dump('-------------------------------------');
+                Util::dump($checkResultArray);
+
+                if(count($checkResultArray) > 1){
+
+                    var_dump($checkResultArray[1]);
+
+                    $hospitalname = $checkResultArray[1]['0'];
+                    $this->exportCsv($checkResultArray, $hospitalname.'_'.$hospitalCode.'_irmi_check_result.csv', './');
+                }
             }
 
         } catch (\Throwable $ex) {
@@ -174,10 +189,24 @@ class App
     }
 
 }
-
 // 命令行入口文件
 // 加载基础文件
 require __DIR__ . '/../vendor/autoload.php';
 
-// 应用初始化
-(new App())->run();
+
+// 获取医院编码
+$hospitalCodeArray = [];
+foreach (glob(MEDICAL_RECORD_DIR.'/*.log') as $filePath) {
+    $basename = basename($filePath);
+    $basename = explode('_', $basename);
+    $hospitalCodeArray[] = $basename[0];
+}
+$hospitalCodeArray = array_unique($hospitalCodeArray);
+
+
+// 循环执行
+foreach ($hospitalCodeArray as $hospitalCode) {
+    // 应用执行
+    (new App())->run($hospitalCode);
+}
+
