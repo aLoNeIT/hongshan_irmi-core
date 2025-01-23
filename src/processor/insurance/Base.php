@@ -171,7 +171,6 @@ class Base extends BaseProcessor
         if (2 === $timeType) {
             // 循环 包含 或 排除 依次判断是否错误
             $existed = null; // 是否找到指定内容
-            /** @var MedicalInsuranceItem $miItem */
             foreach ($itemCollection as $code => $config) {
                 // 检测指定项目是否存在
                 if ($included && isset($tmpMiItemSet[$code])) {

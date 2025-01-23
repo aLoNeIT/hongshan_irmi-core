@@ -11,7 +11,12 @@ namespace hongshanhealth\irmi\struct;
  */
 class MedicalInsuranceItem extends Base
 {
-
+    /**
+     * 医保项目唯一标识
+     *
+     * @var string|null
+     */
+    public ?string $id = null;
     /**
      * 编码
      * 
