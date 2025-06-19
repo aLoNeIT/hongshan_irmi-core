@@ -100,21 +100,20 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                     $result = $propertyValue >= $value;
                     break;
                 case 'in':
-                    if (\is_array($value)) {
-                        // 数组
-                        $result = \in_array($propertyValue, $value);
-                    } else if (\is_string($value)) {
-                        // 字符串则逗号分隔
-                        $result = \in_array($propertyValue, \explode(',', $value));
-                    }
+                    // 处理规则中的数据，转为数组
+                    $value = \is_array($value) ? $value : \explode(',', (string)$value);
+                    // 如果病例中的属性是数组类型，则使用交集计算，否则使用in计算
+                    $result = \is_array($propertyValue)
+                        ? !empty(\array_intersect($propertyValue, $value))
+                        : \in_array($propertyValue, $value);
                     break;
                 case 'not in':
-                    if (\is_array($value)) {
-                        $result = !\in_array($propertyValue, $value);
-                    } else if (\is_string($value)) {
-                        // 字符串则逗号分隔
-                        $result = !\in_array($propertyValue, \explode(',', $value));
-                    }
+                    // 处理规则中的数据，转为数组
+                    $value = \is_array($value) ? $value : \explode(',', (string)$value);
+                    // 如果病例中的属性是数组类型，则使用交集计算，否则使用in计算
+                    $result = \is_array($propertyValue)
+                        ? empty(\array_intersect($propertyValue, $value))
+                        : !\in_array($propertyValue, $value);
                     break;
                 default:
                     throw new IRMIException("不支持的运算符[{$operator}]");
