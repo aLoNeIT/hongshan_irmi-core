@@ -122,8 +122,8 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             // 判断返回结果
             if (!$result) {
                 // 比对失败，则记录错误信息
-                $opAlias = MapConst::OPERATOR_ALIAS[$operator];
-                $propertyAlias = MapConst::MEDICAL_RECORD_ALIAS[$name];
+                $opAlias = MapConst::OPERATOR_ALIAS[$operator] ?? $operator;
+                $propertyAlias = MapConst::MEDICAL_RECORD_ALIAS[$name] ?? $name;
                 $errors[] = [
                     'msg' => "当前项目[{$rule->itemName}]对病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
                     'data' => [

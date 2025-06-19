@@ -39,6 +39,8 @@ class Map
         'visit_type' => '就诊类型',
         'in_date' => '就诊时间',
         'out_date' => '出院时间',
+        'diagnosis' => '诊断',
+        'procedure' => '手术',
         'hospital_code' => '医院编码',
         'hospital_type' => '医院类型',
         'hospital_level' => '医院级别',
