@@ -85,11 +85,11 @@ class IRMIRuleSet extends Base
     /** @inheritDoc */
     public function load(array $data): static
     {
-        $this->originData = $data;
         $rules = $data['rules'] ?? null;
         if (\is_null($rules)) {
             throw new IRMIException('集合中未存在有效的规则数据');
         }
+        $this->originData = $data;
         unset($data['rules']);
         parent::load($data);
         $this->rules = [];
@@ -105,63 +105,76 @@ class IRMIRuleSet extends Base
      * 过滤规则，生成新的规则集
      *
      * @param IRMIRuleOption|null $ruleOption 规则选项
-     * @param boolean $force 是否强制克隆新对象
-     * @return static 返回过滤后的规则集
+     * @return static 返回过滤后的规则集对象
      */
-    public function filter(?IRMIRuleOption $ruleOption = null, bool $force = false): static
+    public function filter(?IRMIRuleOption $ruleOption = null): static
     {
         $rules = [];
-        if (!\is_null($ruleOption)) {
-            $whiteList = $ruleOption->whiteList;
-            $blackList = $ruleOption->blackList;
-            if (!empty($whiteList) || !empty($blackList)) {
-                // 任意一个不为空，则继续执行
-                $originRules = $this->originData['rules'] ?? [];
-                /** @var array $rule */
-                foreach ($originRules as $rule) {
-                    // 白名单
-                    if (!empty($whiteList)) {
-                        // 白名单非空，则必须在白名单中才可以添加
-                        if (\in_array($rule['code'], $whiteList)) {
-                            $rules[] = $rule;
-                            continue;
-                        }
-                    } else if (!empty($blackList)) {
-                        // 黑名单
-                        if (!\in_array($rule['code'], $blackList)) {
-                            $rules[] = $rule;
-                            continue;
-                        }
-                    }
+        // 根据黑白名单构建处理函数，优先白名单
+        $fnFilter = null;
+        if (!empty($ruleOption?->whiteList)) {
+            $fnFilter = function (string $code) use ($ruleOption) {
+                return \in_array($code, $ruleOption->whiteList);
+            };
+        } else if (!empty($ruleOption?->blackList)) {
+            $fnFilter = function (string $code) use ($ruleOption) {
+                return !\in_array($code, $ruleOption->blackList);
+            };
+        }
+        if (!\is_null($fnFilter)) {
+            $originRules = $this->originData['rules'] ?? [];
+            /** @var array $rule */
+            foreach ($originRules as $rule) {
+                if ($fnFilter($rule['code'])) {
+                    $rules[] = $rule;
                 }
             }
         }
-        return $force ? (new IRMIRuleSet())->load(
-            empty($rules) ? [
+        return (new static())->load(
+            [
                 'code' => $this->code,
                 'name' => $this->name,
-                'rules' => []
-            ] : $this->originData
-        ) : $this;
+                'rules' => $rules
+            ]
+        );
     }
 
     /**
      * 通过项目编码获取匹配的规则
      *
      * @param string[] $itemCodes 项目编码集合
+     * @param IRMIRuleOption|null $ruleOption 规则选项
      * @return IRMIRule[] 返回规则对象
      */
-    public function getRulesByItemCode(array $itemCodes): array
+    public function getRulesByItemCode(array $itemCodes, ?IRMIRuleOption $ruleOption = null): array
     {
         // 获取规则集中包含指定项目编码的规则的编码交集
         $itemCodes = \array_intersect(\array_keys($this->itemRules), $itemCodes);
         $rules = [];
+        // 根据黑白名单构建处理函数，优先白名单
+        $whiteList = $ruleOption?->whiteList ?: [];
+        $blackList = $ruleOption?->blackList ?: [];
+        $fnFilter = function (string $code) {
+            return true;
+        };
+        if (!empty($whiteList)) {
+            $fnFilter = function (string $code) use ($whiteList) {
+                return \in_array($code, $whiteList);
+            };
+        } else if (!empty($blackList)) {
+            $fnFilter = function (string $code) use ($blackList) {
+                return !\in_array($code, $blackList);
+            };
+        }
         if (!empty($itemCodes)) {
             // 先根据项目编码获取到规则集合
             foreach ($itemCodes as $itemCode) {
                 // 再通过规则集合中的规则编码获取规则对象
                 foreach ($this->itemRules[$itemCode] as $code) {
-                    $rules[] = $this->rules[$code];
+                    // 过滤处理
+                    if ($fnFilter($code)) {
+                        $rules[] = $this->rules[$code];
+                    }
                 }
             }
         }
