@@ -111,23 +111,26 @@ class IRMIRuleSet extends Base
     {
         $rules = [];
         // 根据黑白名单构建处理函数，优先白名单
-        $fnFilter = null;
-        if (!empty($ruleOption?->whiteList)) {
-            $fnFilter = function (string $code) use ($ruleOption) {
-                return \in_array($code, $ruleOption->whiteList);
+        $whiteList = $ruleOption?->whiteList ?: [];
+        $blackList = $ruleOption?->blackList ?: [];
+        $fnFilter = function (string $code) {
+            return true;
+        };
+        if (!empty($whiteList)) {
+            $fnFilter = function (string $code) use ($whiteList) {
+                return \in_array($code, $whiteList);
             };
-        } else if (!empty($ruleOption?->blackList)) {
-            $fnFilter = function (string $code) use ($ruleOption) {
-                return !\in_array($code, $ruleOption->blackList);
+        } else if (!empty($blackList)) {
+            $fnFilter = function (string $code) use ($blackList) {
+                return !\in_array($code, $blackList);
             };
         }
-        if (!\is_null($fnFilter)) {
-            $originRules = $this->originData['rules'] ?? [];
-            /** @var array $rule */
-            foreach ($originRules as $rule) {
-                if ($fnFilter($rule['code'])) {
-                    $rules[] = $rule;
-                }
+        // 过滤
+        $originRules = $this->originData['rules'] ?? [];
+        /** @var array $rule */
+        foreach ($originRules as $rule) {
+            if ($fnFilter($rule['code'])) {
+                $rules[] = $rule;
             }
         }
         return (new static())->load(
