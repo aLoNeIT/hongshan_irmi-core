@@ -115,6 +115,9 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                         ? empty(\array_intersect($propertyValue, $value))
                         : !\in_array($propertyValue, $value);
                     break;
+                case 'between':
+                    $value = \is_array($value) ? $value : \explode(',', (string)$value);
+                    $result = $propertyValue >= $value[0] && $propertyValue <= $value[1];
                 default:
                     throw new IRMIException("不支持的运算符[{$operator}]");
                     break;

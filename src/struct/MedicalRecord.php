@@ -104,6 +104,12 @@ class MedicalRecord extends Base
      */
     public array $procedure = [];
     /**
+     * 保险类型集合
+     *
+     * @var array
+     */
+    public array $insuranceType = [];
+    /**
      * 医院编码
      *
      * @var string|null
