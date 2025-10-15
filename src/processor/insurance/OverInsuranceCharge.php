@@ -54,7 +54,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 $ruleVisitTypeName =  1 == $rule->options['visit_type']  ? '门诊' : '住院';
                 $visitTypeName = 1 == $medicalRecord->visitType ? '门诊' : '住院';
                 $errors[] = [
-                    'msg' => "当前项目[{$rule->name}]适用于[{$ruleVisitTypeName}]，实际[{$visitTypeName}]",
+                    'msg' => "当前项目[{$rule->itemName}]适用于[{$ruleVisitTypeName}]，实际[{$visitTypeName}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule)
                     ]
@@ -72,7 +72,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 $ageMinStr = \is_null($ageMin) ? '不限' : $ageMin;
                 $ageMaxStr = \is_null($ageMax) ? '不限' : $ageMax;
                 $errors[] = [
-                    'msg' => "当前项目[{$rule->name}]限定年龄未在[{$ageMinStr},{$ageMaxStr}]范围内，实际年龄[{$medicalRecord->age}]",
+                    'msg' => "当前项目[{$rule->itemName}]限定年龄未在[{$ageMinStr},{$ageMaxStr}]范围内，实际年龄[{$medicalRecord->age}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule)
                     ]
@@ -90,7 +90,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             $days = \count($dates);
             if ($days > $totalDays) {
                 $errors[] = [
-                    'msg' => "当前项目[{$rule->name}]总时间应不超过[{$totalDays}]天，实际天数[{$days}]",
+                    'msg' => "当前项目[{$rule->itemName}]总时间应不超过[{$totalDays}]天，实际天数[{$days}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
                         'total_days' => $totalDays,
@@ -110,7 +110,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 $totalSubNum = \count($currItems);
                 if ($totalSubNum > $periodNum) {
                     $errors = [
-                        'msg' => "当前项目[{$rule->name}]次数应不超过[{$periodSubNum}]次，实际次数[{$totalSubNum}]",
+                        'msg' => "当前项目[{$rule->itemName}]次数应不超过[{$periodSubNum}]次，实际次数[{$totalSubNum}]",
                         'data' => [
                             'rule' => $this->getRuleInfo($rule),
                             'total_sub_num' => $totalSubNum,
@@ -135,7 +135,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 $i = 0;
                 $j = 0;
                 for ($i = 0; $i < count($sortDate); $i++) {
-                    $rangeTotalNum = 0; // 区间内的总数量
+                    $rangeTotalNum = $dateNum[$sortDate[$i]] ?? 0; // 区间内的总数量，累计第一天数量
                     $lastDay = $this->getLastDay($sortDate[$i], $periodNum, $periodType);
                     for ($j = $i + 1; $j < count($sortDate); $j++) {
                         if ($sortDate[$j] <= $lastDay) {
@@ -150,7 +150,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         $firstDayStr = date('Y-m-d', $sortDate[$i]);
                         $lastDayStr = date('Y-m-d', $lastDay);
                         $errors[] = [
-                            'msg' => "当前项目[{$rule->name}]在[{$firstDayStr}]至[$lastDayStr]的[{$periodNum}]天内，次数应不超过[{$periodSubNum}]次，实际次数[{$rangeTotalNum}]",
+                            'msg' => "当前项目[{$rule->itemName}]在[{$firstDayStr}]至[$lastDayStr]的[{$periodNum}]天内，次数应不超过[{$periodSubNum}]次，实际次数[{$rangeTotalNum}]",
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
                                 'total_sub_num' => $rangeTotalNum,
@@ -215,7 +215,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             if ($intervalDays > $diffDays) {
                 // 前后间隔时间小于要求时间
                 $errors[] = [
-                    'msg' => "当前项目[{$rule->name}]两次项目间隔应不短于[{$intervalDays}]天，实际间隔[{$diffDays}]",
+                    'msg' => "当前项目[{$rule->itemName}]两次项目间隔应不短于[{$intervalDays}]天，实际间隔[{$diffDays}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
                         'diff_days' => $diffDays
