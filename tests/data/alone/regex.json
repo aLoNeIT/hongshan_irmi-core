@@ -1,0 +1,66 @@
+{
+    "rule": {
+        "code": "03-01-04-2",
+        "name": "限定患者在90天内只能做1次糖化血红蛋白测定，超频次测定属于违规",
+        "item_code": "002503020030000-250302003",
+        "item_name": "糖化血红蛋白测定",
+        "type": 4,
+        "sub_type": 2,
+        "options": {
+            "property": [
+                {
+                    "name": "diagnosis",
+                    "operator": "regex",
+                    "value": "/^E10/"
+                }
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "0190000142",
+                "realname": "90天",
+                "sex": 1,
+                "age": 40,
+                "age_day": 0,
+                "weight": 0,
+                "birth_weight": 0,
+                "diagnosis": [
+                    "E11.44",
+                    "E12.43",
+                    "B55.11.33"
+                ],
+                "in_branch": "A03",
+                "out_branch": "A03",
+                "in_days": 95,
+                "visit_type": 2,
+                "in_date": 1752306060,
+                "out_date": 0,
+                "hospital_code": "66666666",
+                "hospital_type": 2,
+                "hospital_level": 2,
+                "hospital_bussiness_type": 4,
+                "insurance_type": [
+                    1
+                ],
+                "medical_insurance_set": {
+                    "1752309780": {
+                        "002503020030000-250302003": [
+                            {
+                                "code": "002503020030000-250302003",
+                                "name": "",
+                                "time": 1752309780,
+                                "num": 1,
+                                "price": 12,
+                                "cash": 12,
+                                "total_cash": 12
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

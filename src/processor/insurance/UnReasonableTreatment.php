@@ -118,6 +118,13 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                 case 'between':
                     $value = \is_array($value) ? $value : \explode(',', (string)$value);
                     $result = $propertyValue >= $value[0] && $propertyValue <= $value[1];
+                case 'regex':
+                    $propertyValue = \is_array($propertyValue) ? $propertyValue : [$propertyValue];
+                    $elements = array_filter($propertyValue, function ($item) use ($value) {
+                        return preg_match($value, $item);
+                    });
+                    $result = !empty($elements);
+                    break;
                 default:
                     throw new IRMIException("不支持的运算符[{$operator}]");
                     break;
