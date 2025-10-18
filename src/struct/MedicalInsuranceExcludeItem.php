@@ -29,7 +29,7 @@ class MedicalInsuranceExcludeItem extends Base
     /**
      * 数量
      *
-     * @var integer|null
+     * @var float|null
      */
     public $num = null;
 }

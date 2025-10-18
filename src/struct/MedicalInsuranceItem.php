@@ -48,9 +48,9 @@ class MedicalInsuranceItem extends Base
     /**
      * 数量
      *
-     * @var integer|null
+     * @var float|null
      */
-    public ?int $num = null;
+    public ?float $num = null;
 
     /**
      * 标准单价

@@ -9,8 +9,6 @@ use hongshanhealth\irmi\processor\Base as BaseProcessor;
 use hongshanhealth\irmi\struct\{
     MedicalRecord,
     IRMIRule,
-    IRMIRuleSet,
-    JsonTable,
     MedicalInsuranceItem
 };
 use hongshanhealth\irmi\Util;
@@ -61,9 +59,9 @@ class Base extends BaseProcessor
      *
      * @param MedicalRecord $medicalRecord 病历信息
      * @param IRMIRule $rule 规则对象
-     * @return integer|null 返回获取到的数量
+     * @return float|null 返回获取到的数量
      */
-    protected function getRuleOptionNum(MedicalRecord $medicalRecord, IRMIRule $rule): ?int
+    protected function getRuleOptionNum(MedicalRecord $medicalRecord, IRMIRule $rule): ?float
     {
         $result = null;
         if (\is_scalar($rule->options['num'])) {
@@ -84,9 +82,10 @@ class Base extends BaseProcessor
                         $otherItem,
                         function ($carry, MedicalInsuranceItem $item) use (&$date) {
                             // 汇总计算，如果是计算所有值，则直接汇总，否则只汇总指定日期
-                            $carry += 'all' == $date ? $item->num : ($date == $item->date ? $item->num : 0);
+                            $num = 'all' == $date ? $item->num : ($date == $item->date ? $item->num : 0);
+                            $carry = \bcadd($carry, (string)($num ?: 0), 4);
                         },
-                        0
+                        '0'
                     );
                     break;
                 default: // 默认直接读取value属性
@@ -94,7 +93,7 @@ class Base extends BaseProcessor
                     break;
             }
         }
-        return (int)$result;
+        return (float)$result;
     }
 
     /**
@@ -190,9 +189,13 @@ class Base extends BaseProcessor
                             }
                         }
                         // 汇总计算数组内指定字段的值
-                        $totalNum = \array_reduce($tmpMiItemSet[$code], function (int $sum, MedicalInsuranceItem $miItem) {
-                            return $sum + $miItem->num ?: 0;
-                        }, 0);
+                        $totalNum = \array_reduce(
+                            $tmpMiItemSet[$code],
+                            function ($carry, MedicalInsuranceItem $miItem) {
+                                return bcadd($carry, (string)($miItem->num ?: 0));
+                            },
+                            '0'
+                        );
                         if (!isset($config['num']) || $totalNum < $config['num']) {
                             // 收费小于指定数量，则跳过
                             continue;
@@ -250,9 +253,13 @@ class Base extends BaseProcessor
                         $config = $itemCollection[$code];
                         if (isset($config['num'])) {
                             // 汇总获取项目数量
-                            $totalNum = \array_reduce($dateMiItems[$code], function ($carry, MedicalInsuranceItem $item) {
-                                return $carry + $item->num;
-                            }, 0);
+                            $totalNum = \array_reduce(
+                                $dateMiItems[$code],
+                                function ($carry, MedicalInsuranceItem $item) {
+                                    return \bcadd($carry, (string)($item->num ?: 0));
+                                },
+                                '0'
+                            );
                             if ($totalNum < $config['num']) {
                                 continue;
                             }

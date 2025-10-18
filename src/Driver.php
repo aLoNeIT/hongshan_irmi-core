@@ -95,6 +95,7 @@ abstract class Driver
      */
     public function detectInsurance(IRMIRuleSet $ruleSet, MedicalRecord $record, IRMIRuleOption $ruleOption = null): array
     {
+        $oldScale = \bcscale(4);
         try {
             // 根据规则集合，提取适用的规则依次进行计算
             $miItemSet = $record->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
@@ -122,6 +123,8 @@ abstract class Driver
             return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
         } catch (\Throwable $ex) {
             return $this->jcode(1, $ex->getMessage(), $ex->getTrace());
+        } finally {
+            \bcscale($oldScale);
         }
     }
 

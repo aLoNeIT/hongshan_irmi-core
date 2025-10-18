@@ -8,7 +8,6 @@ use hongshanhealth\irmi\constant\Key;
 use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
 use hongshanhealth\irmi\IRMIException;
 use hongshanhealth\irmi\struct\{MedicalRecord, IRMIRule, JsonTable, MedicalInsuranceItem};
-use hongshanhealth\irmi\Util;
 
 /**
  * 超标准收费处理器
@@ -81,9 +80,9 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 遍历当前项目数据，进行汇总
         \array_walk($miItem, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName, $rule) {
             $key = 1 == $detectType ? $item->date : 'all';
-            $totalPrice = \bcmul((string)$item->price, (string)$item->num);
+            $totalPrice = \bcmul((string)$item->price, (string)($item->num ?: 0));
             $itemData[$key] = [
-                'total_num' => ($itemData[$key]['total_num'] ?? 0) + $item->$varName,
+                'total_num' => \bcadd((string)($itemData[$key]['total_num'] ?? 0), (string)($item->$varName ?: 0)),
                 'total_cash' => \bcadd((string)($itemData[$key]['total_cash'] ?? 0), (string)$item->totalCash),
                 'total_price' => \bcadd((string)($itemData[$key]['total_price'] ?? 0), (string)$totalPrice),
             ];
@@ -101,7 +100,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                     $key = 1 == $detectType ? $item->date : 'all';
                     // 暂时不考虑其他单价、金额之类，若后续需要，可增加combine_type，按位运算，1、2、4、8
                     $cmItemData[$key] = [
-                        'total_num' => ($cmItemData[$key]['total_num'] ?? 0) + $item->$varName
+                        'total_num' => \bcadd((string)($cmItemData[$key]['total_num'] ?? 0), (string)($item->$varName ?: 0))
                     ];
                 }
             });
@@ -113,17 +112,20 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
 
             // 根据配置确定当前计算总量是否需要加上合并项目的数量
-            $totalNum = $item['total_num'] + (isset($rule->options['combine_items']) ? ($cmItemData[$date]['total_num'] ?? 0) : 0);
-            if ($totalNum > $ruleNum) {
+            $totalNum = \bcadd(
+                (string)$item['total_num'],
+                (string)(isset($rule->options['combine_items']) ? ($cmItemData[$date]['total_num'] ?? 0) : 0)
+            );
+            if (1 === \bccomp($totalNum, (string)$ruleNum)) {
                 // 当前项目总数量大于指定的数量
-                if ($item['total_num'] > $ruleNum && isset($rule->options['ratio'])) {
+                if (1 === \bccomp((string)$item['total_num'], (string) $ruleNum) && isset($rule->options['ratio'])) {
                     // 这里因为要计算的是当前项目的收费比例，所以数量不能使用合并的数量
                     // 若配置了费用比例，则代表需计算超限部分是否合规
                     $ratio = $rule->options['ratio'];
                     // 平均价格
                     $avgPrice = bcdiv((string)$item['total_price'], (string)$item['total_num']);
                     // 超出的数量
-                    $overNum = $item['total_num'] - $ruleNum;
+                    $overNum = \bcsub((string)$item['total_num'], (string)$ruleNum);
                     // 超出的标准价格
                     $overPrice = bcmul((string)$overNum, (string)$avgPrice);
                     // 超出部分的应收费用
@@ -132,7 +134,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                     $normalCash = bcmul((string)$avgPrice, (string)$ruleNum);
                     // 标准应收费用
                     $standardCash = bcadd((string)$normalCash, (string)$overCash);
-                    if (1 == bccomp((string)$item['total_cash'], (string)$standardCash)) {
+                    if (1 === bccomp((string)$item['total_cash'], (string)$standardCash)) {
                         // 实际收费金额大于标准应收费用，则存在超收情况
                         $diffCash = bcsub((string)$item['total_cash'], (string)$standardCash);
                         $percent = bcmul((string)$ratio, '100');
@@ -232,7 +234,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                     \array_walk($currItems, function (MedicalInsuranceItem $item) use (&$errors, $ratio, $rule) {
                         // 规则中应该收的费用
                         $ruleCash = \bcmul((string)$item->price, (string)$ratio);
-                        if ($item->cash > $ruleCash) {
+                        if (1 === \bccomp((string)$item->cash, $ruleCash)) {
                             // 实收费用大于折扣后费用，则认为超收
                             $percent = bcmul((string)$ratio, '100');
                             $errors[] = [
@@ -257,7 +259,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                         foreach ($items as $item) {
                             // 规则中应该收的费用
                             $ruleCash = \bcmul((string)$item->price, (string)$ratio);
-                            if ($item->cash > $ruleCash) {
+                            if (1 === \bccomp((string)$item->cash, $ruleCash)) {
                                 // 实收费用大于折扣后费用，则认为超收
                                 $percent = bcmul((string)$ratio, '100');
                                 $errors[] = [

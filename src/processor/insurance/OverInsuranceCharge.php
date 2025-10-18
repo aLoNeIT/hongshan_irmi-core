@@ -107,14 +107,21 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             if (1 == $periodType) {
                 // 次
                 // 次为单位，记为单次
-                $totalSubNum = \count($currItems);
-                if ($totalSubNum > $periodNum) {
+                $totalSubNum = (float)\array_reduce(
+                    $currItems,
+                    function ($carry, MedicalInsuranceItem $item) {
+                        return \bcadd($carry, (string)($item->num ?: 0));
+                    },
+                    '0'
+                );
+
+                if (1 === \bccomp((string)$totalSubNum, (string)$periodSubNum)) {
                     $errors = [
                         'msg' => "当前项目[{$rule->itemName}]次数应不超过[{$periodSubNum}]次，实际次数[{$totalSubNum}]",
                         'data' => [
                             'rule' => $this->getRuleInfo($rule),
                             'total_sub_num' => $totalSubNum,
-                            'num' => $periodNum
+                            'num' => $periodSubNum
                         ]
                     ];
                 }
@@ -206,10 +213,13 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             }
             $firstDay = 0;
             $lastDay = 0;
-            \array_walk($currItems, function (MedicalInsuranceItem $item) use (&$firstDay, &$lastDay) {
-                $firstDay = \min($firstDay, $item->time);
-                $lastDay = \max($lastDay, $item->time);
-            });
+            \array_walk(
+                $currItems,
+                function (MedicalInsuranceItem $item) use (&$firstDay, &$lastDay) {
+                    $firstDay = \min($firstDay, $item->time);
+                    $lastDay = \max($lastDay, $item->time);
+                }
+            );
             // 计算差值
             $diffDays = \bcdiv((string)($lastDay - $firstDay), '86400');
             if ($intervalDays > $diffDays) {

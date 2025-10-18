@@ -41,9 +41,9 @@ class IRMI
     /**
      * 当前管理类实例
      *
-     * @var static
+     * @var IRMI
      */
-    private static $instance = null;
+    private static ?IRMI $instance = null;
     /**
      * 构造函数
      * 
@@ -52,7 +52,6 @@ class IRMI
     public function __construct(array $config = [])
     {
         $this->config = \array_merge($this->config, $config);
-        bcscale(2);
     }
     /**
      * 获取当前管理类对象
