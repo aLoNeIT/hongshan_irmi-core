@@ -1,0 +1,99 @@
+{
+  "rule": {
+    "code": "IISZOC-1-1-002504010250000-250401025",
+    "name": "\"C—反应蛋白测定(CRP)\"与\"超敏C反应蛋白测定\"同时开具,属于重复检查",
+    "item_code": "002504010250000-250401025",
+    "item_name": "C—反应蛋白测定(CRP)",
+    "category": 1,
+    "type": 1,
+    "sub_type": 1,
+    "options": {
+      "exclude_items": {
+        "time_type": 1,
+        "collection": {
+          "002503010170000-250301017a": null,
+          "002503010170000-250301017b": null
+        }
+      }
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "0100001575",
+        "realname": "智能审核",
+        "sex": 1,
+        "age": 24,
+        "age_day": 0,
+        "weight": 0,
+        "birth_weight": 0,
+        "diagnosis": [
+          "A01.200"
+        ],
+        "in_branch": "A03",
+        "out_branch": "A03",
+        "in_days": 147,
+        "visit_type": 2,
+        "in_date": 1750129020,
+        "out_date": 1756455480,
+        "hospital_code": "37625656",
+        "hospital_type": 2,
+        "hospital_level": 1,
+        "hospital_bussiness_type": 1,
+        "insurance_type": [
+          1
+        ],
+        "medical_insurance_set": {
+
+          "1762855775": {
+            "002503010170000": [
+              {
+                "code": "002503010170000",
+                "name": "超敏C反应蛋白测定",
+                "time": 1762855775,
+                "num": 1,
+                "price": 0,
+                "cash": 2,
+                "total_cash": 0
+              }
+            ],
+            "002504010250000": [
+              {
+                "code": "002504010250000",
+                "name": "C—反应蛋白测定(CRP)",
+                "time": 1762855775,
+                "num": 1,
+                "price": 0,
+                "cash": 0,
+                "total_cash": 0
+              }
+            ],
+            "002503010170000-250301017a": [
+              {
+                "code": "002503010170000-250301017a",
+                "name": "超敏C反应蛋白测定",
+                "time": 1762855775,
+                "num": 1,
+                "price": 0,
+                "cash": 2,
+                "total_cash": 0
+              }
+            ],
+            "002504010250000-250401025": [
+              {
+                "code": "002504010250000-250401025",
+                "name": "C—反应蛋白测定(CRP)",
+                "time": 1762855775,
+                "num": 1,
+                "price": 0,
+                "cash": 0,
+                "total_cash": 0
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
