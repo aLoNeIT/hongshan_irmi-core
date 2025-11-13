@@ -374,4 +374,19 @@ class Util
         echo $output;
     }
 
+    /**
+     * 金额数字小数点处理
+     *
+     * @param string $value 数字
+     * @return float 处理后的数字
+     */
+    public static function amountFormat(string $value): float
+    {
+        // 切分数字，整数部分和小数部分
+        $arr = \explode('.', $value);
+        // 小数部分右侧去掉0
+        $decimal = \rtrim($arr[1] ?? '', '0');
+        $cash = $arr[0] . ('' != $decimal ? ".{$decimal}"  : '');
+        return (float)$cash;
+    }
 }

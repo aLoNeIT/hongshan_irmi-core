@@ -8,6 +8,7 @@ use hongshanhealth\irmi\constant\Key;
 use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
 use hongshanhealth\irmi\IRMIException;
 use hongshanhealth\irmi\struct\{MedicalRecord, IRMIRule, JsonTable, MedicalInsuranceItem};
+use hongshanhealth\irmi\Util;
 
 /**
  * 超医保支付范围处理器
@@ -134,7 +135,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         // 不存在于数组中，才需要进行排序数组计算
                         $sortDate[] = $item->date;
                     }
-                    $dateNum[$item->date] = ($dateNum[$item->date] ?? 0) + 1;
+                    $dateNum[$item->date] = Util::amountFormat(\bcadd((string)($dateNum[$item->date] ?? 0), (string)$item->num));
                 });
                 // 进行排序
                 @\sort($sortDate, SORT_NUMERIC);
