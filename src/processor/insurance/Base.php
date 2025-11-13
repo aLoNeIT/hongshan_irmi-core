@@ -291,6 +291,8 @@ class Base extends BaseProcessor
     protected function getLastDay(int $firstDay, int $intervalNum = 1, int $type = 2): int
     {
         $result = $firstDay;
+        // 间隔时间应该少1
+        $intervalNum--;
         switch ($type) {
             case 3: // 周
                 // 先算出给定日期所处周的第一天，以周一为开始
