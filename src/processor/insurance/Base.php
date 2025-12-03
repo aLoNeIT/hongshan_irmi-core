@@ -101,9 +101,9 @@ class Base extends BaseProcessor
      *
      * @param MedicalRecord $medicalRecord 病例对象
      * @param IRMIRule $rule 规则对象
-     * @return boolean 在排除列表中返回true，否则返回false
+     * @return boolean|array 在排除列表中返回true，否则返回false
      */
-    protected function checkIncludedBranch(MedicalRecord $medicalRecord, IRMIRule $rule): bool
+    protected function checkIncludedBranch(MedicalRecord $medicalRecord, IRMIRule $rule): bool|array
     {
         $errors = [];
         $included = null;
