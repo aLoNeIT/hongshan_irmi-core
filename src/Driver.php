@@ -101,8 +101,7 @@ abstract class Driver
             $miItemSet = $record->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
             $itemCodes = \array_keys($miItemSet);
             // 过滤规则
-            // $ruleSet = $ruleSet->filter($ruleOption);
-            $rules = $ruleSet->getRulesByItemCode($itemCodes);
+            $rules = $ruleSet->getRulesByItemCode($itemCodes, $ruleOption);
             $errors = [];
             foreach ($rules as $rule) {
                 // 根据规则类型创建对应的处理器
