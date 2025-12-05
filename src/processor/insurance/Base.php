@@ -291,14 +291,11 @@ class Base extends BaseProcessor
     protected function getLastDay(int $firstDay, int $intervalNum = 1, int $type = 2): int
     {
         $result = $firstDay;
-        // 间隔时间应该少1
-        $intervalNum--;
         switch ($type) {
             case 3: // 周
-                // 先算出给定日期所处周的第一天，以周一为开始
-                $dayOfWeek = date('w', $firstDay) - 1;
-                $weekFirstDay = $firstDay - 86400 * $dayOfWeek;
-                $result = $weekFirstDay + 86400 * 7 * $intervalNum;
+                // 获取指定日期所属周的第一天
+                $weekFirstDay = strtotime('Monday this week', $firstDay);
+                $result = strtotime("+{$intervalNum} week", $weekFirstDay);
                 break;
             case 4: // 月
                 // 先算出给定日期所处月的第一天
@@ -310,9 +307,12 @@ class Base extends BaseProcessor
                 $result = strtotime("+{$intervalNum} year", $yearFirstDay);
                 break;
             default: // 日
-                $result = $firstDay + 86400 * $intervalNum;
+                // 将日期再格式化为当天0点
+                $dayOfZero = strtotime(date('Y-m-d 00:00:00', $firstDay));
+                $result = strtotime("+{$intervalNum} day", $dayOfZero);
                 break;
         }
-        return $result;
+        // 最后统一减少1秒
+        return $result - 1;
     }
 }
