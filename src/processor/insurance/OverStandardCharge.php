@@ -55,7 +55,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         if (true !== $result) {
             $errors = [
                 ...$errors,
-                ...((array)$result)
+                /** @var array $result */
+                ...$result
             ];
         }
         // 获取医保项目集合
