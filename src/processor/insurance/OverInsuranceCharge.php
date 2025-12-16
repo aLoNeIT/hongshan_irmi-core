@@ -117,7 +117,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 );
 
                 if (1 === \bccomp((string)$totalSubNum, (string)$periodSubNum)) {
-                    $errors = [
+                    $errors[] = [
                         'msg' => "当前项目[{$rule->itemName}]次数应不超过[{$periodSubNum}]次，实际次数[{$totalSubNum}]",
                         'data' => [
                             'rule' => $this->getRuleInfo($rule),
@@ -173,7 +173,10 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         // 同时支付校验
         $result = $this->checkIncludedItems($medicalRecord, $rule);
         if (true !== $result) {
-            $errors = \array_merge($errors, $result);
+            $errors = [
+                ...$errors,
+                ...$result
+            ];
         }
         return $this->getResult(300, '超医保支付范围', $errors);
     }
