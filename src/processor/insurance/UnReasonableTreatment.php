@@ -137,7 +137,8 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                 $errors[] = [
                     'msg' => "当前项目[{$rule->itemName}]对病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
                     'data' => [
-                        'rule' => $this->getRuleInfo($rule)
+                        'rule' => $this->getRuleInfo($rule),
+                        'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
                     ]
                 ];
             }

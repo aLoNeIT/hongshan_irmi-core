@@ -152,7 +152,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                 'avg_price' => $avgPrice,
                                 'over_price' => $overPrice,
                                 'normal_cash' => $normalCash,
-                            ]
+                            ],
+                            'items' => $this->getMedicalItemId($miItem)
                         ];
                         // 继续下一条数据计算
                         continue;
@@ -166,7 +167,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                         'rule' => $this->getRuleInfo($rule),
                         'date' => $date,
                         'item' => $miItem,
-                    ]
+                    ],
+                    'items' => $this->getMedicalItemId($miItem)
                 ];
             }
         }
@@ -245,6 +247,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                     'item' => $item,
                                     'rule_cash' => $ruleCash,
                                     'cash' => $item->cash,
+                                    'item_ids' => [$item->id]
                                 ]
                             ];
                         }
@@ -270,6 +273,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                         'item' => $item,
                                         'rule_cash' => $ruleCash,
                                         'cash' => $item->cash,
+                                        'item_ids' => [$item->id]
                                     ]
                                 ];
                             }
