@@ -57,7 +57,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 $errors[] = [
                     'msg' => "当前项目[{$rule->itemName}]适用于[{$ruleVisitTypeName}]，实际[{$visitTypeName}]",
                     'data' => [
-                        'rule' => $this->getRuleInfo($rule)
+                        'rule' => $this->getRuleInfo($rule),
+                        'item_ids' => $this->getMedicalItemId($currItems)
                     ]
                 ];
             }
@@ -75,8 +76,9 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 $errors[] = [
                     'msg' => "当前项目[{$rule->itemName}]限定年龄未在[{$ageMinStr},{$ageMaxStr}]范围内，实际年龄[{$medicalRecord->age}]",
                     'data' => [
-                        'rule' => $this->getRuleInfo($rule)
-                    ]
+                        'rule' => $this->getRuleInfo($rule),
+                        'item_ids' => $this->getMedicalItemId($currItems)
+                    ],
                 ];
             }
         }
@@ -95,8 +97,9 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
                         'total_days' => $totalDays,
-                        'days' => $days
-                    ]
+                        'days' => $days,
+                        'item_ids' => $this->getMedicalItemId($currItems)
+                    ],
                 ];
             }
         }
@@ -122,8 +125,9 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         'data' => [
                             'rule' => $this->getRuleInfo($rule),
                             'total_sub_num' => $totalSubNum,
-                            'num' => $periodSubNum
-                        ]
+                            'num' => $periodSubNum,
+                            'item_ids' => $this->getMedicalItemId($currItems)
+                        ],
                     ];
                 }
             } else {
@@ -163,8 +167,9 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                                 'rule' => $this->getRuleInfo($rule),
                                 'total_sub_num' => $rangeTotalNum,
                                 'first_day' => $sortDate[$i],
-                                'last_day' => $lastDay
-                            ]
+                                'last_day' => $lastDay,
+                                'item_ids' => $this->getMedicalItemId($currItems)
+                            ],
                         ];
                     }
                 }
@@ -232,8 +237,9 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     'msg' => "当前项目[{$rule->itemName}]两次项目间隔应不短于[{$intervalDays}]天，实际间隔[{$diffDays}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
-                        'diff_days' => $diffDays
-                    ]
+                        'diff_days' => $diffDays,
+                        'item_ids' => $this->getMedicalItemId($currItems)
+                    ],
                 ];
             }
         }

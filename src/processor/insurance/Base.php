@@ -123,14 +123,16 @@ class Base extends BaseProcessor
             $errors[] = [
                 'msg' => "当前项目[{$rule->itemName}]未由指定包含科室开具",
                 'data' => [
-                    'rule' => $this->getRuleInfo($rule)
+                    'rule' => $this->getRuleInfo($rule),
+                    'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
                 ]
             ];
         } else if (!$included && $result) {
             $errors[] = [
                 'msg' => "当前项目[{$rule->itemName}]不可由指定排除科室开具",
                 'data' => [
-                    'rule' => $this->getRuleInfo($rule)
+                    'rule' => $this->getRuleInfo($rule),
+                    'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
                 ]
             ];
         }
@@ -211,6 +213,7 @@ class Base extends BaseProcessor
                     'msg' => "当前项目[{$rule->itemName}]未与指定包含项目同时收费",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
+                        'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule),
                         'include_items' => \array_keys($itemCollection)
                     ]
                 ];
@@ -220,6 +223,7 @@ class Base extends BaseProcessor
                     'msg' => "当前项目[{$rule->itemName}]与指定排除项目同时收费",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
+                        'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule),
                         'exclude_items' => $existed
                     ]
                 ];
@@ -244,7 +248,8 @@ class Base extends BaseProcessor
                         'data' => [
                             'rule' => $this->getRuleInfo($rule),
                             'date' => $date,
-                            'include_items' => $itemKeys
+                            'include_items' => $itemKeys,
+                            'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
                         ]
                     ];
                 } else if (!$included && !empty($intersectItems)) {
@@ -270,7 +275,8 @@ class Base extends BaseProcessor
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
                                 'date' => $date,
-                                'exclude_item_code' => $code
+                                'exclude_item_code' => $code,
+                                'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
                             ]
                         ];
                     }
@@ -314,5 +320,33 @@ class Base extends BaseProcessor
         }
         // 最后统一减少1秒
         return $result - 1;
+    }
+    /**
+     * 根据规则获取病历中的项目id
+     *
+     * @param MedicalRecord $medicalRecord 病历对象
+     * @param IRMIRule $rule 规则对象
+     * @return integer[] 返回项目id集合
+     */
+    protected function getMedicalItemIdByRule(MedicalRecord $medicalRecord, IRMIRule $rule): array
+    {
+        // 获取临时数据
+        $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
+        $currMiItemSet = $this->filterMIItemByDateRange($miItemSet, $rule);
+        // 获取诊疗项目id
+        return $this->getMedicalItemId($currMiItemSet);
+    }
+    /**
+     * 获取医疗项目id
+     *
+     * @param MedicalInsuranceItem[] $miItemSet 医疗项目集合
+     * @return integer[] 医疗项目id集合
+     */
+    protected function getMedicalItemId(array $miItemSet): array
+    {
+        // 获取诊疗项目id
+        return \array_map(function (MedicalInsuranceItem $miItem) {
+            return $miItem->id;
+        }, $miItemSet);
     }
 }
