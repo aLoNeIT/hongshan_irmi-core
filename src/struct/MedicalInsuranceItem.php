@@ -14,9 +14,9 @@ class MedicalInsuranceItem extends Base
     /**
      * 医保项目唯一标识
      *
-     * @var string|null
+     * @var string|int|null
      */
-    public ?string $id = null;
+    public string|int|null $id = null;
     /**
      * 编码
      * 
