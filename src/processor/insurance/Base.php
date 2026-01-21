@@ -330,9 +330,10 @@ class Base extends BaseProcessor
      */
     protected function getMedicalItemIdByRule(MedicalRecord $medicalRecord, IRMIRule $rule): array
     {
-        // 获取临时数据
-        $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-        $currMiItemSet = $this->filterMIItemByDateRange($miItemSet, $rule);
+        // 获取临时数据，同时根据规则有效期进行过滤
+        $currMiItemSet = \array_map(function (array $items) use ($rule) {
+            return $this->filterMIItemByDateRange($items, $rule);
+        }, $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE));
         // 获取诊疗项目id
         return $this->getMedicalItemId($currMiItemSet);
     }
