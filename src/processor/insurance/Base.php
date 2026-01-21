@@ -335,7 +335,7 @@ class Base extends BaseProcessor
             return $this->filterMIItemByDateRange($items, $rule);
         }, $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE));
         // 获取诊疗项目id
-        return $this->getMedicalItemId($currMiItemSet);
+        return $this->getMedicalItemId($currMiItemSet[$rule->itemCode]);
     }
     /**
      * 获取医疗项目id
@@ -346,8 +346,12 @@ class Base extends BaseProcessor
     protected function getMedicalItemId(array $miItemSet): array
     {
         // 获取诊疗项目id
-        return \array_map(function (MedicalInsuranceItem $miItem) {
+        $ids = \array_map(function (MedicalInsuranceItem $miItem) {
             return $miItem->id;
         }, $miItemSet);
+        // 过滤null数据
+        return \array_filter($ids, function ($id) {
+            return !\is_null($id);
+        });
     }
 }
