@@ -147,8 +147,9 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 $i = 0;
                 $j = 0;
                 for ($i = 0; $i < count($sortDate); $i++) {
-                    $rangeTotalNum = $dateNum[$sortDate[$i]] ?? 0; // 区间内的总数量，累计第一天数量
-                    $lastDay = $this->getLastDay($sortDate[$i], $periodNum, $periodType);
+                    $firstDay = $sortDate[$i];
+                    $lastDay = $this->getLastDay($firstDay, $periodNum, $periodType);
+                    $rangeTotalNum = $dateNum[$firstDay] ?? 0; // 区间内的总数量，累计第一天数量
                     for ($j = $i + 1; $j < count($sortDate); $j++) {
                         if ($sortDate[$j] <= $lastDay) {
                             $rangeTotalNum += $dateNum[$sortDate[$j]];
@@ -159,16 +160,21 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     }
                     // 比较下周期内的子数据之和是否超过了指定数量
                     if ($rangeTotalNum > $periodSubNum) {
-                        $firstDayStr = date('Y-m-d', $sortDate[$i]);
+                        $firstDayStr = date('Y-m-d', $firstDay);
                         $lastDayStr = date('Y-m-d', $lastDay);
                         $errors[] = [
                             'msg' => "当前项目[{$rule->itemName}]在[{$firstDayStr}]至[$lastDayStr]的[{$periodNum}]天内，次数应不超过[{$periodSubNum}]次，实际次数[{$rangeTotalNum}]",
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
                                 'total_sub_num' => $rangeTotalNum,
-                                'first_day' => $sortDate[$i],
+                                'first_day' => $firstDay,
                                 'last_day' => $lastDay,
-                                'item_ids' => $this->getMedicalItemId($currItems)
+                                'item_ids' => $this->getMedicalItemId(
+                                    \array_filter($currItems, function (MedicalInsuranceItem $item) use ($firstDay, $lastDay) {
+                                        // 只获取区间内的数据    
+                                        return $item->date >= $firstDay && $item->date <= $lastDay;
+                                    })
+                                )
                             ],
                         ];
                     }
@@ -237,8 +243,15 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     'msg' => "当前项目[{$rule->itemName}]两次项目间隔应不短于[{$intervalDays}]天，实际间隔[{$diffDays}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
+                        'first_day' => $firstDay,
+                        'last_day' => $lastDay,
                         'diff_days' => $diffDays,
-                        'item_ids' => $this->getMedicalItemId($currItems)
+                        'item_ids' => $this->getMedicalItemId(
+                            \array_filter($currItems, function (MedicalInsuranceItem $item) use ($firstDay, $lastDay) {
+                                // 只获取区间内的数据    
+                                return $item->date >= $firstDay && $item->date <= $lastDay;
+                            })
+                        )
                     ],
                 ];
             }

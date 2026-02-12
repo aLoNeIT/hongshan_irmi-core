@@ -249,7 +249,11 @@ class Base extends BaseProcessor
                             'rule' => $this->getRuleInfo($rule),
                             'date' => $date,
                             'include_items' => $itemKeys,
-                            'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
+                            'item_ids' => $this->getMedicalItemId(
+                                \array_filter($dateMiItems[$rule->itemCode], function (MedicalInsuranceItem $item) use ($date) {
+                                    return $date == $item->date;
+                                })
+                            )
                         ]
                     ];
                 } else if (!$included && !empty($intersectItems)) {
@@ -276,8 +280,13 @@ class Base extends BaseProcessor
                                 'rule' => $this->getRuleInfo($rule),
                                 'date' => $date,
                                 'exclude_item_code' => $code,
-                                'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
+                                'item_ids' => $this->getMedicalItemId(
+                                    \array_filter($dateMiItems[$rule->itemCode], function (MedicalInsuranceItem $item) use ($date) {
+                                        return $date == $item->date;
+                                    })
+                                )
                             ]
+
                         ];
                     }
                 }
