@@ -109,9 +109,9 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
 
         // 循环判断是否存在某一天/全部数据不符合要求
         foreach ($itemData as $date => $item) {
+            $errDateStr = 'all' == $date ? '' : '[' . date('Y-m-d', (int)$date) . ']当日，';
             // 获取规则中配置的数量
             $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
-
             // 根据配置确定当前计算总量是否需要加上合并项目的数量
             $totalNum = \bcadd(
                 (string)$item['total_num'],
@@ -140,7 +140,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                         $diffCash = bcsub((string)$item['total_cash'], (string)$standardCash);
                         $percent = bcmul((string)$ratio, '100');
                         $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]应收费用[{$standardCash}]，实收费用[{$item['total_cash']}]，总计费量[{$item['total_num']}]，超出部分未按照[{$percent}%]收费，超收费用[{$diffCash}]",
+                            'msg' => "{$errDateStr}当前项目[{$rule->itemName}]应收费用[{$standardCash}]，实收费用[{$item['total_cash']}]，总计费量[{$item['total_num']}]，超出部分未按照[{$percent}%]收费，超收费用[{$diffCash}]",
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
                                 'item' => $miItem,
@@ -152,23 +152,34 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                 'avg_price' => $avgPrice,
                                 'over_price' => $overPrice,
                                 'normal_cash' => $normalCash,
+                                'item_ids' => 'all' == $date
+                                    ? $this->getMedicalItemId($miItem)
+                                    : $this->getMedicalItemId(
+                                        \array_filter($miItem, function (MedicalInsuranceItem $item) use ($date) {
+                                            return $date == $item->date;
+                                        })
+                                    )
                             ],
-                            'items' => $this->getMedicalItemId($miItem)
                         ];
                         // 继续下一条数据计算
                         continue;
                     }
                 }
                 // 无其他选项，单纯比较超数量要求
-                $dateStr = 'all' == $date ? '' : '[' . date('Y-m-d', (int)$date) . ']当日，';
                 $errors[] = [
-                    'msg' => $dateStr . "当前项目[{$rule->itemName}]的计费数量[{$totalNum}{$unit}]超过[{$ruleNum}{$unit}]",
+                    'msg' => "{$errDateStr}当前项目[{$rule->itemName}]的计费数量[{$totalNum}{$unit}]超过[{$ruleNum}{$unit}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
                         'date' => $date,
                         'item' => $miItem,
+                        'item_ids' => 'all' == $date
+                            ? $this->getMedicalItemId($miItem)
+                            : $this->getMedicalItemId(
+                                \array_filter($miItem, function (MedicalInsuranceItem $item) use ($date) {
+                                    return $date == $item->date;
+                                })
+                            )
                     ],
-                    'items' => $this->getMedicalItemId($miItem)
                 ];
             }
         }
