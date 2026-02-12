@@ -93,7 +93,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             $days = \count($dates);
             if ($days > $totalDays) {
                 $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]总时间应不超过[{$totalDays}]天，实际天数[{$days}]",
+                    'msg' => "当前项目[{$rule->itemName}]总天数应不超过[{$totalDays}]天，实际[{$days}]天",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
                         'total_days' => $totalDays,
@@ -121,7 +121,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
 
                 if (1 === \bccomp((string)$totalSubNum, (string)$periodSubNum)) {
                     $errors[] = [
-                        'msg' => "当前项目[{$rule->itemName}]次数应不超过[{$periodSubNum}]次，实际次数[{$totalSubNum}]",
+                        'msg' => "当前项目[{$rule->itemName}]总次数应不超过[{$periodSubNum}]次，实际[{$totalSubNum}]次",
                         'data' => [
                             'rule' => $this->getRuleInfo($rule),
                             'total_sub_num' => $totalSubNum,
@@ -163,7 +163,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         $firstDayStr = date('Y-m-d', $firstDay);
                         $lastDayStr = date('Y-m-d', $lastDay);
                         $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]在[{$firstDayStr}]至[$lastDayStr]的[{$periodNum}]天内，次数应不超过[{$periodSubNum}]次，实际次数[{$rangeTotalNum}]",
+                            'msg' => "当前项目[{$rule->itemName}]在[{$firstDayStr}]至[$lastDayStr]的[{$periodNum}]天内，次数应不超过[{$periodSubNum}]次，实际[{$rangeTotalNum}]次",
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
                                 'total_sub_num' => $rangeTotalNum,
