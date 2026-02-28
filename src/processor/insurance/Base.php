@@ -450,11 +450,11 @@ class Base extends BaseProcessor
                     $beginTimeStr = $beginTime ? date('Y-m-d H:i:s', $beginTime) : null;
                     $endTimeStr = $endTime ? date('Y-m-d H:i:s', $endTime) : null;
                     $timeStr = '';
-                    if (!\is_null($beginTime) && \is_null($endTime)) {
+                    if (!\is_null($beginTimeStr) && !\is_null($endTimeStr)) {
                         $timeStr = "在时间范围区间[{$beginTimeStr}]至[{$endTimeStr}]内";
-                    } else if (\is_null($beginTime) && !\is_null($endTime)) {
+                    } else if (\is_null($beginTimeStr) && !\is_null($endTimeStr)) {
                         $timeStr = "在[{$endTimeStr}]前";
-                    } else if (!\is_null($beginTime) && \is_null($endTime)) {
+                    } else if (!\is_null($beginTimeStr) && \is_null($endTimeStr)) {
                         $timeStr = "在[{$beginTimeStr}]后";
                     }
                     // 最后统一计算

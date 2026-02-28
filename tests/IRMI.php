@@ -20,6 +20,8 @@ class IRMI
     protected ?GetOpt $getOpt = null;
     public function __construct()
     {
+        // 设置时区
+        date_default_timezone_set('Asia/Shanghai');
         $this->getOpt = new GetOpt();
         // 命令行参数请求构造
         $this->getOpt->addOptions([
@@ -90,6 +92,7 @@ class IRMI
                         $failNum++;
                     } else {
                         $successNum++;
+                        var_dump($result);
                     }
                     $totalNum++;
                 }
