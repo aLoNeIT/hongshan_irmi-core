@@ -40,6 +40,18 @@ class IRMIRule extends Base
     public ?string $itemName = null;
 
     /**
+     * 项目分类
+     *
+     * - 1：医疗项目
+     * - 2：患者病历
+     * - 3：医疗机构
+     * - 4：患者档案
+     * 
+     * @var string|null
+     */
+    public ?string $category = null;
+
+    /**
      * 规则类型
      * 
      * - 1：重复收费
