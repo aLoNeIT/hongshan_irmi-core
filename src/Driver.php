@@ -62,7 +62,10 @@ abstract class Driver
      */
     public function __construct(array $config = [])
     {
-        $this->config = \array_merge($this->config, $config);
+        $this->config = [
+            ...$this->config,
+            ...$config
+        ];
         $this->initialize();
     }
     /**

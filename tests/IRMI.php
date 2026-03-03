@@ -119,7 +119,10 @@ class IRMI
             // 使用glob函数获取指定目录下的文件列表
             $fileList = \glob($dirPath . $pattern);
             // 将文件列表添加到数组中
-            $files = \array_merge($files, $fileList);
+            $files = [
+                ...$files,
+                ...$fileList
+            ];
         }
         return $files;
     }
