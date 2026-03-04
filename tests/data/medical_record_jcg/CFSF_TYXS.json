@@ -1,0 +1,65 @@
+{
+  "rule": {
+    "code": "4017066",
+    "name": "重复收费",
+    "item_code": "003102070040000",
+    "item_name": "冷加压试验",
+    "desc": "【同一小时】内，项目【003102070040000\/冷加压试验】和【003107010210000\/动态血压监测】重复收费。",
+    "category": 2,
+    "type": 1,
+    "sub_type": 1,
+    "options": {
+      "exclude_items": {
+        "time_type": 10,
+        "collection": {
+          "003107010210000": null
+        }
+      }
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "BHLZL16410525114640",
+        "sex": 2,
+        "age": 28,
+        "age_day": null,
+        "weight": null,
+        "birth_weight": null,
+        "in_branch": "01",
+        "out_branch": "02",
+        "in_days": 1,
+        "visit_type": 2,
+        "in_date": 1697299200,
+        "out_date": 1701207200,
+        "medical_insurance_set": {
+          "1772553600": {
+            "003102070040000": [
+              {
+                "code": "003102070040000",
+                "name": "胎心监测",
+                "time": 1772558100,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ],
+            "003107010210000": [
+              {
+                "code": "003107010210000",
+                "name": "动态血压监测",
+                "time": 1772558100,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
