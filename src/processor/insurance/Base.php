@@ -61,8 +61,12 @@ class Base extends BaseProcessor
      * @param IRMIRule $rule 规则对象
      * @return float|null 返回获取到的数量
      */
-    protected function getRuleOptionNum(MedicalRecord $medicalRecord, IRMIRule $rule): ?float
-    {
+    protected function getRuleOptionNum(
+        MedicalRecord $medicalRecord,
+        IRMIRule $rule,
+        string|int $date = 'all',
+        string $varName = 'num'
+    ): ?float {
         $result = null;
         if (\is_scalar($rule->options['num'])) {
             $result = $rule->options['num'];
@@ -80,13 +84,17 @@ class Base extends BaseProcessor
                     $otherItem = $miItemSet[$rule->options['num']['item_code']] ?? [];
                     $result = \array_reduce(
                         $otherItem,
-                        function ($carry, MedicalInsuranceItem $item) use (&$date) {
+                        function ($carry, MedicalInsuranceItem $item) use ($date, $varName) {
                             // 汇总计算，如果是计算所有值，则直接汇总，否则只汇总指定日期
-                            $num = 'all' == $date ? $item->num : ($date == $item->date ? $item->num : 0);
+                            $num = 'all' == $date ? $item->$varName : ($date == $item->date ? $item->$varName : 0);
                             $carry = \bcadd($carry, (string)($num ?: 0), 4);
                         },
                         '0'
                     );
+                    break;
+                case 4:
+                    break;
+                case 5:
                     break;
                 default: // 默认直接读取value属性
                     $result = $rule->options['num']['value'];
@@ -362,5 +370,26 @@ class Base extends BaseProcessor
         return \array_filter($ids, function ($id) {
             return !\is_null($id);
         });
+    }
+
+    /**
+     * 根据时间类型获取医保项目
+     *
+     * @param array<string,MedicalInsuranceItem[]> $tmpMiItemSet 临时数据集合
+     * @param int $timeType 时间类型
+     * @return MedicalInsuranceItem[] 医保项目集合
+     */
+    protected function getMIItemByTimeType(array $tmpMiItemSet, int $timeType): array
+    {
+        // 获取以项目编码为key，value为该项目数据集合的临时数据
+        // $tmpMiItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
+        $result = [];
+        /** @var MedicalInsuranceItem[] $collection */
+        foreach ($tmpMiItemSet as $code => $collection) {
+            $result[$code] = \array_filter($collection, function (MedicalInsuranceItem $item) use ($timeType) {
+                return 1 == $timeType;
+            });
+        }
+        return $result;
     }
 }
