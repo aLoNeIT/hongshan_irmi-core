@@ -405,7 +405,7 @@ class Base extends BaseProcessor
                                 $tmpMiItemSet[$code] ?? [],
                                 function (MedicalInsuranceItem $tmpMiItem) use ($beginTime, $endTime) {
                                     return (\is_null($beginTime) || $tmpMiItem->time >= $beginTime)
-                                        && (\is_null($endTime) || $tmpMiItem->time =< $endTime);
+                                        && (\is_null($endTime) || $tmpMiItem->time <= $endTime);
                                 }
                             );
                             if (!empty($excludeMiItemSet)) {
@@ -417,7 +417,7 @@ class Base extends BaseProcessor
                                         $tmpMiItemSet[$combineCode] ?? [],
                                         function (MedicalInsuranceItem $tmpMiItem) use ($beginTime, $endTime) {
                                             return (\is_null($beginTime) || $tmpMiItem->time >= $beginTime)
-                                                && (\is_null($endTime) || $tmpMiItem->time =< $endTime);
+                                                && (\is_null($endTime) || $tmpMiItem->time <= $endTime);
                                         }
                                     );
                                     if (!empty($combineMiItemSet)) {
