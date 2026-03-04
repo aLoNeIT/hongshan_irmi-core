@@ -65,7 +65,10 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
         // 先校验科室要求
         $result = $this->checkIncludedBranch($medicalRecord, $rule);
         if (true !== $result) {
-            $errors = \array_merge($errors, $result);
+            $errors = [
+                ...$errors,
+                ...$result
+            ];
         }
         // 再检测其他属性
         $propertyOptions = $rule->options['property'] ?? [];

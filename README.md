@@ -27,12 +27,14 @@
     - visit_type：就诊类型，1-门诊，2-住院；
     - time_range：时间范围，第一个为开始时间（大于等于），第二个为结束时间（小于），如果为null，则不限制时间，示例`[1535731200,null]`
     - unit_type：数量单位，如果为`num`，代表数量，取num属性的值，如果为`cash`，取cash属性的值
+    - item_type：医保项目类型，数组，只要在集合中存在，就参与检测计算
     - num：如果直接为数字，则代表本身含义，如果是一个对象，其属性定义如下  
-        - type：含义为，1-原始数字，2-病例中的某个属性,3-另一个项目的数量；
+        - type：含义为，1-原始数字，2-病历中的某个属性，3-另一个项目的数量，4-群组中项目的个数，5-群组中项目的计费总数；
         - value: 具体数值
         - property: 如果type为2，则有该属性，属性值为病例中的属性名
         - coefficient：计算系数，如果type为2，且设置了该系数，则会将指定属性的值乘以该系数
         - item_code：如果type为3，则有该属性，属性值为另一个项目的编码
+        - time_type：如果type为3，择优该属性，用于标记取另一个项目数据的时间范围时间类型，1-按日，2-全部
     - detect_type：检测方式，1-按日，2-范围；
     - combine_items：合并计数的项目，数组，每个元素是项目编码，用于将指定编码的数据一同累计数量；
     - exclude_items：排除项目配置
@@ -85,6 +87,9 @@
                 - total_days
                 - period
                 - include_items、exclude_items
+            - sub_type=2,医保支付范围检测
+                - item_type
+                - num
         - type=4，UnReasonableTreatment，不合理诊疗
             - sub_type=1，检测医保项目同时收费或未同时收费
                 - time_range
@@ -222,6 +227,8 @@
             - value：该项目每次开单的数据，数组，每个元素结构如下
                 - code：项目编码
                 - name：项目名称
+                - groupCode：项目组号
+                - type：医保项目类型
                 - time：项目发生时间
                 - num：项目数量
                 - price：项目标准价格

@@ -62,12 +62,15 @@ class Util
      */
     public static function jecho(int $state, mixed $msg, mixed $data = null): array
     {
-        $result = \array_merge([
-            'state' => $state,
-            'msg' => $msg
-        ], !\is_null($data) ? [
-            'data' => $data
-        ] : []);
+        $result = [
+            ...[
+                'state' => $state,
+                'msg' => $msg
+            ],
+            ...(!\is_null($data) ? [
+                'data' => $data
+            ] : [])
+        ];
         return $result;
     }
     /**
@@ -318,7 +321,10 @@ class Util
         }
 
         $results = [];
-        $classes = array_merge([$class => $class], class_parents($class));
+        $classes = [
+            ...[$class => $class],
+            ...class_parents($class)
+        ];
         foreach ($classes as $class) {
             $results += static::traitUsesRecursive($class);
         }

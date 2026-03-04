@@ -51,7 +51,10 @@ class IRMI
      */
     public function __construct(array $config = [])
     {
-        $this->config = \array_merge($this->config, $config);
+        $this->config = [
+            ...$this->config,
+            ...$config
+        ];
     }
     /**
      * 获取当前管理类对象

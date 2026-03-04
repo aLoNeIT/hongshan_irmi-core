@@ -24,6 +24,9 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 case 1:
                     $jResult = $this->detectCommon($medicalRecord, $rule);
                     break;
+                case 2: // 中药饮片校验
+
+                    break;
                 default:
                     $jResult = $this->jsonTable->success();
                     break;
@@ -181,7 +184,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 }
             }
         }
-        // 同时支付校验
+        // 同时包含校验
         $result = $this->checkIncludedItems($medicalRecord, $rule);
         if (true !== $result) {
             $errors = [
@@ -191,77 +194,27 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         }
         return $this->getResult(300, '超医保支付范围', $errors);
     }
-    /**
-     * 指定费用收费需要间隔指定天数
-     *
-     * @param MedicalRecord $medicalRecord 病历对象
-     * @param IRMIRule $rule 规则对象
-     * @return JsonTable
-     * 
-     * @deprecated all
-     */
-    protected function detectInterval(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
-    {
-        $errors = [];
-        // 配置了间隔天数
-        if (isset($rule->options['date_interval'])) {
-            // 获取医保项目集合
-            $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-            // 获取当前项目数据集合
-            /** @var MedicalInsuranceItem[] $miItem */
-            $currItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
-            [
-                'num' => $intervalNum,
-                'type' => $intervalType
-            ] = $rule->options['interval_days'];
-            $intervalDays = 0;
-            switch ($intervalType) {
-                case 2:
-                    $intervalDays = $intervalNum * 30;
-                    break;
-                case 3:
-                    $intervalDays = $intervalNum * 365;
-                    break;
-                default:
-                    $intervalDays = $intervalNum;
-                    break;
-            }
-            $firstDay = 0;
-            $lastDay = 0;
-            \array_walk(
-                $currItems,
-                function (MedicalInsuranceItem $item) use (&$firstDay, &$lastDay) {
-                    $firstDay = \min($firstDay, $item->time);
-                    $lastDay = \max($lastDay, $item->time);
-                }
-            );
-            // 计算差值
-            $diffDays = \bcdiv((string)($lastDay - $firstDay), '86400');
-            if ($intervalDays > $diffDays) {
-                // 前后间隔时间小于要求时间
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]两次项目间隔应不短于[{$intervalDays}]天，实际间隔[{$diffDays}]",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
-                        'first_day' => $firstDay,
-                        'last_day' => $lastDay,
-                        'diff_days' => $diffDays,
-                        'item_ids' => $this->getMedicalItemId(
-                            \array_filter($currItems, function (MedicalInsuranceItem $item) use ($firstDay, $lastDay) {
-                                // 只获取区间内的数据    
-                                return $item->date >= $firstDay && $item->date <= $lastDay;
-                            })
-                        )
-                    ],
-                ];
-            }
-        }
-        return $this->jsonTable->success();
-    }
 
-    protected function detectNonMedicalInsurance(MedicalInsuranceItem $item, IRMIRule $rule): JsonTable
+    protected function detectCoverage(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
     {
         $errors = [];
-        return $this->getResult(1, '错误', $errors);
+        // 获取医保项目集合
+        $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
+        // 获取当前项目数据集合
+        /** @var MedicalInsuranceItem[] $miItem */
+        $currItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
+        if (isset($rule->options['item_type'])) {
+            // 配置了项目类型，则过滤数据，只保留指定的项目数据
+            $currItems = \array_filter($currItems, function (MedicalInsuranceItem $item) use ($rule) {
+                return \in_array($item->type, $rule->options['item_type']);
+            });
+        }
+
+        // 获取限定的数量
+        $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
+
+
+
+        return $this->getResult(300, '超医保支付范围', $errors);
     }
 }
