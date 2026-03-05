@@ -76,7 +76,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             $totalDays = \array_reduce($miItem, function ($carray, MedicalInsuranceItem $item) use ($varName) {
                 return \bcadd((string)$carray, (string)($item->$varName ?: 0));
             });
-            $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
+            list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
             if (1 === \bccomp((string)$totalDays, (string)$ruleNum)) {
                 // 超过用药天数
                 $errors[] = [

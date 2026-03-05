@@ -113,7 +113,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         foreach ($itemData as $date => $item) {
             $errDateStr = 'all' == $date ? '' : '[' . date('Y-m-d', (int)$date) . ']当日，';
             // 获取规则中配置的数量
-            $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
+            list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
             // 根据配置确定当前计算总量是否需要加上合并项目的数量
             $totalNum = \bcadd(
                 (string)$item['total_num'],
