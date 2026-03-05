@@ -188,7 +188,7 @@ class MedicalRecord extends Base
                         ...$item,
                         'date' => $date
                     ]);
-                    $this->medicalInsuranceSet[$date][$itemCode] = (new MedicalInsuranceItem())->load([
+                    $this->medicalInsuranceSet[$date][$itemCode][] = (new MedicalInsuranceItem())->load([
                         ...$item,
                         'date' => $date
                     ]);

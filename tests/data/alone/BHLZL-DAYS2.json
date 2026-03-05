@@ -1,0 +1,105 @@
+{
+    "rule": {
+        "code": "4000000",
+        "name": "属性[用药天数]不符合要求",
+        "item_code": "XJ01CAA040A006020602825",
+        "item_name": "阿莫西林分散片",
+        "desc": "【XJ01CAA040A006010100978/阿莫西林分散片】就诊信息中药品开具处方量的用药天数大于最大开药天数",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+            "unit_type": "days",
+            "num": 7
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "age": 1,
+                "sex": 2,
+                "code": "ZY010200000252",
+                "weight": 0,
+                "age_day": 0,
+                "in_date": 1594091640,
+                "in_days": 2067,
+                "out_date": 1594093920,
+                "realname": "测试医材",
+                "diagnosis": [
+                    "A04.301"
+                ],
+                "in_branch": "A03.05",
+                "out_branch": "A03.05",
+                "visit_type": 2,
+                "birth_weight": 0,
+                "hospital_code": "37625656",
+                "hospital_type": 1,
+                "hospital_level": 2,
+                "insurance_type": [
+                    1
+                ],
+                "medical_insurance_set": {
+                    "1772121600": {
+                        "XL01EEQ180E001010178241": [
+                            {
+                                "id": 63633116,
+                                "num": 12,
+                                "cash": 10,
+                                "code": "XL01EEQ180E001010178241",
+                                "days": 3,
+                                "name": "儿童硫酸氢司美替尼胶囊",
+                                "time": 1772191507,
+                                "type": "09",
+                                "price": 10,
+                                "source": "z_advice",
+                                "source_id": 63633116,
+                                "group_code": "",
+                                "total_cash": 120
+                            }
+                        ]
+                    },
+                    "1772380800": {
+                        "XA01ABD075A002010100593": [
+                            {
+                                "id": 63633846,
+                                "num": 4,
+                                "cash": 40,
+                                "code": "XA01ABD075A002010100593",
+                                "days": 3,
+                                "name": "秦华复方氨基酸注射液（18AA）",
+                                "time": 1772430798,
+                                "type": "09",
+                                "price": 40,
+                                "source": "z_advice",
+                                "source_id": 63633846,
+                                "group_code": "",
+                                "total_cash": 160
+                            }
+                        ]
+                    },
+                    "1772640000": {
+                        "XJ01CAA040A006020602825": [
+                            {
+                                "id": 63634784,
+                                "num": 1,
+                                "cash": 18,
+                                "code": "XJ01CAA040A006020602825",
+                                "days": 9,
+                                "name": "阿莫西林分散片",
+                                "time": 1772702061,
+                                "type": "09",
+                                "price": 18,
+                                "source": "z_advice",
+                                "source_id": 63634784,
+                                "group_code": "",
+                                "total_cash": 18
+                            }
+                        ]
+                    }
+                },
+                "hospital_bussiness_type": 1
+            }
+        ]
+    }
+}
