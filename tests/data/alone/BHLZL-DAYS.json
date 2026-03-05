@@ -7,13 +7,10 @@
         "desc": "【XJ01CAA040A006010100978/阿莫西林分散片】就诊信息中药品开具处方量的用药天数大于最大开药天数",
         "category": 1,
         "type": 4,
-        "sub_type": 2,
+        "sub_type": 1,
         "options": {
-            "property": {
-                "name": "item_days",
-                "value": 7,
-                "operator": ">"
-            }
+            "unit_type": "days",
+            "num": 7
         }
     },
     "medical_records": {
@@ -38,7 +35,7 @@
                             {
                                 "type": "09",
                                 "group_code": "123123",
-                                "item_days": 8,
+                                "days": 8,
                                 "code": "XJ01CAA040A006010100978",
                                 "name": "阿莫西林分散片",
                                 "time": 1772595930,
@@ -70,7 +67,7 @@
                             {
                                 "type": "09",
                                 "group_code": "122333333",
-                                "item_days": 5,
+                                "days": 5,
                                 "code": "XJ01CAA040A006010100978",
                                 "name": "阿莫西林分散片",
                                 "time": 1772594810,
@@ -86,7 +83,7 @@
                             {
                                 "type": "09",
                                 "group_code": "122333333",
-                                "item_days": 4,
+                                "days": 4,
                                 "code": "XJ01CAA040A006010100978",
                                 "name": "阿莫西林分散片",
                                 "time": 1772595910,

@@ -69,9 +69,12 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 $varName = 'cash';
                 $unit = '元';
                 break;
-            default:
+            case 'num':
                 $varName = 'num';
                 $unit = '次';
+                break;
+            default:
+                throw new IRMIException("超标准收费计算器不支持[{$rule->options['unit_type']}]单位配置");
                 break;
         }
         // 判断该规则是按日，还是周期
@@ -79,7 +82,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 存储待检测的数据，如果是按日检测，key是日期，如果是按周期，key是'all'
         $itemData = [];
         // 遍历当前项目数据，进行汇总
-        \array_walk($miItem, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName, $rule) {
+        \array_walk($miItem, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName) {
             $key = 1 == $detectType ? $item->date : 'all';
             $totalPrice = \bcmul((string)$item->price, (string)($item->num ?: 0));
             $itemData[$key] = [
@@ -106,7 +109,6 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 }
             });
         }
-
         // 循环判断是否存在某一天/全部数据不符合要求
         foreach ($itemData as $date => $item) {
             $errDateStr = 'all' == $date ? '' : '[' . date('Y-m-d', (int)$date) . ']当日，';

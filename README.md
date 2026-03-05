@@ -56,7 +56,8 @@
     - property：属性配置，该节点下是一个json数组，里面每个元素用于描述对于病例信息的规则验证，包含内容如下
         - name：属性名称
         - value：属性值
-        - operator：属性操作符，为>、<、=、>=、<=、!=、in、not in
+        - operator：属性操作符，为>、<、=、>=、<=、!=、in、not in、regex
+    - treatment_days：治疗天数
     - `(暂未实现)`date_interval：日期间隔配置 
         - num：间隔数量，如5日、三月
         - type：间隔时间类型，1-日，2-月，3-年
@@ -96,6 +97,8 @@
                 - time_range
                 - include_branch、exclude_branch
                 - property
+            - sub_type=3，项目属性不符合要求
+                - treatment_days
 - 规则示例数据,IRMIRuleSet集合json格式
     ```
     {
