@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace hongshanhealth\irmi\processor\insurance;
 
 use hongshanhealth\irmi\constant\Key;
+use hongshanhealth\irmi\IRMIException;
 use hongshanhealth\irmi\processor\Base as BaseProcessor;
 use hongshanhealth\irmi\struct\{
     MedicalRecord,
@@ -72,6 +73,9 @@ class Base extends BaseProcessor
         } else {
             // 复杂结构，需要判断
             switch ($rule->options['num']['type']) {
+                case 1:
+                    $result = $rule->options['num']['value'];
+                    break;
                 case 2: // 基于病例项目中的指定属性的值
                     $property = Util::camel($rule->options['num']['property']);
                     // 计算系数
@@ -97,21 +101,8 @@ class Base extends BaseProcessor
                         '0'
                     );
                     break;
-                case 4: // 群组中项目的个数
-                    if (\is_null($miItem)) {
-                        throw new \Exception("项目数据不能为空");
-                    }
-                    $detectType = $rule->options['detect_type'] ?? 2;
-                    $date = 1 == $detectType ? $miItem->date : 'all';
-                    // $groupItems = 
-                    break;
-                case 5: // 群组中项目的计费总数
-                    if (\is_null($miItem)) {
-                        throw new \Exception("项目数据不能为空");
-                    }
-                    break;
                 default: // 默认直接读取value属性
-                    $result = $rule->options['num']['value'];
+                    throw new IRMIException("无效的规则属性[num]配置");
                     break;
             }
         }
