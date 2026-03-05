@@ -65,8 +65,7 @@ class Base extends BaseProcessor
     protected function getRuleOptionNum(
         MedicalRecord $medicalRecord,
         IRMIRule $rule,
-        string|int $date = 'all',
-        string $varName = 'num'
+        ?MedicalInsuranceItem $miItem = null
     ): ?float {
         $result = null;
         if (\is_scalar($rule->options['num'])) {
@@ -81,6 +80,12 @@ class Base extends BaseProcessor
                     $result = (int)\bcmul((string)$medicalRecord->$property, (string)$coefficient);
                     break;
                 case 3: // 基于另外一个项目的数量
+                    if (\is_null($miItem)) {
+                        throw new \Exception("项目数据不能为空");
+                    }
+                    $detectType = $rule->options['detect_type'] ?? 2;
+                    $varName = $rule->options['unit_type'] ?? 'num';
+                    $date = 1 == $detectType ? $miItem->date : 'all';
                     // 继续查询指定项目数据
                     $otherItem = $miItemSet[$rule->options['num']['item_code']] ?? [];
                     $result = \array_reduce(
@@ -93,9 +98,18 @@ class Base extends BaseProcessor
                         '0'
                     );
                     break;
-                case 4:
+                case 4: // 群组中项目的个数
+                    if (\is_null($miItem)) {
+                        throw new \Exception("项目数据不能为空");
+                    }
+                    $detectType = $rule->options['detect_type'] ?? 2;
+                    $date = 1 == $detectType ? $miItem->date : 'all';
+                    // $groupItems = 
                     break;
-                case 5:
+                case 5: // 群组中项目的计费总数
+                    if (\is_null($miItem)) {
+                        throw new \Exception("项目数据不能为空");
+                    }
                     break;
                 default: // 默认直接读取value属性
                     $result = $rule->options['num']['value'];

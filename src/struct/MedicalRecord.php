@@ -137,7 +137,7 @@ class MedicalRecord extends Base
      * 医保项目集合，多维数组，key是日期，value是医保项目数组  
      * 参考格式：{"1726243200":{"120300002b":{"num":2,"price":19.00,"cache":18.00,"total_cash":36.00}}}
      *
-     * @var MedicalInsuranceItem[]
+     * @var array<string, array<string, MedicalInsuranceItem[]>>
      */
     public array $medicalInsuranceSet = [];
 
@@ -174,20 +174,22 @@ class MedicalRecord extends Base
     /** @inheritDoc */
     public function load(array $data): static
     {
+        $medicalInsuranceSet = $data['medical_insurance_set'] ?? [];
+        unset($data['medical_insurance_set']);
         parent::load($data);
         // 加载成功数据后，同时生成临时数据
         $tmpData = [];
         // 第一级，日期=>所有数据
-        foreach ($this->medicalInsuranceSet as $date => &$dateItems) {
+        foreach ($medicalInsuranceSet as $date => $dateItems) {
             // 第二级，项目编码=>该项目所有数据
-            foreach ($dateItems as $itemCode => &$items) {
+            foreach ($dateItems as $itemCode => $items) {
                 // 第三级，该项目单一数据
-                foreach ($items as &$item) {
+                foreach ($items as $item) {
                     $tmpData[$itemCode][] = (new MedicalInsuranceItem())->load([
                         ...$item,
                         'date' => $date
                     ]);
-                    $item = (new MedicalInsuranceItem())->load([
+                    $this->medicalInsuranceSet[$date][$itemCode] = (new MedicalInsuranceItem())->load([
                         ...$item,
                         'date' => $date
                     ]);

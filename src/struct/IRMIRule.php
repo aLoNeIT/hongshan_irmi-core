@@ -47,9 +47,9 @@ class IRMIRule extends Base
      * - 3：医疗机构
      * - 4：患者档案
      * 
-     * @var string|null
+     * @var int|null
      */
-    public ?string $category = null;
+    public ?int $category = null;
 
     /**
      * 规则类型

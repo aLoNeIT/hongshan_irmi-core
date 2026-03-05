@@ -38,9 +38,9 @@ class MedicalInsuranceItem extends Base
     /**
      * 医保项目类型
      *
-     * @var integer|null
+     * @var string|null
      */
-    public ?int $type = null;
+    public ?string $type = null;
     /**
      * 时间
      * 
@@ -77,4 +77,10 @@ class MedicalInsuranceItem extends Base
      * @var float|null 
      */
     public ?float $totalCash = null;
+    /**
+     * 天数
+     *
+     * @var integer|null
+     */
+    public ?int $days = null;
 }
