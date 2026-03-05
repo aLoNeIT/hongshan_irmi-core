@@ -80,7 +80,7 @@ class MedicalInsuranceItem extends Base
     /**
      * 天数
      *
-     * @var integer|null
+     * @var float|null
      */
-    public ?int $days = null;
+    public ?float $days = null;
 }
