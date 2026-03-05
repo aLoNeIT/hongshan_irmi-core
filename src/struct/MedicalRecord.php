@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace hongshanhealth\irmi\struct;
 
 use hongshanhealth\irmi\constant\Key;
-use hongshanhealth\irmi\Util;
 
 /**
  * 病历类

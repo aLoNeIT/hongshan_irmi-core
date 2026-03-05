@@ -73,6 +73,9 @@ class Base extends BaseProcessor
         } else {
             // 复杂结构，需要判断
             switch ($rule->options['num']['type']) {
+                case 1:
+                    $result = $rule->options['num']['value'];
+                    break;
                 case 2: // 基于病例项目中的指定属性的值
                     $property = Util::camel($rule->options['num']['property']);
                     // 计算系数
@@ -98,21 +101,8 @@ class Base extends BaseProcessor
                         '0'
                     );
                     break;
-                case 4: // 群组中项目的个数
-                    if (\is_null($miItem)) {
-                        throw new \Exception("项目数据不能为空");
-                    }
-                    $detectType = $rule->options['detect_type'] ?? 2;
-                    $date = 1 == $detectType ? $miItem->date : 'all';
-                    // $groupItems = 
-                    break;
-                case 5: // 群组中项目的计费总数
-                    if (\is_null($miItem)) {
-                        throw new \Exception("项目数据不能为空");
-                    }
-                    break;
                 default: // 默认直接读取value属性
-                    $result = $rule->options['num']['value'];
+                    throw new IRMIException("无效的规则属性[num]配置");
                     break;
             }
         }
@@ -185,7 +175,23 @@ class Base extends BaseProcessor
         $key = $included ? 'include_items' : 'exclude_items';
         $includedItems = $rule->options[$key];
         $timeType = $includedItems['time_type'] ?? 2;
+        // 获取itemCollection中的项目
+        $itemCollectionType = $includedItems['collection_type'] ?? null;
         $itemCollection = $includedItems['collection'] ?? [];
+        if (!\is_null($itemCollectionType)) {
+            // 类型为null，则说明collection中为字典中的分组号
+            $ruleSet = $rule->getIRMIRuleSet();
+            $collection = [];
+            foreach ($itemCollection as $code => $config) {
+                // 获取字典中指定类型及分组编码下的数据
+                $collection = [
+                    ...$collection,
+                    ...\array_fill_keys($ruleSet->getDict($itemCollectionType, (string) $code), $config)
+                ];
+            }
+            // 恢复赋值
+            $itemCollection = $collection;
+        }
         // 获取临时数据，同时根据规则有效期进行过滤
         $tmpMiItemSet = \array_map(function (array $items) use ($rule) {
             return $this->filterMIItemByDateRange($items, $rule);
@@ -427,7 +433,7 @@ class Base extends BaseProcessor
                                 $tmpMiItemSet[$code] ?? [],
                                 function (MedicalInsuranceItem $tmpMiItem) use ($beginTime, $endTime) {
                                     return (\is_null($beginTime) || $tmpMiItem->time >= $beginTime)
-                                        && (\is_null($endTime) || $tmpMiItem->time =< $endTime);
+                                        && (\is_null($endTime) || $tmpMiItem->time <= $endTime);
                                 }
                             );
                             if (!empty($excludeMiItemSet)) {
@@ -439,7 +445,7 @@ class Base extends BaseProcessor
                                         $tmpMiItemSet[$combineCode] ?? [],
                                         function (MedicalInsuranceItem $tmpMiItem) use ($beginTime, $endTime) {
                                             return (\is_null($beginTime) || $tmpMiItem->time >= $beginTime)
-                                                && (\is_null($endTime) || $tmpMiItem->time =< $endTime);
+                                                && (\is_null($endTime) || $tmpMiItem->time <= $endTime);
                                         }
                                     );
                                     if (!empty($combineMiItemSet)) {

@@ -56,11 +56,13 @@ class IRMI
                 $caseObj = \json_decode($caseStr, true);
                 $rule = $caseObj['rule'];
                 $medicalRecords = $caseObj['medical_records'];
+                $dict = $caseObj['dict'] ?? [];
                 // 加载规则
                 $shaanxi->load('01', [
                     'code' => '01',
                     'name' => '测试集合',
-                    'rules' => [$rule]
+                    'rules' => [$rule],
+                    'dict' => $dict,
                 ]);
                 // 使用测试用例进行检测
                 $mrSuccess = $medicalRecords['success'];

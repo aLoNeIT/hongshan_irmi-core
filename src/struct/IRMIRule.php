@@ -138,4 +138,30 @@ class IRMIRule extends Base
      * @var string|null
      */
     public ?string $description = null;
+    /**
+     * 规则集合对象
+     *
+     * @var IRMIRuleSet|null
+     */
+    protected ?IRMIRuleSet $ruleSet = null;
+    /**
+     * 设置规则集合对象
+     *
+     * @param IRMIRuleSet $ruleSet 规则集合对象
+     * @return static 当前规则明细对象
+     */
+    public function setIRMIRuleSet(IRMIRuleSet $ruleSet): static
+    {
+        $this->ruleSet = $ruleSet;
+        return $this;
+    }
+    /**
+     * 获取规则集合对象
+     *
+     * @return IRMIRuleSet|null 规则集合对象
+     */
+    public function getIRMIRuleSet(): ?IRMIRuleSet
+    {
+        return $this->ruleSet;
+    }
 }
