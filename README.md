@@ -212,9 +212,13 @@
     | birth_weight   | 否    | integer    |  | 出生体重，单位g |
     | in_branch | 是    | string |        | 入院/门诊科室编码 |
     | out_branch | [是]    | string |        | 出院科室编码，住院时必填 |
+    | in_days   | 否    | integer |  | 住院天数 |
     | visit_type   | 是    | integer | 1-门诊；2-住院 | 就诊类型 |
-    | in_date   | 是    | integer |  | 入院/门诊日期 |
+    | in_date   | [是]    | integer |  | 入院/门诊日期 |
     | out_date   | [是]    | integer |  | 出院日期 |
+    | diagnosis | 否    | string[] |  | 诊断集合 |
+    | procedure | 否    | string[] |  | 手术集合 |
+    | insurance_type | 否    | string[] |  | 保险集合 |
     | hospital_code | 否    | integer |  | 医院编码 |
     | hospital_type | 否    | string |  | 医院类型，如综合、精神、牙科，等待查询标准编码 |
     | hospital_level | 否    | integer |  | 医院级别 |
@@ -235,6 +239,7 @@
                 - price：项目标准价格
                 - cash：项目实收价格
                 - total_cash：项目总实收价格
+                - days：项目天数
 
 - 病历示例数据,MedicalRecort的json格式
     ```
