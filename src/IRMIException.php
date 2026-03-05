@@ -35,7 +35,7 @@ class IRMIException extends \Exception
      * @param array $data 附加信息
      * @param object $previous 牵制对象
      */
-    public function __construct(string | JsonTable $msg, int $state = 1, ?mixed $data = null, ?\Throwable $previous = null)
+    public function __construct(string | JsonTable $msg, int $state = 1, mixed $data = null, ?\Throwable $previous = null)
     {
         if ($msg instanceof JsonTable) {
             $previous = $previous ?: $msg->getProperty('exception');

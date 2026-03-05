@@ -56,36 +56,39 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                 ...$result
             ];
         }
-        // 获取医保项目集合
-        $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-        // 获取当前项目数据集合
-        /** @var MedicalInsuranceItem[] $miItem */
-        $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
-        switch ($rule->options['unit_type'] ?? '') {
-            case 'days':
-                $varName = 'days';
-                $unit = '天';
-                break;
-            default:
-                throw new IRMIException("不合理诊疗计算器不支持[{$rule->options['unit_type']}]单位配置");
-                break;
-        }
-        // 遍历计算当前项目的总天数
-        $totalDays = \array_reduce($miItem, function ($carray, MedicalInsuranceItem $item) use ($varName) {
-            return \bcadd((string)$carray, (string)($item->$varName ?: 0));
-        });
-        $num = $this->getRuleOptionNum($medicalRecord, $rule);
-        if (1 === \bccomp((string)$totalDays, (string)$num)) {
-            // 超过用药天数
-            $errors[] = [
-                'msg' => "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$num}{$unit}]",
-                'data' => [
-                    'rule' => $this->getRuleInfo($rule),
-                    'item' => $miItem,
-                    'total_days' => $totalDays,
-                    'item_ids' => $this->getMedicalItemId($miItem)
-                ],
-            ];
+        if (isset($rule->options['unit_type'])) {
+            // 获取医保项目集合
+            $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
+            // 获取当前项目数据集合
+            /** @var MedicalInsuranceItem[] $miItem */
+            $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
+            $unitType = $rule->options['unit_type'];
+            switch ($unitType) {
+                case 'days':
+                    $varName = 'days';
+                    $unit = '天';
+                    break;
+                default:
+                    throw new IRMIException("不合理诊疗计算器不支持[{$unitType}]单位配置");
+                    break;
+            }
+            // 遍历计算当前项目的总天数
+            $totalDays = \array_reduce($miItem, function ($carray, MedicalInsuranceItem $item) use ($varName) {
+                return \bcadd((string)$carray, (string)($item->$varName ?: 0));
+            });
+            $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
+            if (1 === \bccomp((string)$totalDays, (string)$ruleNum)) {
+                // 超过用药天数
+                $errors[] = [
+                    'msg' => "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$ruleNum}{$unit}]",
+                    'data' => [
+                        'rule' => $this->getRuleInfo($rule),
+                        'item' => $miItem,
+                        'total_days' => $totalDays,
+                        'item_ids' => $this->getMedicalItemId([$miItem])
+                    ],
+                ];
+            }
         }
         return $this->getResult(401, '不合理诊疗', $errors);
     }

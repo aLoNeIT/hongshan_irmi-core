@@ -517,6 +517,54 @@ class Base extends BaseProcessor
                     }
                 }
                 break;
+            case 4: // 同一处方
+                /** @var MedicalInsuranceItem[] $currItems */
+                $currItems = $tmpMiItemSet[$rule->itemCode];
+                /** @var MedicalInsuranceItem $miItem */
+                foreach ($currItems as $miItem) {
+                    // 获取分组号    
+                    $groupCode = $miItem->groupCode;
+                    $find = false;
+                    foreach ($itemCollection as $code => $config) {
+                        // 查看是否存在同一分组数据
+                        $groupItems = \array_filter($tmpMiItemSet[$code], function (MedicalInsuranceItem $item) use ($groupCode) {
+                            return $item->groupCode === $groupCode;
+                        });
+                        if (!empty($groupItems)) {
+                            // 找到同一分组数据的数据，根据是包含还是排除来处理
+                            if ($included) {
+                                // 包含项有任意一个则符合
+                                $find = true;
+                                break;
+                            } else {
+                                // 排除项有任意一个则不符合
+                                $errors[] = [
+                                    'msg' => "当前项目[{$rule->itemName}]不能与指定排除项目同时收费",
+                                    'data' => [
+                                        'rule' => $this->getRuleInfo($rule),
+                                        'exclude_item_code' => $code,
+                                        'item_ids' => $this->getMedicalItemId([
+                                            $miItem,
+                                            ...$groupItems
+                                        ])
+                                    ]
+                                ];
+                            }
+                        }
+                    }
+                    // 未发现包含项目
+                    if ($included && !$find) {
+                        $errors[] = [
+                            'msg' => "当前项目[{$rule->itemName}]必须与指定包含项目同时收费",
+                            'data' => [
+                                'rule' => $this->getRuleInfo($rule),
+                                'exclude_item_code' => $code,
+                                'item_ids' => $this->getMedicalItemId([$miItem])
+                            ]
+                        ];
+                    }
+                }
+                break;
             default:
                 throw new IRMIException("不支持的时间类型[{$timeType}]");
                 break;
