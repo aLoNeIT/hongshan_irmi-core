@@ -184,7 +184,23 @@ class Base extends BaseProcessor
         $key = $included ? 'include_items' : 'exclude_items';
         $includedItems = $rule->options[$key];
         $timeType = $includedItems['time_type'] ?? 2;
+        // 获取itemCollection中的项目
+        $itemCollectionType = $includedItems['collection_type'] ?? null;
         $itemCollection = $includedItems['collection'] ?? [];
+        if (!\is_null($itemCollectionType)) {
+            // 类型为null，则说明collection中为字典中的分组号
+            $ruleSet = $rule->getIRMIRuleSet();
+            $collection = [];
+            foreach ($itemCollection as $code => $config) {
+                // 获取字典中指定类型及分组编码下的数据
+                $collection = [
+                    ...$collection,
+                    ...\array_fill_keys($ruleSet->getDict($itemCollectionType, (string) $code), $config)
+                ];
+            }
+            // 恢复赋值
+            $itemCollection = $collection;
+        }
         // 获取临时数据，同时根据规则有效期进行过滤
         $tmpMiItemSet = \array_map(function (array $items) use ($rule) {
             return $this->filterMIItemByDateRange($items, $rule);

@@ -32,6 +32,13 @@ class IRMIRuleSet extends Base
      */
     public ?string $name = null;
     /**
+     * 字典数据
+     * 参考：{"drug":{"1",["XJ01","XJ02"]}}
+     *
+     * @var array<string,array<string,mixed>>
+     */
+    public array $dict = [];
+    /**
      * 原始数据
      *
      * @var array
@@ -95,7 +102,7 @@ class IRMIRuleSet extends Base
         $this->rules = [];
         $this->itemRules = [];
         foreach ($rules as $rule) {
-            $rule = (new IRMIRule())->load($rule);
+            $rule = (new IRMIRule())->setIRMIRuleSet($this)->load($rule);
             $this->rules[$rule->code] = $rule;
             $this->itemRules[$rule->itemCode][] = $rule->code;
         }
@@ -182,6 +189,17 @@ class IRMIRuleSet extends Base
             }
         }
         return $rules;
+    }
+    /**
+     * 获取字典数据
+     * 
+     * @param string $type 字典类型
+     * @param string $code 字典编码
+     * @return array 字典数据
+     */
+    public function getDict(string $type, string $code): array
+    {
+        return $this->dict[$type][$code] ?? [];
     }
     /**
      * 调用内置驱动类相关方法

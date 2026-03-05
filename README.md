@@ -39,6 +39,7 @@
     - combine_items：合并计数的项目，数组，每个元素是项目编码，用于将指定编码的数据一同累计数量；
     - exclude_items：排除项目配置
         - time_type：时间类型，1-按日，2-全部
+        - collection_type：集合类型，具体类型编码(drug、procedure、diagnosis)，为null则代表是原始项目编码
         - collection：排除项目明细集合，是一个对象，每个key都是排除的项目编码，如果为null则代表没有更具体配置
             - combine_items：需要联合其他的项目才不触发
     - include_items：包含项目配置，只要有一个项目包含就可以
