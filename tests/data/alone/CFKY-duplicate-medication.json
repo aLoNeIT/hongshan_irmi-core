@@ -1,0 +1,138 @@
+{
+    "rule": {
+        "code": "4061343",
+        "name": "重复开药",
+        "item_code": "XR06AEZ066A001010980698",
+        "item_name": "盐酸左西替利嗪片",
+        "desc": "同时开具同一药品分类组号(青霉素类-J01CA)内两种及以上药品,属于重复开药。组内药品:阿莫西林胶囊、阿莫西林颗粒、氨苄西林胶囊",
+        "category": 1,
+        "type": 1,
+        "sub_type": 1,
+        "options": {
+            "exclude_items": {
+                "time_type": 1,
+                "collection": {
+                    "XR06AEZ066A001011004942": null
+                }
+            }
+        }
+    },
+    "medical_records": {
+        "success": [
+            {
+                "code": "4061343",
+                "desc": "同组内仅开具阿莫西林胶囊一种药品,未重复开药,应通过",
+                "sex": 1,
+                "age": 35,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 3,
+                "visit_type": 2,
+                "in_date": 1709222400,
+                "out_date": 1709481600,
+                "medical_insurance_set": {
+                    "1709222400": {
+                        "XR06AEZ066A001010980698": [
+                            {
+                                "code": "XR06AEZ066A001010980698",
+                                "name": "阿莫西林胶囊",
+                                "time": 1709251200,
+                                "num": 2,
+                                "price": 15.00,
+                                "cash": 15.00,
+                                "total_cash": 30.00
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "code": "CFKY-SUCCESS-002",
+                "desc": "阿莫西林胶囊与组外药品(头孢克肟)同时开具,不属于同组重复,应通过",
+                "sex": 2,
+                "age": 42,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 5,
+                "visit_type": 2,
+                "in_date": 1709222400,
+                "out_date": 1709654400,
+                "medical_insurance_set": {
+                    "1709222400": {
+                        "XY01010010100": [
+                            {
+                                "code": "XY01010010100",
+                                "name": "阿莫西林胶囊",
+                                "time": 1709251200,
+                                "num": 2,
+                                "price": 15.00,
+                                "cash": 15.00,
+                                "total_cash": 30.00
+                            }
+                        ],
+                        "XY02030040100": [
+                            {
+                                "code": "XY02030040100",
+                                "name": "头孢克肟胶囊",
+                                "time": 1709258400,
+                                "num": 1,
+                                "price": 28.00,
+                                "cash": 28.00,
+                                "total_cash": 28.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": [
+            {
+                "code": "4061343",
+                "desc": "同一天同时开具同组药品:阿莫西林胶囊+阿莫西林颗粒,属于重复开药,应检出",
+                "sex": 1,
+                "age": 35,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 3,
+                "visit_type": 2,
+                "in_date": 1709222400,
+                "out_date": 1709481600,
+                "medical_insurance_set": {
+                    "1709222400": {
+                        "XR06AEZ066A001010980698": [
+                            {
+                                "code": "XR06AEZ066A001010980698",
+                                "name": "阿莫西林胶囊",
+                                "time": 1709251200,
+                                "num": 2,
+                                "price": 15.00,
+                                "cash": 15.00,
+                                "total_cash": 30.00
+                            }
+                        ],
+                        "XR06AEZ066A001011004942": [
+                            {
+                                "code": "XR06AEZ066A001011004942",
+                                "name": "阿莫西林颗粒",
+                                "time": 1709258400,
+                                "num": 3,
+                                "price": 12.00,
+                                "cash": 12.00,
+                                "total_cash": 36.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
