@@ -94,7 +94,6 @@ class IRMI
                         $failNum++;
                     } else {
                         $successNum++;
-                        var_dump($result);
                     }
                     $totalNum++;
                 }

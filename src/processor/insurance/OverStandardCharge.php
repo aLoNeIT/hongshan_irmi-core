@@ -155,7 +155,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                 'over_price' => $overPrice,
                                 'normal_cash' => $normalCash,
                                 'item_ids' => 'all' == $date
-                                    ? $this->getMedicalItemId($miItem)
+                                    ? $this->getMedicalItemId([$miItem])
                                     : $this->getMedicalItemId(
                                         \array_filter($miItem, function (MedicalInsuranceItem $item) use ($date) {
                                             return $date == $item->date;
@@ -175,7 +175,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                         'date' => $date,
                         'item' => $miItem,
                         'item_ids' => 'all' == $date
-                            ? $this->getMedicalItemId($miItem)
+                            ? $this->getMedicalItemId([$miItem])
                             : $this->getMedicalItemId(
                                 \array_filter($miItem, function (MedicalInsuranceItem $item) use ($date) {
                                     return $date == $item->date;

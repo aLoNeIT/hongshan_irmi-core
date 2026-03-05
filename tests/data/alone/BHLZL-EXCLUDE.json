@@ -1,0 +1,99 @@
+{
+    "rule": {
+        "visit_type": 2,
+        "code": "SYZ-250519-01-182316-018",
+        "name": "配伍禁忌、药品相互作用",
+        "item_code": "ZA12HAG0369010102887",
+        "item_name": "冠心宁注射液",
+        "category": 1,
+        "type": 4,
+        "sub_type": 1,
+        "options": {
+            "exclude_items": {
+                "time_type": 4,
+                "collection": {
+                    "XH01BBS194B002040104373": null
+                }
+            }
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "0100001575",
+                "realname": "智能审核",
+                "sex": 1,
+                "age": 24,
+                "age_day": 0,
+                "weight": 0,
+                "birth_weight": 0,
+                "diagnosis": [
+                    "I20.000",
+                    "A01.200",
+                    "I20.005"
+                ],
+                "in_branch": "A03",
+                "out_branch": "A03",
+                "in_days": 2,
+                "visit_type": 2,
+                "in_date": 1750129020,
+                "out_date": 0,
+                "hospital_code": "37625656",
+                "hospital_type": 2,
+                "hospital_level": 1,
+                "hospital_bussiness_type": 1,
+                "medical_insurance_set": {
+                    "1750328533": {
+                        "ZA12HAG0369010102887": [
+                            {
+                                "id": 1,
+                                "code": "ZA12HAG0369010102887",
+                                "name": "冠心宁注射液",
+                                "time": 1750328533,
+                                "num": 2,
+                                "price": 0,
+                                "cash": 47.52,
+                                "total_cash": 0,
+                                "group_code": "ABC"
+                            }
+                        ],
+                        "XH01BBS194B002040104373": [
+                            {
+                                "id": 2,
+                                "code": "XH01BBS194B002040104373",
+                                "name": "缩宫素注射液",
+                                "time": 1750328533,
+                                "num": 1,
+                                "price": 0,
+                                "cash": 19,
+                                "total_cash": 0,
+                                "group_code": "ABC"
+                            },
+                            {
+                                "id": 3,
+                                "code": "XH01BBS194B002040104373",
+                                "name": "缩宫素注射液",
+                                "time": 1750328533,
+                                "num": 1,
+                                "price": 0,
+                                "cash": 19,
+                                "total_cash": 0
+                            },
+                            {
+                                "id": 4,
+                                "code": "XH01BBS194B002040104373",
+                                "name": "缩宫素注射液",
+                                "time": 1750328533,
+                                "num": 1,
+                                "price": 0,
+                                "cash": 19,
+                                "total_cash": 0
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
