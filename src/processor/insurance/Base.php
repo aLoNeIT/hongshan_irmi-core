@@ -196,130 +196,330 @@ class Base extends BaseProcessor
         $tmpMiItemSet = \array_map(function (array $items) use ($rule) {
             return $this->filterMIItemByDateRange($items, $rule);
         }, $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE));
-
-        // 循环判断，包含的项目存在 当天或全部 匹配条件
-        if (2 === $timeType) {
-            // 循环 包含 或 排除 依次判断是否错误
-            $existed = null; // 是否找到指定内容
-            foreach ($itemCollection as $code => $config) {
-                // 检测指定项目是否存在
-                if ($included && isset($tmpMiItemSet[$code])) {
-                    // 包含的项目只要任一项目存在即可
-                    $existed = true;
-                    // 跳出循环
-                    break;
-                } else if (!$included && isset($tmpMiItemSet[$code])) {
-                    // 要求排除的项目存在
-                    if (!\is_null($config)) {
-                        if (isset($config['combine_items'])) {
-                            // 排除项目存在组合项，即同时组合项目也不得存在
-                            $intersectItems = \array_intersect_key($tmpMiItemSet, $config['combine_items']);
-                            if (!empty($intersectItems)) {
-                                // 匹配到组合项目，则跳过
-                                continue;
-                            }
-                        }
-                        // 汇总计算数组内指定字段的值
-                        $totalNum = \array_reduce(
-                            $tmpMiItemSet[$code],
-                            function ($carry, MedicalInsuranceItem $miItem) {
-                                return bcadd($carry, (string)($miItem->num ?: 0));
-                            },
-                            '0'
-                        );
-                        if (!isset($config['num']) || $totalNum < $config['num']) {
-                            // 收费小于指定数量，则跳过
-                            continue;
-                        }
-                    }
-                    $existed[] = $code;
-                }
-            }
-            // 最后统一计算
-            if ($included && true !== $existed) {
-                // 要求包含的项目不存在
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]未与指定包含项目同时收费",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
-                        'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule),
-                        'include_items' => \array_keys($itemCollection)
-                    ]
-                ];
-            } else if (!$included && \is_array($existed) && !empty($existed)) {
-                // 未匹配到组合项目，则当前项目重复收费
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]与指定排除项目同时收费",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
-                        'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule),
-                        'exclude_items' => $existed
-                    ]
-                ];
-            }
-        } else {
-            // 按天匹配
-            /** @var MedicalInsuranceItem[] $currItems */
-            $currItems = $tmpMiItemSet[$rule->itemCode];
-            /** @var MedicalInsuranceItem $miItem */
-            foreach ($currItems as $miItem) {
-                $date = $miItem->date;
-                /** @var array $dateMiItems */
-                $dateMiItems = $medicalRecord->medicalInsuranceSet[$date];
-                // 交集计算看当天是否有包含内的项目
-                $itemKeys = \array_keys($itemCollection);
-                $intersectItems = \array_intersect($itemKeys, \array_keys($dateMiItems));
-                $dateStr = date('Y-m-d', $date);
-                if ($included && empty($intersectItems)) {
-                    // 未匹配到必须包含的项目
-                    $errors[] = [
-                        'msg' => "当前项目[{$rule->itemName}]在[{$dateStr}]当天未与指定包含项目同时收费",
-                        'data' => [
-                            'rule' => $this->getRuleInfo($rule),
-                            'date' => $date,
-                            'include_items' => $itemKeys,
-                            'item_ids' => $this->getMedicalItemId(
-                                \array_filter($dateMiItems[$rule->itemCode], function (MedicalInsuranceItem $item) use ($date) {
-                                    return $date == $item->date;
-                                })
-                            )
-                        ]
-                    ];
-                } else if (!$included && !empty($intersectItems)) {
-                    // 此处遍历交集编码，然后到规则配置中查询是否有num配置
-                    foreach ($intersectItems as $code) {
-                        $config = $itemCollection[$code];
-                        if (isset($config['num'])) {
-                            // 汇总获取项目数量
-                            $totalNum = \array_reduce(
-                                $dateMiItems[$code],
-                                function ($carry, MedicalInsuranceItem $item) {
-                                    return \bcadd($carry, (string)($item->num ?: 0));
-                                },
-                                '0'
-                            );
-                            if ($totalNum < $config['num']) {
-                                continue;
-                            }
-                        }
-                        // 循环写入错误信息
+        // 循环判断，包含的项目存在 当天或全部或其他 匹配条件
+        switch ($timeType) {
+            case 1: // 按天匹配
+                /** @var MedicalInsuranceItem[] $currItems */
+                $currItems = $tmpMiItemSet[$rule->itemCode];
+                /** @var MedicalInsuranceItem $miItem */
+                foreach ($currItems as $miItem) {
+                    $date = $miItem->date;
+                    /** @var array $dateMiItems */
+                    $dateMiItems = $medicalRecord->medicalInsuranceSet[$date];
+                    // 交集计算看当天是否有包含内的项目
+                    $itemKeys = \array_keys($itemCollection);
+                    $intersectItems = \array_intersect($itemKeys, \array_keys($dateMiItems));
+                    $dateStr = date('Y-m-d', $date);
+                    if ($included && empty($intersectItems)) {
+                        // 未匹配到必须包含的项目
                         $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]在[{$dateStr}]当天与指定排除项目同时收费",
+                            'msg' => "当前项目[{$rule->itemName}]在[{$dateStr}]当天未与指定包含项目同时收费",
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
                                 'date' => $date,
-                                'exclude_item_code' => $code,
-                                'item_ids' => $this->getMedicalItemId(
-                                    \array_filter($dateMiItems[$rule->itemCode], function (MedicalInsuranceItem $item) use ($date) {
-                                        return $date == $item->date;
-                                    })
-                                )
+                                'include_items' => $itemKeys,
+                                'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
                             ]
+                        ];
+                    } else if (!$included && !empty($intersectItems)) {
+                        // 此处遍历交集编码，然后到规则配置中查询是否有num配置
+                        foreach ($intersectItems as $code) {
+                            $config = $itemCollection[$code];
+                            if (isset($config['combine_items'])) {
+                                // 排除项目有组合项校验，若组合项中任一项目存在，则跳过
+                                $intersectItems = \array_intersect(\array_keys($dateMiItems), $config['combine_items']);
+                                if (!empty($intersectItems)) {
+                                    // 匹配到组合项目，则跳过
+                                    continue;
+                                }
+                            }
+                            if (isset($config['num'])) {
+                                // 汇总获取项目数量
+                                $totalNum = \array_reduce(
+                                    $dateMiItems[$code],
+                                    function ($carry, MedicalInsuranceItem $item) {
+                                        return \bcadd($carry, (string)($item->num ?: 0));
+                                    },
+                                    '0'
+                                );
+                                if ($totalNum < $config['num']) {
+                                    continue;
+                                }
+                            }
+                            // 循环写入错误信息
+                            $errors[] = [
+                                'msg' => "当前项目[{$rule->itemName}]在[{$dateStr}]当天与指定排除项目同时收费",
+                                'data' => [
+                                    'rule' => $this->getRuleInfo($rule),
+                                    'date' => $date,
+                                    'exclude_item_code' => $code,
+                                    'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
+                                ]
 
+                            ];
+                        }
+                    }
+                }
+                break;
+            case 2: // 全部
+                // 循环 包含 或 排除 依次判断是否错误
+                $existed = null; // 是否找到指定内容
+                foreach ($itemCollection as $code => $config) {
+                    // 检测指定项目是否存在
+                    if ($included && isset($tmpMiItemSet[$code])) {
+                        // 包含的项目只要任一项目存在即可
+                        $existed = true;
+                        // 跳出循环
+                        break;
+                    } else if (!$included && isset($tmpMiItemSet[$code])) {
+                        // 要求排除的项目存在
+                        if (!\is_null($config)) {
+                            if (isset($config['combine_items'])) {
+                                // 排除项目有组合项校验，若组合项中任一项目存在，则跳过
+                                $intersectItems = \array_intersect(\array_keys($tmpMiItemSet), $config['combine_items']);
+                                if (!empty($intersectItems)) {
+                                    // 匹配到组合项目，则跳过
+                                    continue;
+                                }
+                            }
+                            // 汇总计算数组内指定字段的值
+                            $totalNum = \array_reduce(
+                                $tmpMiItemSet[$code],
+                                function ($carry, MedicalInsuranceItem $miItem) {
+                                    return bcadd($carry, (string)($miItem->num ?: 0));
+                                },
+                                '0'
+                            );
+                            if (!isset($config['num']) || $totalNum < $config['num']) {
+                                // 收费小于指定数量，则跳过
+                                continue;
+                            }
+                        }
+                        $existed[] = $code;
+                    }
+                }
+                // 最后统一计算
+                if ($included && true !== $existed) {
+                    // 要求包含的项目不存在
+                    $errors[] = [
+                        'msg' => "当前项目[{$rule->itemName}]未与指定包含项目同时收费",
+                        'data' => [
+                            'rule' => $this->getRuleInfo($rule),
+                            'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule),
+                            'include_items' => \array_keys($itemCollection)
+                        ]
+                    ];
+                } else if (!$included && \is_array($existed) && !empty($existed)) {
+                    // 未匹配到组合项目，则当前项目重复收费
+                    $errors[] = [
+                        'msg' => "当前项目[{$rule->itemName}]与指定排除项目同时收费",
+                        'data' => [
+                            'rule' => $this->getRuleInfo($rule),
+                            'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule),
+                            'exclude_items' => $existed
+                        ]
+                    ];
+                }
+                break;
+            case 10: // 同一小时
+                /** @var MedicalInsuranceItem[] $currItems */
+                $currItems = $tmpMiItemSet[$rule->itemCode];
+                /** @var MedicalInsuranceItem $miItem */
+                foreach ($currItems as $miItem) {
+                    // 取出当天数据
+                    $date = $miItem->date;
+                    /** @var array<string,MedicalInsuranceItem[]> $dateMiItems */
+                    $dateMiItems = $medicalRecord->medicalInsuranceSet[$date];
+                    // 过滤当天数据，只保留与检测项目同一小时的项目数据
+                    $hour = \date('H', $miItem->time);
+                    $dateMiItems = \array_map(function (array $items) use ($hour) {
+                        return \array_filter($items, function (MedicalInsuranceItem $item) use ($hour) {
+                            return $hour == \date('H', $item->time);
+                        });
+                    }, $dateMiItems);
+                    // 过滤掉没有数据的项目
+                    $dateMiItems = \array_filter($dateMiItems, function (array $items) {
+                        return !empty($items);
+                    }, ARRAY_FILTER_USE_BOTH);
+                    // 交集计算看当天是否有包含内的项目
+                    $itemKeys = \array_keys($itemCollection);
+                    $intersectItems = \array_intersect($itemKeys, \array_keys($dateMiItems));
+                    $dateStr = date('Y-m-d', $date);
+                    if ($included && empty($intersectItems)) {
+                        // 未匹配到必须包含的项目
+                        $errors[] = [
+                            'msg' => "当前项目[{$rule->itemName}]在[$dateStr]当天的[{$hour}]时同一小时内未与指定包含项目同时收费",
+                            'data' => [
+                                'rule' => $this->getRuleInfo($rule),
+                                'date' => $date,
+                                'include_items' => $itemKeys,
+                                'item_ids' => $this->getMedicalItemId([$miItem])
+                            ]
+                        ];
+                    } else if (!$included && !empty($intersectItems)) {
+                        // 此处遍历交集编码，然后到规则配置中查询是否有num配置
+                        foreach ($intersectItems as $code) {
+                            $config = $itemCollection[$code];
+                            if (isset($config['combine_items'])) {
+                                // 排除项目有组合项校验，若组合项中任一项目存在，则跳过
+                                $intersectItems = \array_intersect(\array_keys($dateMiItems), $config['combine_items']);
+                                if (!empty($intersectItems)) {
+                                    // 匹配到组合项目，则跳过
+                                    continue;
+                                }
+                            }
+                            if (isset($config['num'])) {
+                                // 汇总获取项目数量
+                                $totalNum = \array_reduce(
+                                    $dateMiItems[$code],
+                                    function ($carry, MedicalInsuranceItem $item) {
+                                        return \bcadd($carry, (string)($item->num ?: 0));
+                                    },
+                                    '0'
+                                );
+                                if ($totalNum < $config['num']) {
+                                    continue;
+                                }
+                            }
+                            // 循环写入错误信息
+                            $errors[] = [
+                                'msg' => "当前项目[{$rule->itemName}]在[$dateStr]当天的[{$hour}]时同一小时内与指定排除项目同时收费",
+                                'data' => [
+                                    'rule' => $this->getRuleInfo($rule),
+                                    'date' => $date,
+                                    'exclude_item_code' => $code,
+                                    'item_ids' => $this->getMedicalItemId([$miItem])
+                                ]
+
+                            ];
+                        }
+                    }
+                }
+                break;
+            case 3: // 时间范围
+                /** @var MedicalInsuranceItem[] $currItems */
+                $currItems = $tmpMiItemSet[$rule->itemCode];
+                $timeOffset = $includedItems['time_offset'] ?? [null, null];
+                foreach ($currItems as $miItem) {
+                    // 根据检索项目，获取其他在指定范围区间的数据
+                    // 循环 包含 或 排除 依次判断是否错误
+                    $existed = null; // 是否找到指定内容
+                    $beginTime = \is_null($timeOffset[0]) ? null : $miItem->time + $timeOffset[0];
+                    $endTime = \is_null($timeOffset[1]) ? null : $miItem->time + $timeOffset[1];
+                    foreach ($itemCollection as $code => $config) {
+                        // 检测指定项目是否在指定时间范围内存在
+                        if ($included) {
+                            // 遍历关联项目数据
+                            foreach ($tmpMiItemSet[$code] ?? [] as $tmpMiItem) {
+                                if (!\is_null($beginTime) && $tmpMiItem->time < $beginTime) {
+                                    // 起始时间为有效值时，关联项目时间小于起始时间，则跳过    
+                                    continue;
+                                }
+                                if (!\is_null($endTime) && $tmpMiItem->time > $endTime) {
+                                    // 结束时间为有效值时，关联项目时间大于结束时间，则跳过
+                                    continue;
+                                }
+                                $existed = true;
+                                break;
+                            }
+                            // 指定时间范围内匹配到了包含项目，则通过校验
+                            if ($existed) {
+                                break;
+                            }
+                        } else {
+                            $totalNum = 0;
+                            // 对当前排除项目进行过滤，筛选有效时间段内的数据
+                            $excludeMiItemSet = \array_filter(
+                                $tmpMiItemSet[$code] ?? [],
+                                function (MedicalInsuranceItem $tmpMiItem) use ($beginTime, $endTime) {
+                                    return (\is_null($beginTime) || $tmpMiItem->time >= $beginTime)
+                                        && (\is_null($endTime) || $tmpMiItem->time <= $endTime);
+                                }
+                            );
+                            if (!empty($excludeMiItemSet)) {
+                                // 不为空，说明存在指定时间段内排除项目数据
+                                // 进一步检测排除的组合项目，组合项目存在有效数据，则当前排除规则跳过
+                                $combineItemExisted = false;
+                                foreach ($config['combine_items'] ?? []  as $combineCode) {
+                                    $combineMiItemSet = \array_filter(
+                                        $tmpMiItemSet[$combineCode] ?? [],
+                                        function (MedicalInsuranceItem $tmpMiItem) use ($beginTime, $endTime) {
+                                            return (\is_null($beginTime) || $tmpMiItem->time >= $beginTime)
+                                                && (\is_null($endTime) || $tmpMiItem->time <= $endTime);
+                                        }
+                                    );
+                                    if (!empty($combineMiItemSet)) {
+                                        // 当前排除项目的存在有效联合项目，当前排除规则跳过
+                                        $combineItemExisted = true;
+                                        break;
+                                    }
+                                }
+                                if ($combineItemExisted) {
+                                    // 当前排除项目存在有效联合项目，当前排除规则跳过    
+                                    continue;
+                                }
+                                if (isset($config['num'])) {
+                                    // 汇总获取项目数量
+                                    $totalNum = (int)\array_reduce(
+                                        $excludeMiItemSet,
+                                        function ($carry, MedicalInsuranceItem $item) {
+                                            return \bcadd($carry, (string)($item->num ?: 0));
+                                        },
+                                        '0'
+                                    );
+                                    if ($totalNum < $config['num']) {
+                                        continue;
+                                    }
+                                }
+                                $existed[] = $code;
+                            }
+                        }
+                    }
+                    $beginTimeStr = $beginTime ? date('Y-m-d H:i:s', $beginTime) : null;
+                    $endTimeStr = $endTime ? date('Y-m-d H:i:s', $endTime) : null;
+                    $timeStr = '';
+                    if (!\is_null($beginTimeStr) && !\is_null($endTimeStr)) {
+                        $timeStr = "在时间范围区间[{$beginTimeStr}]至[{$endTimeStr}]内";
+                    } else if (\is_null($beginTimeStr) && !\is_null($endTimeStr)) {
+                        $timeStr = "在[{$endTimeStr}]前";
+                    } else if (!\is_null($beginTimeStr) && \is_null($endTimeStr)) {
+                        $timeStr = "在[{$beginTimeStr}]后";
+                    }
+                    // 最后统一计算
+                    if ($included && true !== $existed) {
+                        // 要求包含的项目不存在
+                        $errors[] = [
+                            'msg' => "当前项目[{$rule->itemName}]{$timeStr}未与指定包含项目同时收费",
+                            'data' => [
+                                'rule' => $this->getRuleInfo($rule),
+                                'item_ids' => $this->getMedicalItemId([$miItem]),
+                                'include_items' => \array_keys($itemCollection),
+                                'time_range' => [
+                                    'begin_time' => $beginTime,
+                                    'end_time' => $endTime
+                                ]
+                            ]
+                        ];
+                    } else if (!$included && \is_array($existed) && !empty($existed)) {
+                        // 未匹配到组合项目，则当前项目重复收费
+                        $errors[] = [
+                            'msg' => "当前项目[{$rule->itemName}]{$timeStr}与指定排除项目同时收费",
+                            'data' => [
+                                'rule' => $this->getRuleInfo($rule),
+                                'item_ids' => $this->getMedicalItemId([$miItem]),
+                                'exclude_items' => $existed,
+                                'time_range' => [
+                                    'begin_time' => $beginTime,
+                                    'end_time' => $endTime
+                                ]
+                            ]
                         ];
                     }
                 }
-            }
+                break;
+            default:
+                throw new IRMIException("不支持的时间类型[{$timeType}]");
+                break;
         }
         return empty($errors) ? true : $errors;
     }
