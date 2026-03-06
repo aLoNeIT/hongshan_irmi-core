@@ -121,6 +121,9 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             ] = $propertyItem;
             $propertyName = Util::camel($name);
             $propertyValue = $medicalRecord->$propertyName;
+            if (\is_null($propertyValue)) {
+                continue;
+            }
             // 开始对比结果
             $result = false;
             switch ($operator) {
