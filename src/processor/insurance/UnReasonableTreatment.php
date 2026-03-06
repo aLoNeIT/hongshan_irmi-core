@@ -60,7 +60,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             // 获取医保项目集合
             $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
             // 获取当前项目数据集合
-            /** @var MedicalInsuranceItem[] $miItem */
+            /** @var MedicalInsuranceItem[] $miItems */
             $miItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
             $unitType = $rule->options['unit_type'];
             switch ($unitType) {
@@ -85,7 +85,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                         'rule' => $this->getRuleInfo($rule),
                         'item' => $miItems,
                         'total_days' => $totalDays,
-                        'item_ids' => $this->getMedicalItemId($miItem)
+                        'item_ids' => $this->getMedicalItemId($miItems)
                     ],
                 ];
             }
