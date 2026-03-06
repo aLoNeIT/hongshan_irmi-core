@@ -10,9 +10,9 @@
         "sub_type": 1,
         "options": {
             "exclude_items": {
-                "time_type": 1,
+                "time_type": 4,
                 "collection": {
-                    "C02001": null
+                    "C03001": null
                 }
             }
         }

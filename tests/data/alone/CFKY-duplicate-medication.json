@@ -11,8 +11,9 @@
         "options": {
             "exclude_items": {
                 "time_type": 1,
+                "collection_type": "drug",
                 "collection": {
-                    "XR06AEZ066A001011004942": null
+                    "117": null
                 }
             }
         }
