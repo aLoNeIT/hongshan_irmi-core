@@ -12,7 +12,7 @@ use hongshanhealth\irmi\Util;
 
 /**
  * 医保智能审核测试
- * 
+ *
  * @author 王阮强 <wangruanqiang@hongshanhis.com>
  */
 class IRMI
@@ -57,6 +57,7 @@ class IRMI
                 $rule = $caseObj['rule'];
                 $medicalRecords = $caseObj['medical_records'];
                 $dict = $caseObj['dict'] ?? [];
+
                 // 加载规则
                 $shaanxi->load('01', [
                     'code' => '01',
