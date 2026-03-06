@@ -24,8 +24,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 case 1:
                     $jResult = $this->detectCommon($medicalRecord, $rule);
                     break;
-                case 2: // 中药饮片校验
-
+                case 2: // 超数量
+                    $jResult = $this->detectOverNum($medicalRecord, $rule);
                     break;
                 default:
                     $jResult = $this->jsonTable->success();
@@ -194,27 +194,109 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         }
         return $this->getResult(300, '超医保支付范围', $errors);
     }
-
-    protected function detectCoverage(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
+    /**
+     * 检测超数量
+     *
+     * @param MedicalRecord $medicalRecord 病历对象
+     * @param IRMIRule $rule 规则对象
+     * @return JsonTable 返回结果
+     */
+    protected function detectOverNum(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
     {
         $errors = [];
         // 获取医保项目集合
-        $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
+        $tmpMiItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
         // 获取当前项目数据集合
         /** @var MedicalInsuranceItem[] $miItem */
-        $currItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
-        if (isset($rule->options['item_type'])) {
-            // 配置了项目类型，则过滤数据，只保留指定的项目数据
-            $currItems = \array_filter($currItems, function (MedicalInsuranceItem $item) use ($rule) {
-                return \in_array($item->type, $rule->options['item_type']);
-            });
-        }
-
+        $currItems = $this->filterMIItemByDateRange($tmpMiItemSet[$rule->itemCode], $rule);
+        $itemType = $rule->options['item_type'] ?? null;
         // 获取限定的数量
-        $ruleNum = $this->getRuleOptionNum($medicalRecord, $rule);
-
-
-
-        return $this->getResult(300, '超医保支付范围', $errors);
+        list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
+        $num = 0;
+        // 1-原始数字，2-病历中的某个属性，3-另一个项目的数量，4-群组中项目的个数，5-群组中项目的计费总数；
+        $errMsg = '';
+        $itemIds = [];
+        switch ($ruleNumType) {
+            case 4: // 群组中项目个数
+                $errMsg = '项目类别总数';
+                foreach ($currItems as $currItem) {
+                    // 遍历每一个项目数据，根据项目的组号、日期来进行比对
+                    $date = $currItem->date;
+                    $groupCode = $currItem->groupCode;
+                    $dateMiItems = $medicalRecord->medicalInsuranceSet[$date] ?? [];
+                    foreach ($dateMiItems as $code => $items) {
+                        if ($code == $rule->itemCode) {
+                            // 当前项目直接跳过
+                            continue;
+                        }
+                        // 根据项目组号、项目类型进行筛选
+                        $result = \array_filter($items, function (MedicalInsuranceItem $item) use ($itemType, $groupCode) {
+                            return \is_null($itemType)
+                                ? true
+                                : $item->type == $itemType && $item->groupCode == $groupCode;
+                        });
+                        // 有符合条件的项目，数量加1
+                        if (!empty($result)) {
+                            $num++;
+                            if (1 == \bccomp((string)$num, (string)$ruleNum)) {
+                                $itemIds[] = [
+                                    ...$itemIds,
+                                    ...\array_map(function (MedicalInsuranceItem $item) {
+                                        return $item->id;
+                                    }, $result)
+                                ];
+                            }
+                        }
+                    }
+                }
+                break;
+            case 5: //群组中项目的计费总数
+                $errMsg = '计费总数';
+                foreach ($currItems as $currItem) {
+                    // 遍历每一个项目数据，根据项目的组号、日期来进行比对
+                    $date = $currItem->date;
+                    $groupCode = $currItem->groupCode;
+                    $dateMiItems = $medicalRecord->medicalInsuranceSet[$date] ?? [];
+                    foreach ($dateMiItems as $code => $items) {
+                        if ($code == $rule->itemCode) {
+                            // 当前项目直接跳过
+                            continue;
+                        }
+                        // 根据项目组号、项目类型进行筛选
+                        $result = \array_filter($items, function (MedicalInsuranceItem $item) use ($itemType, $groupCode) {
+                            return \is_null($itemType)
+                                ? true
+                                : $item->type == $itemType && $item->groupCode == $groupCode;
+                        });
+                        // 计算数量
+                        $num = \array_reduce($result, function ($carry, $item) {
+                            return \bcadd((string) $carry, (string) $item->num);
+                        }, '0');
+                        if (1 == \bccomp((string)$num, (string)$ruleNum)) {
+                            $itemIds[] = [
+                                ...$itemIds,
+                                ...\array_map(function (MedicalInsuranceItem $item) {
+                                    return $item->id;
+                                }, $result)
+                            ];
+                        }
+                    }
+                }
+                break;
+            default:
+                throw new IRMIException('当前规则不支持此参数[num]配置');
+                break;
+        }
+        if (1 == \bccomp($num, $ruleNum)) {
+            // 实际数量超过限定数量
+            $errors[] = [
+                'msg' => "当前项目[{$rule->itemName}]在，{$errMsg}应不超过[{$ruleNum}]，实际[{$num}]",
+                'data' => [
+                    'rule' => $this->getRuleInfo($rule),
+                    'item_ids' => $itemIds
+                ],
+            ];
+        }
+        return $this->getResult(302, '超医保支付范围', $errors);
     }
 }

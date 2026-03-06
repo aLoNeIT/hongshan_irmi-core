@@ -60,19 +60,19 @@ class Base extends BaseProcessor
      *
      * @param MedicalRecord $medicalRecord 病历信息
      * @param IRMIRule $rule 规则对象
-     * @return float|null 返回获取到的数量
+     * @return array 返回获取到的数量和类型[num,type]
      */
     protected function getRuleOptionNum(
         MedicalRecord $medicalRecord,
-        IRMIRule $rule,
-        ?MedicalInsuranceItem $miItem = null
-    ): ?float {
+        IRMIRule $rule
+    ): array {
         $result = null;
+        $type = $rule->options['num']['type'] ?? 1;
         if (\is_scalar($rule->options['num'])) {
             $result = $rule->options['num'];
         } else {
             // 复杂结构，需要判断
-            switch ($rule->options['num']['type']) {
+            switch ($type) {
                 case 1:
                     $result = $rule->options['num']['value'];
                     break;
@@ -83,19 +83,18 @@ class Base extends BaseProcessor
                     $result = (int)\bcmul((string)$medicalRecord->$property, (string)$coefficient);
                     break;
                 case 3: // 基于另外一个项目的数量
-                    if (\is_null($miItem)) {
-                        throw new \Exception("项目数据不能为空");
-                    }
                     $detectType = $rule->options['detect_type'] ?? 2;
                     $varName = $rule->options['unit_type'] ?? 'num';
-                    $date = 1 == $detectType ? $miItem->date : 'all';
+                    if (1 == $detectType) {
+                        throw new IRMIException('暂不支持基于另一个项目数量按天检测');
+                    }
                     // 继续查询指定项目数据
                     $otherItem = $miItemSet[$rule->options['num']['item_code']] ?? [];
                     $result = \array_reduce(
                         $otherItem,
-                        function ($carry, MedicalInsuranceItem $item) use ($date, $varName) {
+                        function ($carry, MedicalInsuranceItem $item) use ($varName) {
                             // 汇总计算，如果是计算所有值，则直接汇总，否则只汇总指定日期
-                            $num = 'all' == $date ? $item->$varName : ($date == $item->date ? $item->$varName : 0);
+                            $num = $item->$varName;
                             $carry = \bcadd($carry, (string)($num ?: 0), 4);
                         },
                         '0'
@@ -106,7 +105,7 @@ class Base extends BaseProcessor
                     break;
             }
         }
-        return (float)$result;
+        return [(float)$result, $type];
     }
 
     /**
