@@ -32,7 +32,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             }
             return $jResult;
         } catch (IRMIException $ex) {
-            return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            // return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            throw $ex;
         }
     }
     /**
@@ -119,9 +120,13 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 (string)$item['total_num'],
                 (string)(isset($rule->options['combine_items']) ? ($cmItemData[$date]['total_num'] ?? 0) : 0)
             );
-            if (1 === \bccomp($totalNum, (string)$ruleNum)) {
+
+            if (!$this->compareNum((float)$totalNum, $ruleNum)) {
                 // 当前项目总数量大于指定的数量
-                if (1 === \bccomp((string)$item['total_num'], (string) $ruleNum) && isset($rule->options['ratio'])) {
+                if (
+                    !$this->compareNum((float)$item['total_num'], $ruleNum)
+                    && isset($rule->options['ratio'])
+                ) {
                     // 这里因为要计算的是当前项目的收费比例，所以数量不能使用合并的数量
                     // 若配置了费用比例，则代表需计算超限部分是否合规
                     $ratio = $rule->options['ratio'];

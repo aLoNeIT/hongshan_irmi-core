@@ -33,7 +33,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             }
             return $jResult;
         } catch (IRMIException $ex) {
-            return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            // return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            throw $ex;
         }
     }
     /**
@@ -212,23 +213,16 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         $itemType = $rule->options['item_type'] ?? null;
         // 获取限定的数量
         list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
-        $num = 0;
         // 1-原始数字，2-病历中的某个属性，3-另一个项目的数量，4-群组中项目的个数，5-群组中项目的计费总数；
-        $errMsg = '';
-        $itemIds = [];
         switch ($ruleNumType) {
             case 4: // 群组中项目个数
-                $errMsg = '项目类别总数';
                 foreach ($currItems as $currItem) {
+                    $num = 0;
                     // 遍历每一个项目数据，根据项目的组号、日期来进行比对
                     $date = $currItem->date;
                     $groupCode = $currItem->groupCode;
                     $dateMiItems = $medicalRecord->medicalInsuranceSet[$date] ?? [];
                     foreach ($dateMiItems as $code => $items) {
-                        if ($code == $rule->itemCode) {
-                            // 当前项目直接跳过
-                            continue;
-                        }
                         // 根据项目组号、项目类型进行筛选
                         $result = \array_filter($items, function (MedicalInsuranceItem $item) use ($itemType, $groupCode) {
                             return \is_null($itemType)
@@ -238,12 +232,16 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         // 有符合条件的项目，数量加1
                         if (!empty($result)) {
                             $num++;
-                            if (1 == \bccomp((string)$num, (string)$ruleNum)) {
-                                $itemIds[] = [
-                                    ...$itemIds,
-                                    ...\array_map(function (MedicalInsuranceItem $item) {
-                                        return $item->id;
-                                    }, $result)
+                            if (!$this->compareNum($num, $ruleNum)) {
+                                // 实际项目数量超过限定数量
+                                $errors[] = [
+                                    'msg' => "当前项目[{$rule->itemName}]在同一分组内，项目类别总数应" . $this->getNumErrorStr($ruleNum) . "，实际[{$num}]",
+                                    'data' => [
+                                        'rule' => $this->getRuleInfo($rule),
+                                        'item_ids' => \array_filter(\array_map(function (MedicalInsuranceItem $item) {
+                                            return $item->id;
+                                        }, $result))
+                                    ],
                                 ];
                             }
                         }
@@ -251,7 +249,6 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 }
                 break;
             case 5: //群组中项目的计费总数
-                $errMsg = '计费总数';
                 foreach ($currItems as $currItem) {
                     // 遍历每一个项目数据，根据项目的组号、日期来进行比对
                     $date = $currItem->date;
@@ -272,12 +269,16 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         $num = \array_reduce($result, function ($carry, $item) {
                             return \bcadd((string) $carry, (string) $item->num);
                         }, '0');
-                        if (1 == \bccomp((string)$num, (string)$ruleNum)) {
-                            $itemIds[] = [
-                                ...$itemIds,
-                                ...\array_map(function (MedicalInsuranceItem $item) {
-                                    return $item->id;
-                                }, $result)
+                        if (!$this->compareNum((float)$num, $ruleNum)) {
+                            // 实际项目数量超过限定数量
+                            $errors[] = [
+                                'msg' => "当前项目[{$rule->itemName}]在同一分组内，计费总数应" . $this->getNumErrorStr($ruleNum) . "，实际[{$num}]",
+                                'data' => [
+                                    'rule' => $this->getRuleInfo($rule),
+                                    'item_ids' => \array_filter(\array_map(function (MedicalInsuranceItem $item) {
+                                        return $item->id;
+                                    }, $result))
+                                ],
                             ];
                         }
                     }
@@ -286,16 +287,6 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             default:
                 throw new IRMIException('当前规则不支持此参数[num]配置');
                 break;
-        }
-        if (1 == \bccomp($num, $ruleNum)) {
-            // 实际数量超过限定数量
-            $errors[] = [
-                'msg' => "当前项目[{$rule->itemName}]在，{$errMsg}应不超过[{$ruleNum}]，实际[{$num}]",
-                'data' => [
-                    'rule' => $this->getRuleInfo($rule),
-                    'item_ids' => $itemIds
-                ],
-            ];
         }
         return $this->getResult(302, '超医保支付范围', $errors);
     }

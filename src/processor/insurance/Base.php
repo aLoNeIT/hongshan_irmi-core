@@ -73,6 +73,8 @@ class Base extends BaseProcessor
         } else {
             // 复杂结构，需要判断
             switch ($type) {
+                case 4:
+                case 5:
                 case 1:
                     $result = $rule->options['num']['value'];
                     break;
@@ -105,7 +107,45 @@ class Base extends BaseProcessor
                     break;
             }
         }
-        return [(float)$result, $type];
+        return [\is_null($result) ? null : (\is_array($result) ? $result : (float)$result), $type];
+    }
+    /**
+     * 获取数量的错误字符串
+     *
+     * @param array|float|integer $num 数量
+     * @return string 数量错误字符串
+     */
+    public function getNumErrorStr(array|float|int $num): string
+    {
+        if (\is_scalar($num)) {
+            return "不超过[{$num}]";
+        } else if (\is_array($num)) {
+            $begin = $num[0] ?: '不限';
+            $end = $num[1] ?: '不限';
+            return "在[{$begin}-{$end}]范围内";
+        } else {
+            return '';
+        }
+    }
+    /**
+     * 比较数量
+     *
+     * @param float $num 项目数量
+     * @param array|float $ruleNum 规则数量
+     * @return boolean 是否符合规则数量要求
+     */
+    public function compareNum(float $num, array|float $ruleNum): bool
+    {
+        $result = false;
+        if ($num < $ruleNum) {
+            // 规则数量是数组，代表between
+            [$min, $max] = $ruleNum;
+            $result = (\is_null($min) || -1 != \bccomp((string)$num, (string)$min))
+                && (\is_null($max) || 1 != \bccomp((string)$num, (string)$max));
+        } else {
+            $result = 1 !== \bccomp((string)$num, (string)$ruleNum);
+        }
+        return $result;
     }
 
     /**
