@@ -188,7 +188,8 @@ class Base extends BaseProcessor
                     ...\array_fill_keys($ruleSet->getDict($itemCollectionType, (string) $code), $config)
                 ];
             }
-            // 恢复赋值
+            // 删除掉当前规则的项目，避免后续计算时候重复处理
+            unset($collection[$rule->itemCode]);
             $itemCollection = $collection;
         }
         // 获取临时数据，同时根据规则有效期进行过滤
@@ -521,10 +522,13 @@ class Base extends BaseProcessor
                 $currItems = $tmpMiItemSet[$rule->itemCode];
                 /** @var MedicalInsuranceItem $miItem */
                 foreach ($currItems as $miItem) {
-                    // 获取分组号    
+                    // 获取分组号
                     $groupCode = $miItem->groupCode;
                     $find = false;
                     foreach ($itemCollection as $code => $config) {
+                        if (!isset($tmpMiItemSet[$code])) {
+                            continue;
+                        }
                         // 查看是否存在同一分组数据
                         $groupItems = \array_filter($tmpMiItemSet[$code], function (MedicalInsuranceItem $item) use ($groupCode) {
                             return $item->groupCode === $groupCode;
