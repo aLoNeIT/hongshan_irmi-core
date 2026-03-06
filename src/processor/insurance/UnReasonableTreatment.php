@@ -61,7 +61,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
             // 获取当前项目数据集合
             /** @var MedicalInsuranceItem[] $miItem */
-            $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
+            $miItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
             $unitType = $rule->options['unit_type'];
             switch ($unitType) {
                 case 'days':
@@ -73,7 +73,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                     break;
             }
             // 遍历计算当前项目的总天数
-            $totalDays = \array_reduce($miItem, function ($carray, MedicalInsuranceItem $item) use ($varName) {
+            $totalDays = \array_reduce($miItems, function ($carray, MedicalInsuranceItem $item) use ($varName) {
                 return \bcadd((string)$carray, (string)($item->$varName ?: 0));
             });
             list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
@@ -83,9 +83,9 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                     'msg' => "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$ruleNum}{$unit}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
-                        'item' => $miItem,
+                        'item' => $miItems,
                         'total_days' => $totalDays,
-                        'item_ids' => $this->getMedicalItemId([$miItem])
+                        'item_ids' => $this->getMedicalItemId($miItem)
                     ],
                 ];
             }
