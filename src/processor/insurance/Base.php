@@ -128,7 +128,7 @@ class Base extends BaseProcessor
         }
     }
     /**
-     * 比较数量
+     * 对比实际数量是否符合规则数量要求
      *
      * @param float $num 项目数量
      * @param array|float $ruleNum 规则数量
@@ -137,7 +137,7 @@ class Base extends BaseProcessor
     public function compareNum(float $num, array|float $ruleNum): bool
     {
         $result = false;
-        if ($num < $ruleNum) {
+        if (\is_array($ruleNum)) {
             // 规则数量是数组，代表between
             [$min, $max] = $ruleNum;
             $result = (\is_null($min) || -1 != \bccomp((string)$num, (string)$min))

@@ -222,6 +222,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     $date = $currItem->date;
                     $groupCode = $currItem->groupCode;
                     $dateMiItems = $medicalRecord->medicalInsuranceSet[$date] ?? [];
+                    $groupItems = [];
                     foreach ($dateMiItems as $code => $items) {
                         // 根据项目组号、项目类型进行筛选
                         $result = \array_filter($items, function (MedicalInsuranceItem $item) use ($itemType, $groupCode) {
@@ -232,19 +233,30 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         // 有符合条件的项目，数量加1
                         if (!empty($result)) {
                             $num++;
-                            if (!$this->compareNum($num, $ruleNum)) {
-                                // 实际项目数量超过限定数量
-                                $errors[] = [
-                                    'msg' => "当前项目[{$rule->itemName}]在同一分组内，项目类别总数应" . $this->getNumErrorStr($ruleNum) . "，实际[{$num}]",
-                                    'data' => [
-                                        'rule' => $this->getRuleInfo($rule),
-                                        'item_ids' => \array_filter(\array_map(function (MedicalInsuranceItem $item) {
-                                            return $item->id;
-                                        }, $result))
-                                    ],
-                                ];
-                            }
+                            $groupItems = [...$groupItems, ...$result];
                         }
+                    }
+                    // 根据最终数量，判断是否处于有效区间内，并提取出有问题的数据id
+                    if (!$this->compareNum($num, $ruleNum)) {
+                        $itemsIds = [];
+                        [$min, $max] = \is_array($ruleNum) ? $ruleNum : [0, $ruleNum];
+                        if ($num < $min) {
+                            $itemsIds = \array_filter(\array_map(function (MedicalInsuranceItem $item) {
+                                return $item->id;
+                            }, $groupItems));
+                        } else if ($num > $max) {
+                            $itemsIds = \array_filter(\array_map(function (MedicalInsuranceItem $item) {
+                                return $item->id;
+                            }, \array_slice($groupItems, $max)));
+                        }
+                        // 实际项目数量超过限定数量
+                        $errors[] = [
+                            'msg' => "当前项目[{$rule->itemName}]在同一分组内，项目类别总数应" . $this->getNumErrorStr($ruleNum) . "，实际[{$num}]",
+                            'data' => [
+                                'rule' => $this->getRuleInfo($rule),
+                                'item_ids' => $itemsIds,
+                            ],
+                        ];
                     }
                 }
                 break;
@@ -254,6 +266,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     $date = $currItem->date;
                     $groupCode = $currItem->groupCode;
                     $dateMiItems = $medicalRecord->medicalInsuranceSet[$date] ?? [];
+                    $groupItems = [];
+                    $num = 0;
                     foreach ($dateMiItems as $code => $items) {
                         if ($code == $rule->itemCode) {
                             // 当前项目直接跳过
@@ -265,22 +279,39 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                                 ? true
                                 : $item->type == $itemType && $item->groupCode == $groupCode;
                         });
+                        $groupItems = [...$groupItems, ...$result];
                         // 计算数量
-                        $num = \array_reduce($result, function ($carry, $item) {
+                        $num = (float)\array_reduce($result, function ($carry, $item) {
                             return \bcadd((string) $carry, (string) $item->num);
                         }, '0');
-                        if (!$this->compareNum((float)$num, $ruleNum)) {
-                            // 实际项目数量超过限定数量
-                            $errors[] = [
-                                'msg' => "当前项目[{$rule->itemName}]在同一分组内，计费总数应" . $this->getNumErrorStr($ruleNum) . "，实际[{$num}]",
-                                'data' => [
-                                    'rule' => $this->getRuleInfo($rule),
-                                    'item_ids' => \array_filter(\array_map(function (MedicalInsuranceItem $item) {
-                                        return $item->id;
-                                    }, $result))
-                                ],
-                            ];
+                    }
+                    // 根据最终数量，判断是否处于有效区间内，并提取出有问题的数据id
+                    $itemIds = [];
+                    if (!$this->compareNum((float)$num, $ruleNum)) {
+                        [$min, $max] = \is_array($ruleNum) ? $ruleNum : [0, $ruleNum];
+                        if ($num < $min) {
+                            // 实际项目数量低于限定数量，则说明所有数据都有问题
+                            $itemIds = \array_filter(\array_map(function (MedicalInsuranceItem $item) {
+                                return $item->id;
+                            }, $groupItems));
+                        } else if ($num > $max) {
+                            // 获取超出数量范围数据，则提取超出范围的数据id
+                            $tmpNum = 0;
+                            foreach ($groupItems as $item) {
+                                $tmpNum = \bcadd((string) $tmpNum, (string) $item->num);
+                                if ($tmpNum > $max) {
+                                    // 超出数量范围，则记录当前数据id
+                                    $itemIds[] = $item->id;
+                                }
+                            }
                         }
+                        $errors[] = [
+                            'msg' => "当前项目[{$rule->itemName}]在同一分组内，计费总数应" . $this->getNumErrorStr($ruleNum) . "，实际[{$num}]",
+                            'data' => [
+                                'rule' => $this->getRuleInfo($rule),
+                                'item_ids' => $itemIds
+                            ],
+                        ];
                     }
                 }
                 break;
