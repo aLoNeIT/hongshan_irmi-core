@@ -34,7 +34,8 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             }
             return $jResult;
         } catch (IRMIException $ex) {
-            return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            // return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            throw $ex;
         }
     }
     /**
@@ -77,7 +78,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                 return \bcadd((string)$carray, (string)($item->$varName ?: 0));
             });
             list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
-            if (1 === \bccomp((string)$totalDays, (string)$ruleNum)) {
+            if (!$this->compareNum((float)$totalDays, $ruleNum)) {
                 // 超过用药天数
                 $errors[] = [
                     'msg' => "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$ruleNum}{$unit}]",
