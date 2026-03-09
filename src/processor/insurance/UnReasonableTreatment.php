@@ -79,6 +79,20 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             });
             list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
             if (!$this->compareNum((float)$totalDays, $ruleNum)) {
+                // 优化处理超过期限的信息
+                $itemIds = [];
+                [$min, $max] = \is_array($ruleNum) ? $ruleNum : [0, $ruleNum];
+                if ($totalDays < $min) {
+                    $itemIds = $this->getMedicalItemId($miItems);
+                } else if ($totalDays > $max) {
+                    $num = 0;
+                    foreach ($miItems as $miItem) {
+                        $num = \bcadd((string)$num, (string)($miItem->$varName ?: 0));
+                        if ($num > $max && !\is_null($miItem->id)) {
+                            $itemIds[] = $miItem->id;
+                        }
+                    }
+                }
                 // 超过用药天数
                 $errors[] = [
                     'msg' => "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$ruleNum}{$unit}]",
@@ -86,7 +100,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                         'rule' => $this->getRuleInfo($rule),
                         'item' => $miItems,
                         'total_days' => $totalDays,
-                        'item_ids' => $this->getMedicalItemId($miItems)
+                        'item_ids' => $itemIds
                     ],
                 ];
             }
