@@ -63,8 +63,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 获取医保项目集合
         $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
         // 获取当前项目数据集合
-        /** @var MedicalInsuranceItem[] $miItem */
-        $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
+        /** @var MedicalInsuranceItem[] $miItems */
+        $miItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
         switch ($rule->options['unit_type'] ?? '') {
             case 'cash':
                 $varName = 'cash';
@@ -83,7 +83,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 存储待检测的数据，如果是按日检测，key是日期，如果是按周期，key是'all'
         $itemData = [];
         // 遍历当前项目数据，进行汇总
-        \array_walk($miItem, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName) {
+        \array_walk($miItems, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName) {
             $key = 1 == $detectType ? $item->date : 'all';
             $totalPrice = \bcmul((string)$item->price, (string)($item->num ?: 0));
             $itemData[$key] = [
@@ -150,7 +150,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                             'msg' => "{$errDateStr}当前项目[{$rule->itemName}]应收费用[{$standardCash}]，实收费用[{$item['total_cash']}]，总计费量[{$item['total_num']}]，超出部分未按照[{$percent}%]收费，超收费用[{$diffCash}]",
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
-                                'item' => $miItem,
+                                'item' => $miItems,
                                 'standard_cash' => $standardCash,
                                 'total_cash' => $item['total_cash'],
                                 'over_cash' => $overCash,
@@ -160,9 +160,9 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                 'over_price' => $overPrice,
                                 'normal_cash' => $normalCash,
                                 'item_ids' => 'all' == $date
-                                    ? $this->getMedicalItemId([$miItem])
+                                    ? $this->getMedicalItemId($miItems)
                                     : $this->getMedicalItemId(
-                                        \array_filter($miItem, function (MedicalInsuranceItem $item) use ($date) {
+                                        \array_filter($miItems, function (MedicalInsuranceItem $item) use ($date) {
                                             return $date == $item->date;
                                         })
                                     )
@@ -178,11 +178,11 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
                         'date' => $date,
-                        'item' => $miItem,
+                        'item' => $miItems,
                         'item_ids' => 'all' == $date
-                            ? $this->getMedicalItemId([$miItem])
+                            ? $this->getMedicalItemId($miItems)
                             : $this->getMedicalItemId(
-                                \array_filter($miItem, function (MedicalInsuranceItem $item) use ($date) {
+                                \array_filter($miItems, function (MedicalInsuranceItem $item) use ($date) {
                                     return $date == $item->date;
                                 })
                             )
