@@ -108,46 +108,6 @@ class IRMIRuleSet extends Base
         }
         return $this;
     }
-    /**
-     * 过滤规则，生成新的规则集
-     *
-     * @param IRMIRuleOption|null $ruleOption 规则选项
-     * @return static 返回过滤后的规则集对象
-     */
-    public function filter(?IRMIRuleOption $ruleOption = null): static
-    {
-        $rules = [];
-        // 根据黑白名单构建处理函数，优先白名单
-        $whiteList = $ruleOption?->whiteList ?: [];
-        $blackList = $ruleOption?->blackList ?: [];
-        $fnFilter = function (string $code) {
-            return true;
-        };
-        if (!empty($whiteList)) {
-            $fnFilter = function (string $code) use ($whiteList) {
-                return \in_array($code, $whiteList);
-            };
-        } else if (!empty($blackList)) {
-            $fnFilter = function (string $code) use ($blackList) {
-                return !\in_array($code, $blackList);
-            };
-        }
-        // 过滤
-        $originRules = $this->originData['rules'] ?? [];
-        /** @var array $rule */
-        foreach ($originRules as $rule) {
-            if ($fnFilter($rule['code'])) {
-                $rules[] = $rule;
-            }
-        }
-        return (new static())->load(
-            [
-                'code' => $this->code,
-                'name' => $this->name,
-                'rules' => $rules
-            ]
-        );
-    }
 
     /**
      * 通过项目编码获取匹配的规则
@@ -177,7 +137,7 @@ class IRMIRuleSet extends Base
                 return true;
             };
         }
-        $categoryRules = $this->rules[(string)$category] ?? [];
+        $categoryRules = $this->itemRules[(string)$category] ?? [];
         $matchedItemCodes = \array_intersect(\array_keys($categoryRules), $itemCodes);
         foreach ($matchedItemCodes as $itemCode) {
             // 从指定类别的项目规则中获取规则编码
