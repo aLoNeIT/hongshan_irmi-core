@@ -65,7 +65,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 获取当前项目数据集合
         /** @var MedicalInsuranceItem[] $miItems */
         $miItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
-        switch ($rule->options['unit_type'] ?? '') {
+        $unitType = $rule->options['unit_type'] ?? '';
+        switch ($unitType) {
             case 'cash':
                 $varName = 'cash';
                 $unit = '元';
@@ -75,7 +76,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 $unit = '次';
                 break;
             default:
-                throw new IRMIException("超标准收费计算器不支持[{$rule->options['unit_type']}]单位配置");
+                throw new IRMIException("超标准收费计算器不支持[{$unitType}]单位配置");
                 break;
         }
         // 判断该规则是按日，还是周期
