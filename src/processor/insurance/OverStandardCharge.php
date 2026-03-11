@@ -65,7 +65,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 获取当前项目数据集合
         /** @var MedicalInsuranceItem[] $miItem */
         $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
-        switch ($rule->options['unit_type'] ?? '') {
+        $unitType = $rule->options['unit_type'] ?? 'num';
+        switch ($unitType) {
             case 'cash':
                 $varName = 'cash';
                 $unit = '元';
