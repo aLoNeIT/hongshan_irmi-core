@@ -86,7 +86,6 @@ class IRMI
                 foreach ($mrFail as $record) {
                     $medicalRecord = (new MedicalRecord())->load($record);
                     $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
-                    var_dump($result);
                     if ($jResult->setByArray($result)->isSuccess()) {
                         // 失败，记录
                         echo '失败测试用例未通过', PHP_EOL;
