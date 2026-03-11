@@ -225,10 +225,11 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     $groupItems = [];
                     foreach ($dateMiItems as $code => $items) {
                         // 根据项目组号、项目类型进行筛选
-                        $result = \array_filter($items, function (MedicalInsuranceItem $item) use ($itemType, $groupCode) {
-                            return \is_null($itemType)
+                        $result = \array_filter($items, function (MedicalInsuranceItem $item) use ($itemType, $groupCode, $groupItems) {
+                            return (\is_null($itemType)
                                 ? true
-                                : $item->type == $itemType && $item->groupCode == $groupCode;
+                                : $item->type == $itemType && $item->groupCode == $groupCode)
+                                && !\in_array($item->code, $groupItems);
                         });
                         // 有符合条件的项目，数量加1
                         if (!empty($result)) {
@@ -260,7 +261,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     }
                 }
                 break;
-            case 5: //群组中项目的计费总数
+            case 5: //群组中项目的计费总数，后续如果有需要再优化为根据价格之类
                 foreach ($currItems as $currItem) {
                     // 遍历每一个项目数据，根据项目的组号、日期来进行比对
                     $date = $currItem->date;
