@@ -1,0 +1,88 @@
+{
+  "rule": {
+    "code": "6163497",
+    "name": "使用药品的日期总计超过限制天数",
+    "item_code": "XC01EBC109B001010106553",
+    "item_name": "注射用重组人脑利钠肽",
+    "desc": "限二级及以上医疗机构用于规范治疗效果不佳的急性失代偿性心力衰竭短期治疗。住院方可支付，单次支付不超过3天。",
+    "category": 1,
+    "type": 3,
+    "sub_type": 1,
+    "options": {
+      "total_days": 3
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "BHLZL16410525114640",
+        "sex": 1,
+        "age": 0,
+        "age_day": 10,
+        "weight": null,
+        "birth_weight": null,
+        "in_branch": "01",
+        "out_branch": "02",
+        "in_days": 1,
+        "visit_type": 2,
+        "in_date": 1697299200,
+        "out_date": 1701207200,
+        "medical_insurance_set": {
+          "1772553600": {
+            "XC01EBC109B001010106553": [
+              {
+                "code": "XC01EBC109B001010106553",
+                "name": "注射用重组人脑利钠肽",
+                "time": 1772553690,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          },
+          "1772640000": {
+            "XC01EBC109B001010106553": [
+              {
+                "code": "XC01EBC109B001010106553",
+                "name": "注射用重组人脑利钠肽",
+                "time": 1772558190,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          },
+          "1772726400": {
+            "XC01EBC109B001010106553": [
+              {
+                "code": "XC01EBC109B001010106553",
+                "name": "注射用重组人脑利钠肽",
+                "time": 1772726490,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          },
+          "1772812800": {
+            "XC01EBC109B001010106553": [
+              {
+                "code": "XC01EBC109B001010106553",
+                "name": "注射用重组人脑利钠肽",
+                "time": 1772812890,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

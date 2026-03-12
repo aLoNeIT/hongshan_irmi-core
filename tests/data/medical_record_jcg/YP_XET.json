@@ -1,0 +1,55 @@
+{
+  "rule": {
+    "code": "6163552",
+    "name": "参保人年龄超出儿童年龄限制",
+    "item_code": "XB05BAX105B002010102180",
+    "item_name": "小儿复方氨基酸注射液(19AA-Ⅰ)",
+    "desc": "1.早产儿、低体重儿及各种病因所致不能经口摄入蛋白质或摄入量不足的新生儿。2.各种创伤：如烧伤、外伤及手术后等高分解代谢状态的小儿。 3.各种不能经口摄食或摄食不足的急、慢性营养不良的小儿，如坏死性小肠结肠炎、急性坏死性胰腺炎、化疗药物反应等。",
+    "category": 1,
+    "type": 4,
+    "sub_type": 2,
+    "options": {
+      "property": [
+        {
+          "name": "age",
+          "value": 6,
+          "operator": "<="
+        }
+      ]
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "BHLZL16410525114640",
+        "sex": 1,
+        "age": 3,
+        "age_day": 10,
+        "weight": null,
+        "birth_weight": null,
+        "in_branch": "01",
+        "out_branch": "02",
+        "in_days": 1,
+        "visit_type": 2,
+        "in_date": 1697299200,
+        "out_date": 1701207200,
+        "medical_insurance_set": {
+          "1772553600": {
+            "XB05BAX105B002010102180": [
+              {
+                "code": "XB05BAX105B002010102180",
+                "name": "小儿复方氨基酸注射液(19AA-Ⅰ)",
+                "time": 1772558100,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

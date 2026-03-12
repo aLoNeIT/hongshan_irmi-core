@@ -1,0 +1,55 @@
+{
+  "rule": {
+    "code": "4020673",
+    "name": "与限定性别不符",
+    "item_code": "XL01XKN133A001010178537",
+    "item_name": "尼拉帕利阿比特龙片",
+    "desc": "【XL01XKN133A001010178537\/尼拉帕利阿比特龙片】本品联合泼尼松或泼尼松龙用于携带胚系和\/ 或体系BRCA 基因突变的转移性去势抵抗性前列腺癌成人患者（mCRPC）。",
+    "category": 1,
+    "type": 4,
+    "sub_type": 2,
+    "options": {
+      "property": [
+        {
+          "name": "sex",
+          "value": 1,
+          "operator": "="
+        }
+      ]
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "BHLZL16410525114640",
+        "sex": 1,
+        "age": 28,
+        "age_day": null,
+        "weight": null,
+        "birth_weight": null,
+        "in_branch": "01",
+        "out_branch": "02",
+        "in_days": 1,
+        "visit_type": 2,
+        "in_date": 1697299200,
+        "out_date": 1701207200,
+        "medical_insurance_set": {
+          "1772553600": {
+            "XL01XKN133A001010178537": [
+              {
+                "code": "XL01XKN133A001010178537",
+                "name": "尼拉帕利阿比特龙片",
+                "time": 1772558100,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

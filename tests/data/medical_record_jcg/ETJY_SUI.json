@@ -1,0 +1,55 @@
+{
+  "rule": {
+    "code": "4017070",
+    "name": "药品儿童禁用",
+    "item_code": "XP02CAA010A001010100269",
+    "item_name": "阿苯达唑片",
+    "desc": "【XP02CAA010A001010100269\/阿苯达唑片】2岁以下小儿禁用。",
+    "category": 1,
+    "type": 4,
+    "sub_type": 2,
+    "options": {
+      "property": [
+        {
+          "name": "age",
+          "value": 2,
+          "operator": "<="
+        }
+      ]
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "BHLZL16410525114640",
+        "sex": 2,
+        "age": 28,
+        "age_day": null,
+        "weight": null,
+        "birth_weight": null,
+        "in_branch": "01",
+        "out_branch": "02",
+        "in_days": 1,
+        "visit_type": 2,
+        "in_date": 1697299200,
+        "out_date": 1701207200,
+        "medical_insurance_set": {
+          "1772553600": {
+            "XP02CAA010A001010100269": [
+              {
+                "code": "XP02CAA010A001010100269",
+                "name": "阿苯达唑片",
+                "time": 1772558100,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

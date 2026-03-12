@@ -1,0 +1,55 @@
+{
+  "rule": {
+    "code": "5016508",
+    "name": "与限定性别不符",
+    "item_code": "C0103040370000316002",
+    "item_name": "包茎扩张器",
+    "desc": "【C0103040370000316002\/包茎扩张器】男性专用耗材",
+    "category": 1,
+    "type": 4,
+    "sub_type": 2,
+    "options": {
+      "property": [
+        {
+          "name": "sex",
+          "value": 1,
+          "operator": "="
+        }
+      ]
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "BHLZL16410525114640",
+        "sex": 2,
+        "age": 0,
+        "age_day": 66,
+        "weight": null,
+        "birth_weight": null,
+        "in_branch": "01",
+        "out_branch": "02",
+        "in_days": 1,
+        "visit_type": 2,
+        "in_date": 1697299200,
+        "out_date": 1701207200,
+        "medical_insurance_set": {
+          "1772553600": {
+            "C0103040370000316002": [
+              {
+                "code": "C0103040370000316002",
+                "name": "包茎扩张器",
+                "time": 1772558100,
+                "num": 1,
+                "price": 500,
+                "cash": 500,
+                "total_cash": 500
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
