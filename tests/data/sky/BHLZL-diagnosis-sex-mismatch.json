@@ -1,0 +1,87 @@
+{
+    "rule": {
+        "code": "BHLZL20260303002",
+        "name": "不合理诊疗[诊断与患者性别不符]",
+        "item_code": "D25.900",
+        "item_name": "子宫平滑肌瘤",
+        "desc": "诊断\"子宫平滑肌瘤\"为女性专属疾病,患者性别应为女(sex=2),男性患者使用该诊断属于诊断与性别不符",
+        "category": 1,
+        "type": 4,
+        "sub_type": 2,
+        "options": {
+            "property": [
+                {
+                    "name": "sex",
+                    "operator": "=",
+                    "value": 2
+                }
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [
+            {
+                "code": "BHLZL-SEX-SUCCESS-001",
+                "desc": "女性患者(sex=2)诊断子宫平滑肌瘤,性别匹配,应通过",
+                "sex": 2,
+                "age": 45,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 7,
+                "visit_type": 2,
+                "in_date": 1709222400,
+                "out_date": 1709827200,
+                "medical_insurance_set": {
+                    "1709222400": {
+                        "D25.900": [
+                            {
+                                "code": "D25.900",
+                                "name": "子宫平滑肌瘤",
+                                "time": 1709251200,
+                                "num": 1,
+                                "price": 0,
+                                "cash": 0,
+                                "total_cash": 0
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": [
+            {
+                "code": "BHLZL-SEX-FAIL-001",
+                "desc": "男性患者(sex=1)诊断子宫平滑肌瘤,性别不符,应检出",
+                "sex": 1,
+                "age": 50,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 5,
+                "visit_type": 2,
+                "in_date": 1709222400,
+                "out_date": 1709654400,
+                "medical_insurance_set": {
+                    "1709222400": {
+                        "D25.900": [
+                            {
+                                "code": "D25.900",
+                                "name": "子宫平滑肌瘤",
+                                "time": 1709251200,
+                                "num": 1,
+                                "price": 0,
+                                "cash": 0,
+                                "total_cash": 0
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
