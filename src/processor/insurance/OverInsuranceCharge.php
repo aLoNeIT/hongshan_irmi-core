@@ -214,48 +214,26 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         // 获取限定的数量
         list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
         // 1-原始数字，2-病历中的某个属性，3-另一个项目的数量，4-群组中项目的个数，5-群组中项目的计费总数；
+        $errTmpl = '';
         switch ($ruleNumType) {
             case 4: // 群组中项目个数
+                $errTmpl = '当前项目[{$ruleItemName}]在同一分组内，项目类别总数应[{$ruleErrorStr}]，实际[{$num}]';
+                break;
+            case 5: //群组中项目的计费总数，后续如果有需要再优化为根据价格之类
+                $errTmpl = '当前项目[{$ruleItemName}]在同一分组内，计费总数应[{$ruleErrorStr}]，实际[{$num}]';
                 // {"P123123":{"T000700200":[miitem1,miitem2],"T000700201":[miitem3]},"P123124":{"T000700202":[miitem4,miitem5]}}
                 /** @var array<string, array<string, MedicalInsuranceItem[]>> $groupInfo */
-                $groupInfo = [];
-                // 根据规则对应的项目所属群组信息，先遍历获取同群组数据，整理到群组信息下
-                foreach ($currItems as $currItem) {
-                    $groupCode = $currItem->groupCode;
-                    if ($groupCode) {
-                        // 有效的群组号，现在开始当前项目同天的数据
-                        // 这里要求同组数据必须在一天内
-                        $date = $currItem->date;
-                        $dateMiItems = $medicalRecord->medicalInsuranceSet[$date] ?? [];
-                        // code是项目编码，miItems是当前项目同天的所有项目数据集合
-                        foreach ($dateMiItems as $code => $miItems) {
-                            // 将当前项目同天的同群组数据筛选出来
-                            $groupItems = \array_filter($miItems, function (MedicalInsuranceItem $item) use ($groupCode) {
-                                return $item->groupCode == $groupCode;
-                            });
-                            // 过滤后不为空，则添加到群组信息下
-                            if (!empty($groupItems)) {
-                                // 获取记录的id集合
-                                $items = $groupInfo[$groupCode][$code] ?? [];
-                                // 将当前分组的项目id添加到集合中
-                                $groupInfo[$groupCode][$code] = [
-                                    ...$items,
-                                    ...$groupItems
-                                ];
-                            }
-                        }
-                    }
-                }
+                $groupInfo = $this->buildGroupInfo($medicalRecord, $currItems, $itemType);
                 // 以上处理完毕，开始进行数量判定
-                foreach ($groupInfo as $code => $miItems) {
-                    $num = \count($miItems);
+                foreach ($groupInfo as $code => $groupItems) {
+                    $num = $this->calculateGroupNum($groupItems, $ruleNum, (int)$ruleNumType);
                     if (!$this->compareNum($num, $ruleNum)) {
                         $itemIds = [];
                         [$min, $max] = \is_array($ruleNum) ? $ruleNum : [0, $ruleNum];
                         if ($num < $min) {
                             // 项目数量少于最小值，则说明所有项目都有问题，直接提取留存的所有数据id
                             /** @var MedicalInsuranceItem[] $items */
-                            \array_walk($miItems, function (array $items, string $miCode) use (&$itemIds) {
+                            \array_walk($groupItems, function (array $items, string $itemCode) use (&$itemIds) {
                                 // 提取id
                                 $ids = \array_map(function (MedicalInsuranceItem $item) {
                                     return $item->id;
@@ -265,7 +243,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         } else if ($num > $max) {
                             /** @var MedicalInsuranceItem[] $sortItems */
                             $sortItems = [];
-                            \array_walk($miItems, function (array $items, string $miCode) use (&$sortItems) {
+                            \array_walk($groupItems, function (array $items, string $miCode) use (&$sortItems) {
                                 $sortItems = [...$sortItems, ...$items];
                             });
                             // 使用usort，对$sortItems每个元素进行排序，按照时间排序
@@ -279,7 +257,11 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                         }
                         // 实际项目数量超过限定数量
                         $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]在同一分组内，项目类别总数应" . $this->getNumErrorStr($ruleNum) . "，实际[{$num}]",
+                            'msg' => \str_replace(
+                                ['{$ruleItemName}', '{$ruleErrorStr}', '{$num}'],
+                                [$rule->itemName, $this->getNumErrorStr($ruleNum), $num],
+                                $errTmpl
+                            ),
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
                                 'item_ids' => $itemIds,
@@ -288,92 +270,84 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     }
                 }
                 break;
-            case 5: //群组中项目的计费总数，后续如果有需要再优化为根据价格之类
-                // {"P123123":{"T000700200":[miitem1,miitem2],"T000700201":[miitem3]},"P123124":{"T000700202":[miitem4,miitem5]}}
-                /** @var array<string, array<string, MedicalInsuranceItem[]>> $groupInfo */
-                $groupInfo = [];
-                // 根据规则对应的项目所属群组信息，先遍历获取同群组数据，整理到群组信息下
-                foreach ($currItems as $currItem) {
-                    $groupCode = $currItem->groupCode;
-                    if ($groupCode) {
-                        // 有效的群组号，现在开始当前项目同天的数据
-                        // 这里要求同组数据必须在一天内
-                        $date = $currItem->date;
-                        $dateMiItems = $medicalRecord->medicalInsuranceSet[$date] ?? [];
-                        // code是项目编码，miItems是当前项目同天的所有项目数据集合
-                        foreach ($dateMiItems as $code => $miItems) {
-                            // 将当前项目同天的同群组数据筛选出来
-                            $groupItems = \array_filter($miItems, function (MedicalInsuranceItem $item) use ($groupCode) {
-                                return $item->groupCode == $groupCode;
-                            });
-                            // 过滤后不为空，则添加到群组信息下
-                            if (!empty($groupItems)) {
-                                // 获取记录的id集合
-                                $items = $groupInfo[$groupCode][$code] ?? [];
-                                // 将当前分组的项目id添加到集合中
-                                $groupInfo[$groupCode][$code] = [
-                                    ...$items,
-                                    ...$groupItems
-                                ];
-                            }
-                        }
-                    }
-                }
-                // 以上处理完毕，开始进行数量判定
-                foreach ($groupInfo as $code => $miItems) {
-                    $num = 0.0;
-                    \array_walk($miItems, function (array $items, string $miCode) use (&$num) {
-                        $itemNum = \array_reduce($items, function ($carry, $item) {
-                            // 累加项目计费数量
-                            $carry = \bcadd($carry, (string)$item->num);
-                            return $carry;
-                        }, '0');
-                        // 累加当前项目的计费金额
-                        $num = (float)\bcadd((string)$num, $itemNum);
-                    });
-                    if (!$this->compareNum($num, $ruleNum)) {
-                        $itemIds = [];
-                        [$min, $max] = \is_array($ruleNum) ? $ruleNum : [0, $ruleNum];
-                        if ($num < $min) {
-                            // 项目数量少于最小值，则说明所有项目都有问题，直接提取留存的所有数据id
-                            /** @var MedicalInsuranceItem[] $items */
-                            \array_walk($miItems, function (array $items, string $miCode) use (&$itemIds) {
-                                // 提取id
-                                $ids = \array_map(function (MedicalInsuranceItem $item) {
-                                    return $item->id;
-                                }, $items);
-                                $itemIds = [...$itemIds, ...$ids];
-                            });
-                        } else if ($num > $max) {
-                            /** @var MedicalInsuranceItem[] $sortItems */
-                            $sortItems = [];
-                            \array_walk($miItems, function (array $items, string $miCode) use (&$sortItems) {
-                                $sortItems = [...$sortItems, ...$items];
-                            });
-                            // 使用usort，对$sortItems每个元素进行排序，按照时间排序
-                            \usort($sortItems, function (MedicalInsuranceItem $a, MedicalInsuranceItem $b) {
-                                return $a->time <=> $b->time;
-                            });
-                            // 项目数量超过最大值，则按照时间排序，提取最后超过部分的项目id
-                            $itemIds = \array_filter(\array_map(function (MedicalInsuranceItem $item) {
-                                return $item->id;
-                            }, \array_slice($sortItems, $max)));
-                        }
-                        // 实际项目数量超过限定数量
-                        $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]在同一分组内，计费总数应" . $this->getNumErrorStr($ruleNum) . "，实际[{$num}]",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
-                                'item_ids' => $itemIds
-                            ],
-                        ];
-                    }
-                }
-                break;
             default:
-                throw new IRMIException('当前规则不支持此参数[num]配置');
+                throw new IRMIException('当前规则不支持此参数[num.type]配置');
                 break;
         }
         return $this->getResult(302, '超医保支付范围', $errors);
+    }
+    /**
+     * 构建群组信息
+     *
+     * @param MedicalRecord $medicalRecord 医保记录
+     * @param MedicalInsuranceItem[] $currItems 当前规则对应项目
+     * @param string|null $itemType 项目类型
+     * @return array<string, array<string, MedicalInsuranceItem[]>> 群组信息
+     */
+    private function buildGroupInfo(MedicalRecord $medicalRecord, array $currItems, string $itemType): array
+    {
+        // {"P123123":{"T000700200":[miitem1,miitem2],"T000700201":[miitem3]},"P123124":{"T000700202":[miitem4,miitem5]}}
+        /** @var array<string, array<string, MedicalInsuranceItem[]>> $groupInfo */
+        $groupInfo = [];
+        // 根据规则对应的项目所属群组信息，先遍历获取同群组数据，整理到群组信息下
+        foreach ($currItems as $currItem) {
+            $groupCode = $currItem->groupCode;
+            if ($groupCode) {
+                // 有效的群组号，现在开始当前项目同天的数据
+                // 这里要求同组数据必须在一天内
+                $date = $currItem->date;
+                $dateMiItems = $medicalRecord->medicalInsuranceSet[$date] ?? [];
+                // code是项目编码，miItems是当前项目同天的所有项目数据集合
+                foreach ($dateMiItems as $code => $miItems) {
+                    // 将当前项目同天的同群组数据筛选出来
+                    $groupItems = \array_filter($miItems, function (MedicalInsuranceItem $item) use ($groupCode, $itemType) {
+                        return $item->groupCode == $groupCode
+                            && (\is_null($itemType) || $item->type == $itemType);
+                    });
+                    // 过滤后不为空，则添加到群组信息下
+                    if (!empty($groupItems)) {
+                        // 获取记录的id集合
+                        $items = $groupInfo[$groupCode][$code] ?? [];
+                        // 将当前分组的项目id添加到集合中
+                        $groupInfo[$groupCode][$code] = [
+                            ...$items,
+                            ...$groupItems
+                        ];
+                    }
+                }
+            }
+        }
+        return $groupInfo;
+    }
+    /**
+     * 计算群组数量
+     *
+     * @param array<string, \hongshanhealth\irmi\struct\MedicalInsuranceItem[]> $groupItems 群组项目数据
+     * @param integer $ruleNumType 规则数量类型
+     * @return float 计算得到的数量
+     */
+    private function calculateGroupNum(array $groupItems, int $ruleNumType): float
+    {
+        switch ($ruleNumType) {
+            case 4: // 群组内类别数
+                $num = \count($groupItems);
+                break;
+            case 5: // 群组内项目总计费数量
+                $num = 0.0;
+                \array_walk($groupItems, function (array $items, string $code) use (&$num) {
+                    $itemNum = \array_reduce($items, function ($carry, $item) {
+                        // 累加项目计费数量
+                        $carry = \bcadd($carry, (string)$item->num);
+                        return $carry;
+                    }, '0');
+                    // 累加当前项目的计费金额
+                    $num = (float)\bcadd((string)$num, $itemNum);
+                });
+                break;
+            default:
+                throw new IRMIException('当前规则不支持此参数[num.type]配置');
+                break;
+        }
+        return (float)$num;
     }
 }
