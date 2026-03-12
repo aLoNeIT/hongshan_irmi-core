@@ -1,0 +1,68 @@
+{
+    "rule": {
+        "code": "1016000",
+        "name": "超范围支付",
+        "item_code": "T001700233",
+        "item_name": "阿胶",
+        "desc": "【T001700233/阿胶】是不得纳入基金支付范围的中药饮片",
+        "category": 1,
+        "type": 3,
+        "sub_type": 2,
+        "options": {
+            "num": 0
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "ZY20260228",
+                "sex": 2,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1771986309,
+                "out_date": 1772159109,
+                "medical_insurance_set": {
+                    "1772595930": {
+                        "T000700200": [
+                            {
+                                "id": 1,
+                                "type": "10",
+                                "group_code": "123123",
+                                "code": "1772595930",
+                                "name": "丁香",
+                                "time": 1772595930,
+                                "num": 1,
+                                "price": 12,
+                                "cash": 12,
+                                "total_cash": 12
+                            }
+                        ]
+                    },
+                    "1772595950": {
+                        "T001700233": [
+                            {
+                                "id": 2,
+                                "type": "10",
+                                "group_code": "123125",
+                                "code": "T001700233",
+                                "name": "阿胶",
+                                "time": 1772595950,
+                                "num": 1,
+                                "price": 12,
+                                "cash": 12,
+                                "total_cash": 12
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -32,7 +32,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             }
             return $jResult;
         } catch (IRMIException $ex) {
-            return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            // return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            throw $ex;
         }
     }
     /**
@@ -62,9 +63,10 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 获取医保项目集合
         $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
         // 获取当前项目数据集合
-        /** @var MedicalInsuranceItem[] $miItem */
-        $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
-        switch ($rule->options['unit_type'] ?? '') {
+        /** @var MedicalInsuranceItem[] $miItems */
+        $miItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
+        $unitType = $rule->options['unit_type'] ?? 'num';
+        switch ($unitType) {
             case 'cash':
                 $varName = 'cash';
                 $unit = '元';
@@ -74,7 +76,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 $unit = '次';
                 break;
             default:
-                throw new IRMIException("超标准收费计算器不支持[{$rule->options['unit_type']}]单位配置");
+                throw new IRMIException("超标准收费计算器不支持[{$unitType}]单位配置");
                 break;
         }
         // 判断该规则是按日，还是周期
@@ -82,7 +84,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
         // 存储待检测的数据，如果是按日检测，key是日期，如果是按周期，key是'all'
         $itemData = [];
         // 遍历当前项目数据，进行汇总
-        \array_walk($miItem, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName) {
+        \array_walk($miItems, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName) {
             $key = 1 == $detectType ? $item->date : 'all';
             $totalPrice = \bcmul((string)$item->price, (string)($item->num ?: 0));
             $itemData[$key] = [
@@ -119,9 +121,13 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 (string)$item['total_num'],
                 (string)(isset($rule->options['combine_items']) ? ($cmItemData[$date]['total_num'] ?? 0) : 0)
             );
-            if (1 === \bccomp($totalNum, (string)$ruleNum)) {
+
+            if (!$this->compareNum((float)$totalNum, $ruleNum)) {
                 // 当前项目总数量大于指定的数量
-                if (1 === \bccomp((string)$item['total_num'], (string) $ruleNum) && isset($rule->options['ratio'])) {
+                if (
+                    !$this->compareNum((float)$item['total_num'], $ruleNum)
+                    && isset($rule->options['ratio'])
+                ) {
                     // 这里因为要计算的是当前项目的收费比例，所以数量不能使用合并的数量
                     // 若配置了费用比例，则代表需计算超限部分是否合规
                     $ratio = $rule->options['ratio'];
@@ -145,7 +151,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                             'msg' => "{$errDateStr}当前项目[{$rule->itemName}]应收费用[{$standardCash}]，实收费用[{$item['total_cash']}]，总计费量[{$item['total_num']}]，超出部分未按照[{$percent}%]收费，超收费用[{$diffCash}]",
                             'data' => [
                                 'rule' => $this->getRuleInfo($rule),
-                                'item' => $miItem,
+                                'item' => $miItems,
                                 'standard_cash' => $standardCash,
                                 'total_cash' => $item['total_cash'],
                                 'over_cash' => $overCash,
@@ -155,9 +161,9 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                 'over_price' => $overPrice,
                                 'normal_cash' => $normalCash,
                                 'item_ids' => 'all' == $date
-                                    ? $this->getMedicalItemId([$miItem])
+                                    ? $this->getMedicalItemId($miItems)
                                     : $this->getMedicalItemId(
-                                        \array_filter($miItem, function (MedicalInsuranceItem $item) use ($date) {
+                                        \array_filter($miItems, function (MedicalInsuranceItem $item) use ($date) {
                                             return $date == $item->date;
                                         })
                                     )
@@ -173,11 +179,11 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
                         'date' => $date,
-                        'item' => $miItem,
+                        'item' => $miItems,
                         'item_ids' => 'all' == $date
-                            ? $this->getMedicalItemId([$miItem])
+                            ? $this->getMedicalItemId($miItems)
                             : $this->getMedicalItemId(
-                                \array_filter($miItem, function (MedicalInsuranceItem $item) use ($date) {
+                                \array_filter($miItems, function (MedicalInsuranceItem $item) use ($date) {
                                     return $date == $item->date;
                                 })
                             )

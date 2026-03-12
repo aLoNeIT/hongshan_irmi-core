@@ -1,0 +1,87 @@
+{
+    "rule": {
+        "code": "3017065",
+        "name": "超范围支付",
+        "item_code": "T000700200",
+        "item_name": "丁香",
+        "desc": "【T000700200/丁香】是单独使用时统筹基金不予支付，且全部由这些饮片组成的处方统筹基金也不予支付。",
+        "category": 1,
+        "type": 3,
+        "sub_type": 2,
+        "options": {
+            "num": {
+                "type": 4,
+                "value": [
+                    2,
+                    null
+                ]
+            },
+            "item_type": "10"
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "ZY20260228",
+                "sex": 2,
+                "age": 28,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A02",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1771986309,
+                "out_date": 1772159109,
+                "medical_insurance_set": {
+                    "1772595930": {
+                        "T000700200": [
+                            {
+                                "id": 1,
+                                "type": "10",
+                                "group_code": "123123",
+                                "code": "T000700200",
+                                "name": "丁香",
+                                "time": 1772595930,
+                                "num": 1,
+                                "price": 12,
+                                "cash": 12,
+                                "total_cash": 12
+                            },
+                            {
+                                "id": 2,
+                                "type": "10",
+                                "group_code": "123123",
+                                "code": "T000700201",
+                                "name": "丁香",
+                                "time": 1772595930,
+                                "num": 1,
+                                "price": 12,
+                                "cash": 12,
+                                "total_cash": 12
+                            }
+                        ]
+                    },
+                    "1772595950": {
+                        "T001700288": [
+                            {
+                                "id": 3,
+                                "type": "10",
+                                "group_code": "123125",
+                                "code": "T001700288",
+                                "name": "蛤蚧",
+                                "time": 1772595950,
+                                "num": 1,
+                                "price": 12,
+                                "cash": 12,
+                                "total_cash": 12
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

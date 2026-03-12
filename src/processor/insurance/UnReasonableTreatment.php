@@ -34,7 +34,8 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             }
             return $jResult;
         } catch (IRMIException $ex) {
-            return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            // return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
+            throw $ex;
         }
     }
     /**
@@ -60,8 +61,8 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             // 获取医保项目集合
             $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
             // 获取当前项目数据集合
-            /** @var MedicalInsuranceItem[] $miItem */
-            $miItem = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
+            /** @var MedicalInsuranceItem[] $miItems */
+            $miItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
             $unitType = $rule->options['unit_type'];
             switch ($unitType) {
                 case 'days':
@@ -73,19 +74,33 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                     break;
             }
             // 遍历计算当前项目的总天数
-            $totalDays = \array_reduce($miItem, function ($carray, MedicalInsuranceItem $item) use ($varName) {
+            $totalDays = \array_reduce($miItems, function ($carray, MedicalInsuranceItem $item) use ($varName) {
                 return \bcadd((string)$carray, (string)($item->$varName ?: 0));
             });
             list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
-            if (1 === \bccomp((string)$totalDays, (string)$ruleNum)) {
+            if (!$this->compareNum((float)$totalDays, $ruleNum)) {
+                // 优化处理超过期限的信息
+                $itemIds = [];
+                [$min, $max] = \is_array($ruleNum) ? $ruleNum : [0, $ruleNum];
+                if ($totalDays < $min) {
+                    $itemIds = $this->getMedicalItemId($miItems);
+                } else if ($totalDays > $max) {
+                    $num = 0;
+                    foreach ($miItems as $miItem) {
+                        $num = \bcadd((string)$num, (string)($miItem->$varName ?: 0));
+                        if ($num > $max && !\is_null($miItem->id)) {
+                            $itemIds[] = $miItem->id;
+                        }
+                    }
+                }
                 // 超过用药天数
                 $errors[] = [
                     'msg' => "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$ruleNum}{$unit}]",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
-                        'item' => $miItem,
+                        'item' => $miItems,
                         'total_days' => $totalDays,
-                        'item_ids' => $this->getMedicalItemId([$miItem])
+                        'item_ids' => $itemIds
                     ],
                 ];
             }
