@@ -239,12 +239,9 @@ class Base extends BaseProcessor
         // 循环判断，包含的项目存在 当天或全部或其他 匹配条件
         switch ($timeType) {
             case 1: // 按天匹配
-                /** @var MedicalInsuranceItem[] $currItems */
                 $currItems = $tmpMiItemSet[$rule->itemCode];
-                /** @var MedicalInsuranceItem $miItem */
                 foreach ($currItems as $miItem) {
                     $date = $miItem->date;
-                    /** @var array $dateMiItems */
                     $dateMiItems = $medicalRecord->medicalInsuranceSet[$date];
                     // 交集计算看当天是否有包含内的项目
                     $itemKeys = \array_keys($itemCollection);
