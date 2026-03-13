@@ -216,6 +216,59 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         // 1-原始数字，2-病历中的某个属性，3-另一个项目的数量，4-群组中项目的个数，5-群组中项目的计费总数；
         $errTmpl = '';
         switch ($ruleNumType) {
+            case 1:
+            case 2:
+            case 3:
+                // 1、2、3 需要根据unit_type来确定比对的项目属性，然后不得超过num
+                $unitType = $rule->options['unit_type'] ?? 'num';
+                $varName = $unitType;
+                switch ($unitType) {
+                    case 'days':
+                        $unitTypeStr = '天';
+                        break;
+                    case 'cash':
+                        $unitTypeStr = '元';
+                        break;
+                    default:
+                        $unitTypeStr = '次';
+                        break;
+                }
+                // 判断该规则是按日，还是周期
+                $detectType = $rule->options['detect_type'] ?? 2;
+                // 存储待检测的数据，如果是按日检测，key是日期，如果是按周期，key是'all'
+                $itemData = [];
+                // 遍历当前项目数据，进行汇总
+                \array_walk($currItems, function (MedicalInsuranceItem $item) use (&$itemData, $detectType, $varName) {
+                    $key = 1 == $detectType ? $item->date : 'all';
+                    $itemData[$key] = [
+                        'total_num' => \bcadd((string)($itemData[$key]['total_num'] ?? 0), (string)($item->$varName ?: 0)),
+                    ];
+                });
+                // 循环判断是否存在某一天/全部数据不符合要求
+                foreach ($itemData as $date => $item) {
+                    $errDateStr = 'all' == $date ? '' : '[' . date('Y-m-d', (int)$date) . ']当日，';
+                    // 根据配置确定当前计算总量是否需要加上合并项目的数量
+                    $totalNum = $item['total_num'];
+                    if (!$this->compareNum((float)$totalNum, $ruleNum)) {
+                        // 无其他选项，单纯比较超数量要求
+                        $errors[] = [
+                            'msg' => "{$errDateStr}当前项目[{$rule->itemName}]的计费数量[{$totalNum}{$unitTypeStr}]超过[{$ruleNum}{$unitTypeStr}]",
+                            'data' => [
+                                'rule' => $this->getRuleInfo($rule),
+                                'date' => $date,
+                                'item' => $currItems,
+                                'item_ids' => 'all' == $date
+                                    ? $this->getMedicalItemId($currItems)
+                                    : $this->getMedicalItemId(
+                                        \array_filter($currItems, function (MedicalInsuranceItem $item) use ($date) {
+                                            return $date == $item->date;
+                                        })
+                                    )
+                            ],
+                        ];
+                    }
+                }
+                break;
             case 4: // 群组中项目个数
                 $errTmpl = '当前项目[{$ruleItemName}]在同一分组内，项目类别总数应[{$ruleErrorStr}]，实际[{$num}]';
                 break;

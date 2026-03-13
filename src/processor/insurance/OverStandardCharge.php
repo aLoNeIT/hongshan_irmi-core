@@ -90,7 +90,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             $itemData[$key] = [
                 'total_num' => \bcadd((string)($itemData[$key]['total_num'] ?? 0), (string)($item->$varName ?: 0)),
                 'total_cash' => \bcadd((string)($itemData[$key]['total_cash'] ?? 0), (string)$item->totalCash),
-                'total_price' => \bcadd((string)($itemData[$key]['total_price'] ?? 0), (string)$totalPrice),
+                'total_price' => \bcadd((string)($itemData[$key]['total_price'] ?? 0), \bcmul((string)$totalPrice, (string)$item->num)),
             ];
         });
 
@@ -111,11 +111,11 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 }
             });
         }
+        // 获取规则中配置的数量
+        list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
         // 循环判断是否存在某一天/全部数据不符合要求
         foreach ($itemData as $date => $item) {
             $errDateStr = 'all' == $date ? '' : '[' . date('Y-m-d', (int)$date) . ']当日，';
-            // 获取规则中配置的数量
-            list($ruleNum, $ruleNumType) = $this->getRuleOptionNum($medicalRecord, $rule);
             // 根据配置确定当前计算总量是否需要加上合并项目的数量
             $totalNum = \bcadd(
                 (string)$item['total_num'],

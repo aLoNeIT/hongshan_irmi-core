@@ -103,7 +103,7 @@ class Base extends BaseProcessor
                     );
                     break;
                 default: // 默认直接读取value属性
-                    throw new IRMIException("无效的规则属性[num]配置");
+                    throw new IRMIException("无效的规则属性[num.type]配置");
                     break;
             }
         }
