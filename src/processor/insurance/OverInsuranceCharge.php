@@ -271,12 +271,12 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 break;
             case 4: // 群组中项目个数
                 $errTmpl = '当前项目[{$ruleItemName}]在同一分组内，项目类别总数应[{$ruleErrorStr}]，实际[{$num}]';
-                break;
             case 5: //群组中项目的计费总数，后续如果有需要再优化为根据价格之类
                 $errTmpl = '当前项目[{$ruleItemName}]在同一分组内，计费总数应[{$ruleErrorStr}]，实际[{$num}]';
                 // {"P123123":{"T000700200":[miitem1,miitem2],"T000700201":[miitem3]},"P123124":{"T000700202":[miitem4,miitem5]}}
                 /** @var array<string, array<string, MedicalInsuranceItem[]>> $groupInfo */
                 $groupInfo = $this->buildGroupInfo($medicalRecord, $currItems, $itemType);
+                var_dump($groupInfo);
                 // 以上处理完毕，开始进行数量判定
                 foreach ($groupInfo as $code => $groupItems) {
                     $num = $this->calculateGroupNum($groupItems, $ruleNum, (int)$ruleNumType);
