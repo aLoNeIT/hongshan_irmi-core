@@ -61,9 +61,9 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             ];
         }
         // 获取医保项目集合
+        /** @var array<string,MedicalInsuranceItem[]> $miItemSet */
         $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
         // 获取当前项目数据集合
-        /** @var MedicalInsuranceItem[] $miItems */
         $miItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
         $unitType = $rule->options['unit_type'] ?? 'num';
         switch ($unitType) {
@@ -90,7 +90,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             $itemData[$key] = [
                 'total_num' => \bcadd((string)($itemData[$key]['total_num'] ?? 0), (string)($item->$varName ?: 0)),
                 'total_cash' => \bcadd((string)($itemData[$key]['total_cash'] ?? 0), (string)$item->totalCash),
-                'total_price' => \bcadd((string)($itemData[$key]['total_price'] ?? 0), \bcmul((string)$totalPrice, (string)$item->num)),
+                'total_price' => \bcadd((string)($itemData[$key]['total_price'] ?? 0), $totalPrice),
             ];
         });
 
