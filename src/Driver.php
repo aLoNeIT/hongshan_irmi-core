@@ -124,7 +124,8 @@ abstract class Driver
             }
             return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
         } catch (\Throwable $ex) {
-            return $this->jcode(1, $ex->getMessage(), $ex->getTrace());
+            $trace = $ex->getTrace();
+            return $this->jcode(1, $ex->getMessage());
         } finally {
             \bcscale($oldScale);
         }

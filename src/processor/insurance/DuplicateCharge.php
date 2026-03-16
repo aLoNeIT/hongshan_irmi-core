@@ -30,7 +30,6 @@ class DuplicateCharge extends Base implements IDetectInsuranceProcessor
             }
             return $jResult;
         } catch (IRMIException $ex) {
-            // return $this->jsonTable->error($ex->getMessage(), 1, $ex->getTrace());
             throw $ex;
         }
     }
