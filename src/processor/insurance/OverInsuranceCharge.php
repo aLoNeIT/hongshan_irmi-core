@@ -71,8 +71,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         if (isset($rule->options['age_range'])) {
             [$ageMin, $ageMax] = $rule->options['age_range'];
             if (
-                (!\is_null($ageMin) && $medicalRecord->age < $ageMin ||
-                    !\is_null($ageMax) && $medicalRecord->age > $ageMax)
+                ((!\is_null($ageMin) && ($medicalRecord->age < $ageMin)) ||
+                    (!\is_null($ageMax) && ($medicalRecord->age > $ageMax)))
             ) {
                 // 年龄不符合要求
                 $ageMinStr = \is_null($ageMin) ? '不限' : $ageMin;
@@ -276,7 +276,6 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 // {"P123123":{"T000700200":[miitem1,miitem2],"T000700201":[miitem3]},"P123124":{"T000700202":[miitem4,miitem5]}}
                 /** @var array<string, array<string, MedicalInsuranceItem[]>> $groupInfo */
                 $groupInfo = $this->buildGroupInfo($medicalRecord, $currItems, $itemType);
-                var_dump($groupInfo);
                 // 以上处理完毕，开始进行数量判定
                 foreach ($groupInfo as $code => $groupItems) {
                     $num = $this->calculateGroupNum($groupItems, $ruleNum, (int)$ruleNumType);
