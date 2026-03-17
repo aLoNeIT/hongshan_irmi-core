@@ -89,7 +89,7 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
             $itemData[$key] = [
                 'total_num' => \bcadd((string)($itemData[$key]['total_num'] ?? 0), (string)($item->$varName ?: 0)),
                 'total_cash' => \bcadd((string)($itemData[$key]['total_cash'] ?? 0), (string)$item->totalCash),
-                'total_price' => \bcadd((string)($itemData[$key]['total_price'] ?? 0), \bcmul((string)$totalPrice, (string)$item->num)),
+                'total_price' => \bcadd((string)($itemData[$key]['total_price'] ?? 0), $totalPrice),
             ];
         });
 

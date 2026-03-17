@@ -70,8 +70,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
         if (isset($rule->options['age_range'])) {
             [$ageMin, $ageMax] = $rule->options['age_range'];
             if (
-                (!\is_null($ageMin) && $medicalRecord->age < $ageMin ||
-                    !\is_null($ageMax) && $medicalRecord->age > $ageMax)
+                ((!\is_null($ageMin) && ($medicalRecord->age < $ageMin)) ||
+                    (!\is_null($ageMax) && ($medicalRecord->age > $ageMax)))
             ) {
                 // 年龄不符合要求
                 $ageMinStr = \is_null($ageMin) ? '不限' : $ageMin;
@@ -270,7 +270,6 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 break;
             case 4: // 群组中项目个数
                 $errTmpl = '当前项目[{$ruleItemName}]在同一分组内，项目类别总数应[{$ruleErrorStr}]，实际[{$num}]';
-                break;
             case 5: //群组中项目的计费总数，后续如果有需要再优化为根据价格之类
                 $errTmpl = '当前项目[{$ruleItemName}]在同一分组内，计费总数应[{$ruleErrorStr}]，实际[{$num}]';
                 // {"P123123":{"T000700200":[miitem1,miitem2],"T000700201":[miitem3]},"P123124":{"T000700202":[miitem4,miitem5]}}
