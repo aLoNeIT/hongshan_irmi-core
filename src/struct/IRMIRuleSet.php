@@ -48,14 +48,14 @@ class IRMIRuleSet extends Base
     /**
      * 当前规则集子项
      *
-     * @var IRMIRule[]
+     * @var array<int,array<string,IRMIRule>>
      */
     protected array $rules = [];
 
     /**
      * 以项目编码为键，规则编码数组为值的关联数组
      *
-     * @var array
+     * @var array<int,array<string,string[]>>
      */
     protected array $itemRules = [];
 
@@ -103,8 +103,8 @@ class IRMIRuleSet extends Base
         $this->itemRules = [];
         foreach ($rules as $rule) {
             $rule = (new IRMIRule())->setIRMIRuleSet($this)->load($rule);
-            $this->rules[$rule->code] = $rule;
-            $this->itemRules[$rule->itemCode][] = $rule->code;
+            $this->rules[$rule->category][$rule->code] = $rule;
+            $this->itemRules[$rule->category][$rule->itemCode][] = $rule->code;
         }
         return $this;
     }
@@ -152,14 +152,15 @@ class IRMIRuleSet extends Base
     /**
      * 通过项目编码获取匹配的规则
      *
+     * @param int $category 规则类别
      * @param string[] $itemCodes 项目编码集合
      * @param IRMIRuleOption|null $ruleOption 规则选项
      * @return IRMIRule[] 返回规则对象
      */
-    public function getRulesByItemCode(array $itemCodes, ?IRMIRuleOption $ruleOption = null): array
+    public function getRulesByItemCode(int $category, array $itemCodes, ?IRMIRuleOption $ruleOption = null): array
     {
         // 获取规则集中包含指定项目编码的规则的编码交集
-        $itemCodes = \array_intersect(\array_keys($this->itemRules), $itemCodes);
+        $intersectCodes = \array_intersect(\array_keys($this->itemRules[$category]), $itemCodes);
         $rules = [];
         // 根据黑白名单构建处理函数，优先白名单
         $whiteList = $ruleOption?->whiteList ?: [];
@@ -176,18 +177,17 @@ class IRMIRuleSet extends Base
                 return !\in_array($code, $blackList);
             };
         }
-        if (!empty($itemCodes)) {
-            // 先根据项目编码获取到规则集合
-            foreach ($itemCodes as $itemCode) {
-                // 再通过规则集合中的规则编码获取规则对象
-                foreach ($this->itemRules[$itemCode] as $code) {
-                    // 过滤处理
-                    if ($fnFilter($code)) {
-                        $rules[] = $this->rules[$code];
-                    }
+        // 先根据项目编码获取到规则集合
+        foreach ($intersectCodes as $itemCode) {
+            // 再通过规则集合中的规则编码获取规则对象
+            foreach ($this->itemRules[$category][$itemCode] as $ruleCode) {
+                // 过滤处理
+                if ($fnFilter($ruleCode)) {
+                    $rules[] = $this->rules[$category][$ruleCode];
                 }
             }
         }
+
         return $rules;
     }
     /**

@@ -46,6 +46,8 @@ abstract class Driver
         '400' => '不合理诊疗',
         '401' => '不合理诊疗[不符合诊疗要求]',
         '402' => '不合理诊疗[病历属性不匹配]',
+        '1100' => '病历属性不合规',
+        '1102' => '病历属性不合规[属性不匹配]',
     ];
 
     /**
@@ -103,23 +105,33 @@ abstract class Driver
             // 根据规则集合，提取适用的规则依次进行计算
             $miItemSet = $record->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
             $itemCodes = \array_keys($miItemSet);
-            // 过滤规则
-            $rules = $ruleSet->getRulesByItemCode($itemCodes, $ruleOption);
-            $errors = [];
-            foreach ($rules as $rule) {
-                // 根据规则类型创建对应的处理器
-                $class = ProcessorConst::TYPE_MAP[$rule->type];
-                /** @var IDetectInsuranceProcessor $processor */
-                $processor = new $class();
-                // 执行处理器
-                if (!$processor instanceof IDetectInsuranceProcessor) {
-                    continue;
-                }
-                $jResult = $processor->detect($record, $rule);
-                // 获取错误信息
-                if (!$jResult->isSuccess()) {
-                    // 记录该次对比错误内容，每个元素都是一个JsonTable的数组类型
-                    $errors[] = $jResult->toArray();
+            foreach (
+                [
+                    ProcessorConst::CATEGORY_INSURANCE,
+                    ProcessorConst::CATEGORY_EMR
+                ] as $category
+            ) {
+                // 过滤规则
+                $rules = $ruleSet->getRulesByItemCode($category, $itemCodes, $ruleOption);
+                $errors = [];
+                foreach ($rules as $rule) {
+                    // 根据规则类型创建对应的处理器
+                    $class = ProcessorConst::TYPE_MAP[$category][$rule->type];
+                    if (!class_exists($class)) {
+                        continue;
+                    }
+                    /** @var IDetectInsuranceProcessor $processor */
+                    $processor = new $class();
+                    // 执行处理器
+                    if (!$processor instanceof IDetectInsuranceProcessor) {
+                        continue;
+                    }
+                    $jResult = $processor->detect($record, $rule);
+                    // 获取错误信息
+                    if (!$jResult->isSuccess()) {
+                        // 记录该次对比错误内容，每个元素都是一个JsonTable的数组类型
+                        $errors[] = $jResult->toArray();
+                    }
                 }
             }
             return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
