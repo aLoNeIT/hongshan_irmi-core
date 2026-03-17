@@ -277,7 +277,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 $groupInfo = $this->buildGroupInfo($medicalRecord, $currItems, $itemType);
                 // 以上处理完毕，开始进行数量判定
                 foreach ($groupInfo as $code => $groupItems) {
-                    $num = $this->calculateGroupNum($groupItems, $ruleNum, (int)$ruleNumType);
+                    $num = $this->calculateGroupNum($groupItems, (int)$ruleNumType);
                     if (!$this->compareNum($num, $ruleNum)) {
                         $itemIds = [];
                         [$min, $max] = \is_array($ruleNum) ? $ruleNum : [0, $ruleNum];
