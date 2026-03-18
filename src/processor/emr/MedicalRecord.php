@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi\processor\emr;
 
-use hongshanhealth\irmi\constant\{Map as MapConst};
+use hongshanhealth\irmi\constant\{Key, Map as MapConst};
 use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
 use hongshanhealth\irmi\IRMIException;
 use hongshanhealth\irmi\processor\Base;
@@ -64,11 +64,29 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
                     'msg' => "当前病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
                     'data' => [
                         'rule' => $this->getRuleInfo($rule),
-                        'item_ids' => []
+                        'item_ids' => $this->getAllItemIds($medicalRecord)
                     ]
                 ];
             }
         }
         return $this->getResult(1102, '病历属性不合规', $errors);
+    }
+    /**
+     * 获取所有项目id集合
+     *
+     * @param MedicalRecordStruct $medicalRecord 病历对象
+     * @return int[] 项目id集合
+     */
+    protected function getAllItemIds(MedicalRecordStruct $medicalRecord): array
+    {
+        /** @var array<string, \hongshanhealth\irmi\struct\MedicalInsuranceItem[]> $tmpMiItemSet */
+        $tmpMiItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE) ?? [];
+        $itemIds = [];
+        foreach ($tmpMiItemSet as $itemCode => $items) {
+            foreach ($items as $item) {
+                $itemIds[] = $item->id;
+            }
+        }
+        return $itemIds;
     }
 }
