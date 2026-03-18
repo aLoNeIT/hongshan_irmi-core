@@ -136,7 +136,15 @@ abstract class Driver
             }
             return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
         } catch (\Throwable $ex) {
-            $trace = $ex->getTrace();
+            IRMILog::critical(
+                static::class,
+                __FUNCTION__,
+                [
+                    'code' => $ex->getCode(),
+                    'message' => $ex->getMessage(),
+                    'trace' => $ex->getTrace()
+                ]
+            );
             return $this->jcode(1, $ex->getMessage());
         } finally {
             \bcscale($oldScale);

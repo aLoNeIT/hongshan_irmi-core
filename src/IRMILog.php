@@ -18,7 +18,7 @@ class IRMILog
      *
      * @var LoggerInterface|null
      */
-    private ?LoggerInterface $logger = null;
+    private static ?LoggerInterface $logger = null;
 
     /**
      * 设置日志对象
@@ -38,12 +38,12 @@ class IRMILog
     /**
      * 转换为日志消息
      *
-     * @param string $sign
-     * @param string $msg
-     * @param array $data
-     * @return string
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return string 日志消息字符串
      */
-    protected function convert2Message(string $sign, string $msg, array $data): string
+    protected static function convert2Message(string $sign, string $msg, array $data): string
     {
         $data = [
             'sign' => $sign,
@@ -52,98 +52,127 @@ class IRMILog
         ];
         return \json_encode($data, JSON_UNESCAPED_UNICODE);
     }
-
+    /**
+     * 记录日志
+     *
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @param mixed $level 日志级别
+     * @return void
+     */
     public static function log(string $sign, string $msg, array $data, $level): void
     {
         static::getLogger()?->log($level, static::convert2Message($sign, $msg, $data));
     }
     /**
-     * System is unusable.
+     * 紧急日志
      *
-     * @param mixed[] $context
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return void
      */
-    public function emergency(string $sign, string $msg, array $data = []): void
+    public static function emergency(string $sign, string $msg, array $data = []): void
     {
         static::getLogger()?->emergency(static::convert2Message($sign, $msg, $data));
     }
 
     /**
-     * Action must be taken immediately.
+     * 立即采取行动
      *
-     * Example: Entire website down, database unavailable, etc. This should
-     * trigger the SMS alerts and wake you up.
+     * 示例：整个网站宕机、数据库不可用等。这应该触发短信警报并叫醒你。
      *
-     * @param mixed[] $context
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return void
      */
-    public function alert(string $sign, string $msg, array $data): void
+    public static function alert(string $sign, string $msg, array $data = []): void
     {
         static::getLogger()?->alert(static::convert2Message($sign, $msg, $data));
     }
 
     /**
-     * Critical conditions.
+     * 严重状况
      *
-     * Example: Application component unavailable, unexpected exception.
+     * 示例：应用程序组件不可用、意外异常等
      *
-     * @param mixed[] $context
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return void
      */
-    public function critical(string $sign, string $msg, array $data): void
+    public static function critical(string $sign, string $msg, array $data = []): void
     {
         static::getLogger()?->critical(static::convert2Message($sign, $msg, $data));
     }
 
     /**
-     * Runtime errors that do not require immediate action but should typically
-     * be logged and monitored.
+     * 运行时错误，不需要立即处理但通常应记录和监控
      *
-     * @param mixed[] $context
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return void
      */
-    public function error(string $sign, string $msg, array $data): void
+    public static function error(string $sign, string $msg, array $data = []): void
     {
         static::getLogger()?->error(static::convert2Message($sign, $msg, $data));
     }
 
     /**
-     * Exceptional occurrences that are not errors.
+     * 非错误的异常情况
      *
-     * Example: Use of deprecated APIs, poor use of an API, undesirable things
-     * that are not necessarily wrong.
+     * 示例：使用已弃用的API、API使用不当、不理想但不一定错误的事情
      *
-     * @param mixed[] $context
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return void
      */
-    public function warning(string $sign, string $msg, array $data): void
+    public static function warning(string $sign, string $msg, array $data = []): void
     {
         static::getLogger()?->warning(static::convert2Message($sign, $msg, $data));
     }
 
     /**
-     * Normal but significant events.
+     * 正常但重要的事件
      *
-     * @param mixed[] $context
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return void
      */
-    public function notice(string $sign, string $msg, array $data): void
+    public static function notice(string $sign, string $msg, array $data = []): void
     {
         static::getLogger()?->notice(static::convert2Message($sign, $msg, $data));
     }
 
     /**
-     * Interesting events.
+     * 有趣的事件
      *
-     * Example: User logs in, SQL logs.
+     * 示例：用户登录、SQL日志等
      *
-     * @param mixed[] $context
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return void
      */
-    public function info(string $sign, string $msg, array $data): void
+    public static function info(string $sign, string $msg, array $data = []): void
     {
         static::getLogger()?->info(static::convert2Message($sign, $msg, $data));
     }
 
     /**
-     * Detailed debug information.
+     * 详细的调试信息
      *
-     * @param mixed[] $context
+     * @param string $sign 日志标识
+     * @param string $msg 日志消息
+     * @param array $data 日志数据
+     * @return void
      */
-    public function debug(string $sign, string $msg, array $data): void
+    public static function debug(string $sign, string $msg, array $data = []): void
     {
         static::getLogger()?->debug(static::convert2Message($sign, $msg, $data));
     }
