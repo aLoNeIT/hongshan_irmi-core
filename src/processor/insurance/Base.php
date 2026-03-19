@@ -19,42 +19,7 @@ use hongshanhealth\irmi\Util;
  */
 class Base extends BaseProcessor
 {
-    /**
-     * 检查规则适用的时间范围
-     *
-     * @param integer $date 日期时间戳
-     * @param IRMIRule $rule 规则数据
-     * @return boolean 返回是否在时间范围内，true为命中时间范围，false为未命中
-     */
-    protected function checkDateRange(int $date, IRMIRule $rule): bool
-    {
-        // 检查该规则适用的时间范围
-        $timeRange = $rule->options['time_range'] ?? null;
-        if (!\is_null($timeRange)) {
-            if (
-                !((\is_null($timeRange[0]) || $date >= $timeRange[0])
-                    && (\is_null($timeRange[1]) || $date < $timeRange[1]))
-            ) {
-                // 时间不符合规则要求的范围
-                return false;
-            }
-        }
-        return true;
-    }
 
-    /**
-     * 过滤项目数据，只保留有效期在规则时间范围内的项目
-     *
-     * @param MedicalInsuranceItem[] $miItems 项目数据集合
-     * @param IRMIRule $rule 规则数据
-     * @return MedicalInsuranceItem[]
-     */
-    protected function filterMIItemByDateRange(array $miItems, IRMIRule $rule): array
-    {
-        return \array_filter($miItems, function (MedicalInsuranceItem $item) use ($rule) {
-            return $this->checkDateRange($item->date, $rule);
-        });
-    }
     /**
      * 获取规则中配置的数量
      *
@@ -647,40 +612,6 @@ class Base extends BaseProcessor
         // 最后统一减少1秒
         return $result - 1;
     }
-    /**
-     * 根据规则获取病历中的项目id
-     *
-     * @param MedicalRecord $medicalRecord 病历对象
-     * @param IRMIRule $rule 规则对象
-     * @return integer[] 返回项目id集合
-     */
-    protected function getMedicalItemIdByRule(MedicalRecord $medicalRecord, IRMIRule $rule): array
-    {
-        // 获取临时数据，同时根据规则有效期进行过滤
-        $currMiItemSet = \array_map(function (array $items) use ($rule) {
-            return $this->filterMIItemByDateRange($items, $rule);
-        }, $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE));
-        // 获取诊疗项目id
-        return $this->getMedicalItemId($currMiItemSet[$rule->itemCode]);
-    }
-    /**
-     * 获取医疗项目id
-     *
-     * @param MedicalInsuranceItem[] $miItemSet 医疗项目集合
-     * @return integer[] 医疗项目id集合
-     */
-    protected function getMedicalItemId(array $miItemSet): array
-    {
-        // 获取诊疗项目id
-        $ids = \array_map(function (MedicalInsuranceItem $miItem) {
-            return $miItem->id;
-        }, $miItemSet);
-        // 过滤null数据
-        return \array_filter($ids, function ($id) {
-            return !\is_null($id);
-        });
-    }
-
     /**
      * 根据时间类型获取医保项目
      *

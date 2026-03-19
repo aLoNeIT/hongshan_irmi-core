@@ -18,7 +18,8 @@
     "require": {
         "php": ">=8.0",
         "alonetech/simhash": "~0.0",
-        "ulrichsg/getopt-php": "^4.0"
+        "ulrichsg/getopt-php": "^4.0",
+        "psr/log": "^3.0"
     },
     "scripts": {
         "test": "@php ./tests/App.php",

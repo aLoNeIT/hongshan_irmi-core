@@ -8,6 +8,10 @@ namespace hongshanhealth\irmi\struct;
  * 数据结果类
  * 
  * @author 王阮强 <wangruanqiang@hongshanhis.com>
+ * 
+ * @property mixed $data 存储的数据
+ * @property int $state 状态码
+ * @property string $msg 错误描述
  */
 class JsonTable
 {

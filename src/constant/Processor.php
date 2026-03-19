@@ -12,15 +12,6 @@ namespace hongshanhealth\irmi\constant;
 class Processor
 {
     /**
-     * 处理器类型映射关系表
-     */
-    const TYPE_MAP = [
-        1 => '\hongshanhealth\irmi\processor\insurance\DuplicateCharge',
-        2 => '\hongshanhealth\irmi\processor\insurance\OverStandardCharge',
-        3 => '\hongshanhealth\irmi\processor\insurance\OverInsuranceCharge',
-        4 => '\hongshanhealth\irmi\processor\insurance\UnReasonableTreatment'
-    ];
-    /**
      * 医保项目
      */
     const CATEGORY_INSURANCE = 1;
@@ -29,11 +20,28 @@ class Processor
      */
     const CATEGORY_EMR = 2;
     /**
-     * 换着档案
+     * 患者档案
      */
     const CATEGORY_PATIENT = 3;
     /**
      * 医院信息
      */
     const CATEGORY_HOSPITAL = 4;
+    /**
+     * 处理器类型映射关系表
+     */
+    const TYPE_MAP = [
+        self::CATEGORY_INSURANCE => [
+            1 => '\hongshanhealth\irmi\processor\insurance\DuplicateCharge',
+            2 => '\hongshanhealth\irmi\processor\insurance\OverStandardCharge',
+            3 => '\hongshanhealth\irmi\processor\insurance\OverInsuranceCharge',
+            4 => '\hongshanhealth\irmi\processor\insurance\UnReasonableTreatment',
+
+        ],
+        self::CATEGORY_EMR => [
+            1 => '\hongshanhealth\irmi\processor\emr\MedicalRecord',
+        ],
+        self::CATEGORY_PATIENT => [],
+        self::CATEGORY_HOSPITAL => [],
+    ];
 }

@@ -46,6 +46,8 @@ abstract class Driver
         '400' => '不合理诊疗',
         '401' => '不合理诊疗[不符合诊疗要求]',
         '402' => '不合理诊疗[病历属性不匹配]',
+        '1100' => '病历属性不合规',
+        '1102' => '病历属性不合规[属性不匹配]',
     ];
 
     /**
@@ -92,41 +94,78 @@ abstract class Driver
      * 检测医保规则
      *
      * @param IRMIRuleSet $ruleSet 规则集合
-     * @param MedicalRecord $record 病历信息
+     * @param MedicalRecord $medicalRecord 病历信息
      * @param IRMIRuleOption $ruleOption 规则选项
      * @return array 返回检测结果，JsonTable格式数组
      */
-    public function detectInsurance(IRMIRuleSet $ruleSet, MedicalRecord $record, IRMIRuleOption $ruleOption = null): array
+    public function detectInsurance(IRMIRuleSet $ruleSet, MedicalRecord $medicalRecord, IRMIRuleOption $ruleOption = null): array
     {
         $oldScale = \bcscale(4);
         try {
-            // 根据规则集合，提取适用的规则依次进行计算
-            $miItemSet = $record->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-            $itemCodes = \array_keys($miItemSet);
-            // 过滤规则
-            $rules = $ruleSet->getRulesByItemCode(1, $itemCodes, $ruleOption);
-            $errors = [];
-            foreach ($rules as $rule) {
-                // 根据规则类型创建对应的处理器
-                $class = ProcessorConst::TYPE_MAP[$rule->type];
-                /** @var IDetectInsuranceProcessor $processor */
-                $processor = new $class();
-                // 执行处理器
-                if (!$processor instanceof IDetectInsuranceProcessor) {
-                    continue;
+            foreach (
+                [
+                    ProcessorConst::CATEGORY_INSURANCE,
+                    ProcessorConst::CATEGORY_EMR
+                ] as $category
+            ) {
+                // 根据规则集合，提取适用的规则依次进行计算
+                $itemCodes = [];
+                switch ($category) {
+                    case ProcessorConst::CATEGORY_INSURANCE: // 医保项目
+                        $miItemSet = $medicalRecord->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE) ?? [];
+                        $itemCodes = \array_keys($miItemSet);
+                        break;
+                    case ProcessorConst::CATEGORY_EMR: // 病例属性
+                        $props = ['diagnosis', 'procedure'];
+                        \array_walk($props, function ($value) use ($medicalRecord, &$itemCodes) {
+                            // 将当前属性编码写入到集合中
+                            if (\is_array($medicalRecord->$value)) {
+                                $itemCodes = [
+                                    ...$itemCodes,
+                                    ...$medicalRecord->$value
+                                ];
+                            } else {
+                                $itemCodes[] = $medicalRecord->$value;
+                            }
+                        });
+                        break;
                 }
-                $jResult = $processor->detect($record, $rule);
-                // 获取错误信息
-                if (!$jResult->isSuccess()) {
-                    // 记录该次对比错误内容，每个元素都是一个JsonTable的数组类型
-                    $errors[] = $jResult->toArray();
+                // 过滤规则
+                $rules = $ruleSet->getRulesByItemCode($category, $itemCodes, $ruleOption);
+                $errors = [];
+                foreach ($rules as $rule) {
+                    // 根据规则类型创建对应的处理器
+                    $class = ProcessorConst::TYPE_MAP[$category][$rule->type];
+                    if (!class_exists($class)) {
+                        continue;
+                    }
+                    /** @var IDetectInsuranceProcessor $processor */
+                    $processor = new $class();
+                    // 执行处理器
+                    if (!$processor instanceof IDetectInsuranceProcessor) {
+                        continue;
+                    }
+                    $jResult = $processor->detect($medicalRecord, $rule);
+                    // 获取错误信息
+                    if (!$jResult->isSuccess()) {
+                        // 记录该次对比错误内容，每个元素都是一个JsonTable的数组类型
+                        $errors[] = $jResult->toArray();
+                    }
                 }
             }
             return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
         } catch (IRMIException $ex) {
             return $this->jcode(1, $ex->getMessage(), $ex->getData());
         } catch (\Throwable $ex) {
-            $trace = $ex->getTrace();
+            IRMILog::critical(
+                static::class,
+                __FUNCTION__,
+                [
+                    'code' => $ex->getCode(),
+                    'message' => $ex->getMessage(),
+                    'trace' => $ex->getTrace()
+                ]
+            );
             return $this->jcode(1, $ex->getMessage());
         } finally {
             \bcscale($oldScale);
