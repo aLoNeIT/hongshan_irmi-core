@@ -94,11 +94,11 @@ abstract class Driver
      * 检测医保规则
      *
      * @param IRMIRuleSet $ruleSet 规则集合
-     * @param MedicalRecord $record 病历信息
+     * @param MedicalRecord $medicalRecord 病历信息
      * @param IRMIRuleOption $ruleOption 规则选项
      * @return array 返回检测结果，JsonTable格式数组
      */
-    public function detectInsurance(IRMIRuleSet $ruleSet, MedicalRecord $record, IRMIRuleOption $ruleOption = null): array
+    public function detectInsurance(IRMIRuleSet $ruleSet, MedicalRecord $medicalRecord, IRMIRuleOption $ruleOption = null): array
     {
         $oldScale = \bcscale(4);
         try {
@@ -111,13 +111,23 @@ abstract class Driver
                 // 根据规则集合，提取适用的规则依次进行计算
                 $itemCodes = [];
                 switch ($category) {
-                    case ProcessorConst::CATEGORY_INSURANCE:
-                        $miItemSet = $record->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE) ?? [];
+                    case ProcessorConst::CATEGORY_INSURANCE: // 医保项目
+                        $miItemSet = $medicalRecord->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE) ?? [];
                         $itemCodes = \array_keys($miItemSet);
                         break;
-                    case ProcessorConst::CATEGORY_EMR:
-                        $props = Util::getPublicProps($record, true, true, true);
-                        $itemCodes = \array_keys($props);
+                    case ProcessorConst::CATEGORY_EMR: // 病例属性
+                        $props = ['diagnosis', 'procedure'];
+                        \array_walk($props, function ($value) use ($medicalRecord, &$itemCodes) {
+                            // 将当前属性编码写入到集合中
+                            if (\is_array($medicalRecord->$value)) {
+                                $itemCodes = [
+                                    ...$itemCodes,
+                                    ...$medicalRecord->$value
+                                ];
+                            } else {
+                                $itemCodes[] = $medicalRecord->$value;
+                            }
+                        });
                         break;
                 }
                 // 过滤规则
@@ -135,7 +145,7 @@ abstract class Driver
                     if (!$processor instanceof IDetectInsuranceProcessor) {
                         continue;
                     }
-                    $jResult = $processor->detect($record, $rule);
+                    $jResult = $processor->detect($medicalRecord, $rule);
                     // 获取错误信息
                     if (!$jResult->isSuccess()) {
                         // 记录该次对比错误内容，每个元素都是一个JsonTable的数组类型
