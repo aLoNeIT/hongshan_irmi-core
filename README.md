@@ -125,8 +125,12 @@
                 - time_range
                 - include_branch、exclude_branch
                 - property
-            - sub_type=3，项目属性不符合要求
-                - treatment_days
+    - emr：病历相关
+        - type=1，MedicalRecord，病历属性不合规
+            - sub_type=1，手术与诊断不不符
+                - property
+            - sub_type=2，病历属性不合规
+                - property
 - 规则示例数据,IRMIRuleSet集合json格式
     ```
     {

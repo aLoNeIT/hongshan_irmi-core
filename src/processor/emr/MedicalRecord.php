@@ -60,7 +60,7 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
         if (!\is_null($propertyName)) {
             $jResult = $this->detectProperty($medicalRecord, $rule);
         }
-        return $this->getResult(1101, '病历属性不合规', $jResult->data ?: []);
+        return $this->getResult(1101, '诊断编码与手术操作编码不符', $jResult->data ?: []);
     }
     /**
      * 检测病历属性之间的关系
