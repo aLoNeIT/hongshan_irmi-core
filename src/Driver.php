@@ -102,15 +102,24 @@ abstract class Driver
     {
         $oldScale = \bcscale(4);
         try {
-            // 根据规则集合，提取适用的规则依次进行计算
-            $miItemSet = $record->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-            $itemCodes = \array_keys($miItemSet);
             foreach (
                 [
                     ProcessorConst::CATEGORY_INSURANCE,
                     ProcessorConst::CATEGORY_EMR
                 ] as $category
             ) {
+                // 根据规则集合，提取适用的规则依次进行计算
+                $itemCodes = [];
+                switch ($category) {
+                    case ProcessorConst::CATEGORY_INSURANCE:
+                        $miItemSet = $record->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE) ?? [];
+                        $itemCodes = \array_keys($miItemSet);
+                        break;
+                    case ProcessorConst::CATEGORY_EMR:
+                        $props = Util::getPublicProps($record, true, true, true);
+                        $itemCodes = \array_keys($props);
+                        break;
+                }
                 // 过滤规则
                 $rules = $ruleSet->getRulesByItemCode($category, $itemCodes, $ruleOption);
                 $errors = [];
