@@ -26,7 +26,10 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
         try {
             // 根据子类型调用不同方法检验
             switch ($rule->subType) {
-                case 2:
+                case 1: // 诊断手术不一致
+                    $jResult = $this->detectDiagnosisProcedure($medicalRecord, $rule);
+                    break;
+                case 2: // 病例属性不一致
                     $jResult = $this->detectProperty($medicalRecord, $rule);
                     break;
                 default:
@@ -38,7 +41,27 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
             throw $ex;
         }
     }
-
+    /**
+     * 检测主诊断和主手术不一致
+     *
+     * @param MedicalRecordStruct $medicalRecord 病历对象
+     * @param IRMIRule $rule 规则对象
+     * @return JsonTable
+     */
+    protected function detectDiagnosisProcedure(MedicalRecordStruct $medicalRecord, IRMIRule $rule): JsonTable
+    {
+        // 当前触发规则的属性类型
+        $propertyName = match (true) {
+            $medicalRecord->principalDiagnosis == $rule->itemCode => 'principalDiagnosis',
+            $medicalRecord->majorProcedure == $rule->itemCode => 'majorProcedure',
+            default => null,
+        };
+        // 是指定的属性触发，才进行检测
+        if (!\is_null($propertyName)) {
+            $jResult = $this->detectProperty($medicalRecord, $rule);
+        }
+        return $this->getResult(1101, '病历属性不合规', $jResult->data ?: []);
+    }
     /**
      * 检测病历属性之间的关系
      *

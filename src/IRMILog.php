@@ -31,7 +31,7 @@ class IRMILog
         static::$logger = $logger;
     }
 
-    public static function getLogger(): LoggerInterface
+    public static function getLogger(): ?LoggerInterface
     {
         return static::$logger;
     }
