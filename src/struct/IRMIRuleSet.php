@@ -48,14 +48,14 @@ class IRMIRuleSet extends Base
     /**
      * 当前规则集子项
      *
-     * @var array<int,array<string,IRMIRule>>
+     * @var array<string,array<string,IRMIRule>> 
      */
     protected array $rules = [];
 
     /**
      * 以项目编码为键，规则编码数组为值的关联数组
      *
-     * @var array<int,array<string,string[]>>
+     * @var array<string,array<string,string[]>>
      */
     protected array $itemRules = [];
 
@@ -103,50 +103,10 @@ class IRMIRuleSet extends Base
         $this->itemRules = [];
         foreach ($rules as $rule) {
             $rule = (new IRMIRule())->setIRMIRuleSet($this)->load($rule);
-            $this->rules[$rule->category][$rule->code] = $rule;
-            $this->itemRules[$rule->category][$rule->itemCode][] = $rule->code;
+            $this->rules[(string)$rule->category][$rule->code] = $rule;
+            $this->itemRules[(string)$rule->category][$rule->itemCode][] = $rule->code;
         }
         return $this;
-    }
-    /**
-     * 过滤规则，生成新的规则集
-     *
-     * @param IRMIRuleOption|null $ruleOption 规则选项
-     * @return static 返回过滤后的规则集对象
-     */
-    public function filter(?IRMIRuleOption $ruleOption = null): static
-    {
-        $rules = [];
-        // 根据黑白名单构建处理函数，优先白名单
-        $whiteList = $ruleOption?->whiteList ?: [];
-        $blackList = $ruleOption?->blackList ?: [];
-        $fnFilter = function (string $code) {
-            return true;
-        };
-        if (!empty($whiteList)) {
-            $fnFilter = function (string $code) use ($whiteList) {
-                return \in_array($code, $whiteList);
-            };
-        } else if (!empty($blackList)) {
-            $fnFilter = function (string $code) use ($blackList) {
-                return !\in_array($code, $blackList);
-            };
-        }
-        // 过滤
-        $originRules = $this->originData['rules'] ?? [];
-        /** @var array $rule */
-        foreach ($originRules as $rule) {
-            if ($fnFilter($rule['code'])) {
-                $rules[] = $rule;
-            }
-        }
-        return (new static())->load(
-            [
-                'code' => $this->code,
-                'name' => $this->name,
-                'rules' => $rules
-            ]
-        );
     }
 
     /**
@@ -165,9 +125,7 @@ class IRMIRuleSet extends Base
         // 根据黑白名单构建处理函数，优先白名单
         $whiteList = $ruleOption?->whiteList ?: [];
         $blackList = $ruleOption?->blackList ?: [];
-        $fnFilter = function (string $code) {
-            return true;
-        };
+        // 白名单，再黑名单，二选一
         if (!empty($whiteList)) {
             $fnFilter = function (string $code) use ($whiteList) {
                 return \in_array($code, $whiteList);
@@ -176,18 +134,21 @@ class IRMIRuleSet extends Base
             $fnFilter = function (string $code) use ($blackList) {
                 return !\in_array($code, $blackList);
             };
+        } else {
+            $fnFilter = function (string $code) {
+                return true;
+            };
         }
         // 先根据项目编码获取到规则集合
         foreach ($intersectCodes as $itemCode) {
             // 再通过规则集合中的规则编码获取规则对象
-            foreach ($this->itemRules[$category][$itemCode] as $ruleCode) {
+            foreach ($this->itemRules[(string)$category][$itemCode] as $ruleCode) {
                 // 过滤处理
                 if ($fnFilter($ruleCode)) {
-                    $rules[] = $this->rules[$category][$ruleCode];
+                    $rules[] = $this->rules[(string)$category][$ruleCode];
                 }
             }
         }
-
         return $rules;
     }
     /**

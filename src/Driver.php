@@ -144,6 +144,8 @@ abstract class Driver
                 }
             }
             return empty($errors) ? Util::jsuccess() : $this->jcode(10, null, $errors);
+        } catch (IRMIException $ex) {
+            return $this->jcode(1, $ex->getMessage(), $ex->getData());
         } catch (\Throwable $ex) {
             IRMILog::critical(
                 static::class,
