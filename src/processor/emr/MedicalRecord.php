@@ -26,9 +26,9 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
         try {
             // 根据子类型调用不同方法检验
             switch ($rule->subType) {
-
                 case 2:
                     $jResult = $this->detectProperty($medicalRecord, $rule);
+                    break;
                 default:
                     $jResult = $this->jsonTable->success();
                     break;

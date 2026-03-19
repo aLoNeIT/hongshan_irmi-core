@@ -1,22 +1,21 @@
 {
     "rule": {
         "code": "3017065",
-        "name": "超范围支付",
-        "item_code": "T000700200",
-        "item_name": "丁香",
-        "desc": "【T000700200/丁香】是单独使用时统筹基金不予支付，且全部由这些饮片组成的处方统筹基金也不予支付。",
-        "category": 1,
-        "type": 3,
+        "name": "病历属性不合规",
+        "item_code": "A54.003",
+        "item_name": "淋球菌性阴道炎",
+        "desc": "女性泌尿生殖器关相关疾病",
+        "category": 2,
+        "type": 1,
         "sub_type": 2,
         "options": {
-            "num": {
-                "type": 4,
-                "value": [
-                    2,
-                    null
-                ]
-            },
-            "item_type": "10"
+            "property": [
+                {
+                    "name": "sex",
+                    "value": 2,
+                    "operator": "="
+                }
+            ]
         }
     },
     "medical_records": {
@@ -24,7 +23,7 @@
         "fail": [
             {
                 "code": "ZY20260228",
-                "sex": 2,
+                "sex": 1,
                 "age": 28,
                 "age_day": null,
                 "weight": null,
@@ -35,6 +34,9 @@
                 "visit_type": 2,
                 "in_date": 1771986309,
                 "out_date": 1772159109,
+                "diagnosis": [
+                    "A54.003"
+                ],
                 "medical_insurance_set": {
                     "1772595930": {
                         "T000700200": [
