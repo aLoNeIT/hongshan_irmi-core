@@ -226,7 +226,7 @@
     | hospital_code | 否    | integer |  | 医院编码 |
     | hospital_type | 否    | string |  | 医院类型，如综合、精神、牙科，等待查询标准编码 |
     | hospital_level | 否    | integer |  | 医院级别 |
-    | hospital_bussiness_type | 否    | integer | 1-公立；2-民营 | 医院经营类型 |
+    | hospital_business_type | 否    | integer | 1-公立；2-民营 | 医院经营类型 |
     | medical_insurance_set | 是 | object |        | 医保项目集合，kv结构，key是日期，value是该日期下的项目数组 |
 
     - medical_insurance_set参数中每个项目结构说明
@@ -263,7 +263,7 @@
         "hospital_code": "79314258",
         "hospital_type": "精神病",
         "hospital_level": "医院级别",
-        "hospital_bussiness_type": 1,
+        "hospital_business_type": 1,
         "medical_insurance_set": {
             "1722441600": {
                 "120300002b": [
