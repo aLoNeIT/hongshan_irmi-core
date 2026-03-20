@@ -102,6 +102,7 @@ abstract class Driver
     {
         $oldScale = \bcscale(4);
         try {
+            $errors = [];
             foreach (
                 [
                     ProcessorConst::CATEGORY_INSURANCE,
@@ -132,7 +133,6 @@ abstract class Driver
                 }
                 // 过滤规则
                 $rules = $ruleSet->getRulesByItemCode($category, $itemCodes, $ruleOption);
-                $errors = [];
                 foreach ($rules as $rule) {
                     // 根据规则类型创建对应的处理器
                     $class = ProcessorConst::TYPE_MAP[$category][$rule->type];
