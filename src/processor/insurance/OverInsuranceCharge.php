@@ -279,7 +279,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 /** @var array<string, array<string, MedicalInsuranceItem[]>> $groupInfo */
                 $groupInfo = $this->buildGroupInfo($medicalRecord, $currItems, $itemType);
                 // 以上处理完毕，开始进行数量判定
-                foreach ($groupInfo as $code => $groupItems) {
+                foreach ($groupInfo as $groupCode => $groupItems) {
                     $num = $this->calculateGroupNum($groupItems, (int)$ruleNumType);
                     if (!$this->compareNum($num, $ruleNum)) {
                         $itemIds = [];
@@ -304,10 +304,30 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                             \usort($sortItems, function (MedicalInsuranceItem $a, MedicalInsuranceItem $b) {
                                 return $a->time <=> $b->time;
                             });
-                            // 项目数量超过最大值，则按照时间排序，提取最后超过部分的项目id
-                            $itemIds = \array_filter(\array_map(function (MedicalInsuranceItem $item) {
-                                return $item->id;
-                            }, \array_slice($sortItems, $max)));
+                            if (4 == $ruleNumType) {
+                                // 循环排序项目集合，然后进行类别计算
+                                $tmpCodes = [];
+                                foreach ($sortItems as $item) {
+                                    if (!isset($tmpCodes[$item->code])) {
+                                        // 集合中不存在，此时需要判断集合中数量是否超标，若超标则记录当前id
+                                        if (count($tmpCodes) > $ruleNum) {
+                                            $itemIds[] = $item->id;
+                                            continue;
+                                        }
+                                        $tmpCodes[$item->code] = 1;
+                                    }
+                                }
+                            } else if (5 == $ruleNumType) {
+                                // 这里计算的是计费总数
+                                $tmpTotalNum = 0;
+                                foreach ($sortItems as $item) {
+                                    if ($tmpTotalNum > $ruleNum) {
+                                        $itemIds[] = $item->id;
+                                        continue;
+                                    }
+                                    $tmpTotalNum += $item->num;
+                                }
+                            }
                         }
                         // 实际项目数量超过限定数量
                         $errors[] = [
