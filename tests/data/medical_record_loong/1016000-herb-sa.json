@@ -8,56 +8,82 @@
         "category": 1,
         "type": 3,
         "sub_type": 2,
-        "options": {"num": {"type": 4, "value": [2,null],"item_type":"10"}}
+        "options": {
+            "num": {
+                "type": 4,
+                "value": [
+                    2,
+                    null
+                ],
+                "item_type": "10"
+            }
+        }
     },
     "medical_records": {
         "success": [],
         "fail": [
             {
-                "code": "ZY20260228",
+                "age": 33,
                 "sex": 2,
-                "age": 28,
+                "code": "ZY010200000252",
+                "weight": 0,
                 "age_day": null,
-                "weight": null,
-                "birth_weight": null,
-                "in_branch": "A01",
-                "out_branch": "A02",
-                "in_days": 1,
+                "in_date": 1594091640,
+                "in_days": 2079,
+                "out_date": 1594093920,
+                "realname": "测试医材",
+                "diagnosis": [
+                    "A04.301"
+                ],
+                "in_branch": "A03.05",
+                "out_branch": "A03.05",
                 "visit_type": 2,
-                "in_date": 1771986309,
-                "out_date": 1772159109,
+                "birth_weight": 0,
+                "hospital_code": "37625656",
+                "hospital_type": 1,
+                "hospital_level": 2,
+                "insurance_type": [
+                    1
+                ],
                 "medical_insurance_set": {
-                    "1772595930": {
+                    "1772726400": {
                         "T000700200": [
                             {
-                                "type": "10",
-                                "group_code": "123123",
-                                "code": "1772595930",
+                                "id": 63635086,
+                                "num": 10,
+                                "cash": 0.24,
+                                "code": "T000700200",
+                                "days": null,
                                 "name": "丁香",
-                                "time": 1772595930,
-                                "num": 1,
-                                "price": 12,
-                                "cash": 12,
-                                "total_cash": 12
-                            }
-                        ]
-                    },
-                    "1772595950": {
-                        "T001700288": [
-                            {
+                                "time": 1772776263,
                                 "type": "10",
-                                "group_code": "123125",
-                                "code": "T001700288",
-                                "name": "蛤蚧",
-                                "time": 1772595950,
+                                "price": 0.24,
+                                "source": "z_advice",
+                                "source_id": 63635086,
+                                "group_code": "27",
+                                "total_cash": 2.4
+                            }
+                        ],
+                        "T001700251": [
+                            {
+                                "id": 63635087,
                                 "num": 1,
-                                "price": 12,
-                                "cash": 12,
-                                "total_cash": 12
+                                "cash": 40,
+                                "code": "T001700251",
+                                "days": null,
+                                "name": "蜂蜜(黄芪)",
+                                "time": 1772776931,
+                                "type": "10",
+                                "price": 40,
+                                "source": "z_advice",
+                                "source_id": 63635087,
+                                "group_code": "28",
+                                "total_cash": 40
                             }
                         ]
                     }
-                }
+                },
+                "hospital_bussiness_type": 1
             }
         ]
     }

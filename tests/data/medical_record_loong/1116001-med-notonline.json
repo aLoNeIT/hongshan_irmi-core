@@ -1,0 +1,211 @@
+{
+  "rule": {
+    "code": "6266285",
+    "name": "超互联网医院药品支付范围",
+    "item_code": "XN02ABF027V002010101389",
+    "item_name": "芬太尼透皮贴剂",
+    "desc": "【XN02ABF027V002010101389/芬太尼透皮贴剂】是单独使用时统筹基金不予支付，且全部由这些饮片组成的处方统筹基金也不予支付。",
+    "category": 1,
+    "type": 4,
+    "sub_type": 2,
+    "options": {
+      "property": [
+        {
+          "name": "hospital_business_type",
+          "value": 4,
+          "operator": "!="
+        }
+      ]
+    }
+  },
+  "medical_records": {
+    "success": [
+      {
+        "age": 1,
+        "sex": 2,
+        "code": "ZY010200000252-可通过-非网院门诊",
+        "weight": 0,
+        "age_day": null,
+        "in_date": 1594091640,
+        "in_days": 2079,
+        "out_date": 1594093920,
+        "realname": "测试医材",
+        "diagnosis": [
+          "A04.301"
+        ],
+        "in_branch": "A03.05",
+        "out_branch": "A03.05",
+        "visit_type": 1,
+        "birth_weight": 0,
+        "hospital_code": "37625656",
+        "hospital_type": 1,
+        "hospital_level": 2,
+        "insurance_type": [
+          1
+        ],
+        "medical_insurance_set": {
+          "1772726400": {
+            "XN02ABF027V002010101389": [
+              {
+                "id": 636,
+                "num": 10,
+                "cash": 0.24,
+                "code": "XN02ABF027V002010101389",
+                "days": 1,
+                "name": "芬太尼透皮贴剂",
+                "time": 1772776263,
+                "type": "10",
+                "price": 0.24,
+                "source": "z_advice",
+                "source_id": 636,
+                "group_code": "27",
+                "total_cash": 2.4
+              }
+            ]
+          }
+        },
+        "hospital_business_type": 1
+      },
+      {
+        "age": 1,
+        "sex": 2,
+        "code": "ZY010200000252-可通过-非网院住院",
+        "weight": 0,
+        "age_day": null,
+        "in_date": 1594091640,
+        "in_days": 2079,
+        "out_date": 1594093920,
+        "realname": "测试医材",
+        "diagnosis": [
+          "A04.301"
+        ],
+        "in_branch": "A03.05",
+        "out_branch": "A03.05",
+        "visit_type": 2,
+        "birth_weight": 0,
+        "hospital_code": "37625656",
+        "hospital_type": 1,
+        "hospital_level": 2,
+        "insurance_type": [
+          1
+        ],
+        "medical_insurance_set": {
+          "1772726400": {
+            "XN02ABF027V002010101389": [
+              {
+                "id": 636,
+                "num": 10,
+                "cash": 0.24,
+                "code": "XN02ABF027V002010101389",
+                "days": 1,
+                "name": "芬太尼透皮贴剂",
+                "time": 1772776263,
+                "type": "10",
+                "price": 0.24,
+                "source": "z_advice",
+                "source_id": 636,
+                "group_code": "27",
+                "total_cash": 2.4
+              }
+            ]
+          }
+        },
+        "hospital_business_type": 1
+      },
+      {
+        "age": 12,
+        "sex": 2,
+        "code": "ZY010200000252-可通过-网院但住院",
+        "weight": 0,
+        "age_day": null,
+        "in_date": 1594091640,
+        "in_days": 2079,
+        "out_date": 1594093920,
+        "realname": "测试医材",
+        "diagnosis": [
+          "A04.301"
+        ],
+        "in_branch": "A03.05",
+        "out_branch": "A03.05",
+        "visit_type": 2,
+        "birth_weight": 0,
+        "hospital_code": "37625656",
+        "hospital_type": 1,
+        "hospital_level": 2,
+        "insurance_type": [
+          1
+        ],
+        "medical_insurance_set": {
+          "1772726400": {
+            "XN02ABF027V002010101389": [
+              {
+                "id": 636,
+                "num": 10,
+                "cash": 0.24,
+                "code": "XN02ABF027V002010101389",
+                "days": 1,
+                "name": "芬太尼透皮贴剂",
+                "time": 1772776263,
+                "type": "10",
+                "price": 0.24,
+                "source": "z_advice",
+                "source_id": 636,
+                "group_code": "27",
+                "total_cash": 2.4
+              }
+            ]
+          }
+        },
+        "hospital_business_type": 4
+      }
+    ],
+    "fail": [
+      {
+        "age": 12,
+        "sex": 2,
+        "code": "ZY010200000252-err",
+        "weight": 0,
+        "age_day": null,
+        "in_date": 1594091640,
+        "in_days": 2079,
+        "out_date": 1594093920,
+        "realname": "测试医材",
+        "diagnosis": [
+          "A04.301"
+        ],
+        "in_branch": "A03.05",
+        "out_branch": "A03.05",
+        "visit_type": 1,
+        "birth_weight": 0,
+        "hospital_code": "37625656",
+        "hospital_type": 1,
+        "hospital_level": 2,
+        "insurance_type": [
+          1
+        ],
+        "medical_insurance_set": {
+          "1772726400": {
+            "XN02ABF027V002010101389": [
+              {
+                "id": 636,
+                "num": 10,
+                "cash": 0.24,
+                "code": "XN02ABF027V002010101389",
+                "days": 1,
+                "name": "芬太尼透皮贴剂",
+                "time": 1772776263,
+                "type": "10",
+                "price": 0.24,
+                "source": "z_advice",
+                "source_id": 636,
+                "group_code": "27",
+                "total_cash": 2.4
+              }
+            ]
+          }
+        },
+        "hospital_business_type": 4
+      }
+    ]
+  }
+}
