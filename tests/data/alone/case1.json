@@ -1,137 +1,120 @@
 {
     "rule": {
-        "code": "4000000",
-        "name": "属性[用药天数]不符合要求",
-        "item_code": "XJ01CAA040A006010100978",
-        "item_name": "阿莫西林分散片",
-        "desc": "【XJ01CAA040A006010100978/阿莫西林分散片】就诊信息中药品开具处方量的用药天数大于最大开药天数",
+        "code": "111399",
+        "name": "超范围支付",
+        "item_code": "T000200478",
+        "item_name": "苦参",
+        "desc": "测试不超过3味【T000200478/苦参】就诊信息中药饮片上传味数超出限定味数（建议阈值：25味）",
         "category": 1,
-        "type": 4,
+        "type": 3,
         "sub_type": 2,
         "options": {
-            "property": {
-                "name": "item_days",
-                "value": 7,
-                "operator": ">"
-            }
+            "num": {
+                "type": 4,
+                "value": 3
+            },
+            "item_type": "10"
         }
     },
     "medical_records": {
         "success": [],
         "fail": [
             {
-                "age": 39,
+                "age": 12,
                 "sex": 2,
-                "code": "0190000127",
+                "code": "ZY010200000252",
                 "weight": 0,
-                "age_day": 0,
-                "in_date": 1731655679,
-                "in_days": 480,
-                "out_date": 1756792500,
-                "realname": "赵六",
+                "age_day": null,
+                "in_date": 1594091640,
+                "in_days": 2079,
+                "out_date": 1594093920,
+                "realname": "测试123",
                 "diagnosis": [
-                    "Z00.001"
+                    "A04.301"
                 ],
-                "in_branch": "A03",
-                "out_branch": "A03",
+                "in_branch": "A03.05",
+                "out_branch": "A03.05",
                 "visit_type": 2,
                 "birth_weight": 0,
-                "hospital_code": "66666666",
-                "hospital_type": 2,
+                "hospital_code": "37625656",
+                "hospital_type": 1,
                 "hospital_level": 2,
                 "insurance_type": [
                     1
                 ],
                 "medical_insurance_set": {
-                    "1773072000": {
-                        "C0103060040000620000": [
+                    "1772726400": {
+                        "T000200478": [
                             {
-                                "id": 63636119,
-                                "num": 1,
-                                "cash": 19,
-                                "code": "C0103060040000620000",
+                                "id": 63635086,
+                                "num": 10,
+                                "cash": 0.24,
+                                "code": "T000200478",
                                 "days": null,
-                                "name": "前列腺扩裂导管(男后加随机编码)",
-                                "time": 1773134184,
-                                "type": "08",
-                                "price": 19,
+                                "name": "苦参",
+                                "time": 1772726400,
+                                "type": "10",
+                                "price": 0.24,
                                 "source": "z_advice",
-                                "source_id": 63636119,
-                                "group_code": "25",
-                                "total_cash": 19
+                                "source_id": 63635086,
+                                "group_code": "27",
+                                "total_cash": 2.4
                             }
                         ],
-                        "C1103010000000013869": [
+                        "T000100030": [
                             {
-                                "id": 63636120,
-                                "num": 1,
-                                "cash": 11,
-                                "code": "C1103010000000013869",
+                                "id": 63635087,
+                                "num": 10,
+                                "cash": 0.24,
+                                "code": "T000100030",
                                 "days": null,
-                                "name": "包皮环切定位环(男)",
-                                "time": 1773134191,
-                                "type": "08",
-                                "price": 11,
+                                "name": "白芷",
+                                "time": 1772726400,
+                                "type": "10",
+                                "price": 0.24,
                                 "source": "z_advice",
-                                "source_id": 63636120,
-                                "group_code": "26",
-                                "total_cash": 11
+                                "source_id": 63635090,
+                                "group_code": "27",
+                                "total_cash": 2.4
                             }
                         ],
-                        "C1704012220000320729": [
+                        "T000100043": [
                             {
-                                "id": 63636118,
-                                "num": 1,
-                                "cash": 19,
-                                "code": "C1704012220000320729",
+                                "id": 63635081,
+                                "num": 10,
+                                "cash": 0.24,
+                                "code": "T000100043",
                                 "days": null,
-                                "name": "重组胶原蛋白妇科修护凝胶(女后加随机编码)",
-                                "time": 1773134175,
-                                "type": "08",
-                                "price": 19,
+                                "name": "北柴胡",
+                                "time": 1772726400,
+                                "type": "10",
+                                "price": 0.24,
                                 "source": "z_advice",
-                                "source_id": 63636118,
-                                "group_code": "24",
-                                "total_cash": 19
+                                "source_id": 63635026,
+                                "group_code": "27",
+                                "total_cash": 2.4
                             }
                         ],
-                        "C01030600400006200000123456": [
+                        "T000100057": [
                             {
-                                "id": 63636119,
-                                "num": 1,
-                                "cash": 19,
-                                "code": "C01030600400006200000123456",
+                                "id": 636351286,
+                                "num": 10,
+                                "cash": 0.24,
+                                "code": "T000100057",
                                 "days": null,
-                                "name": "前列腺扩裂导管(男后加随机编码)",
-                                "time": 1773134184,
-                                "type": "08",
-                                "price": 19,
+                                "name": "薄荷",
+                                "time": 1772726400,
+                                "type": "10",
+                                "price": 0.24,
                                 "source": "z_advice",
-                                "source_id": 63636119,
-                                "group_code": "25",
-                                "total_cash": 19
-                            }
-                        ],
-                        "C170401222000032072988994464": [
-                            {
-                                "id": 63636118,
-                                "num": 1,
-                                "cash": 19,
-                                "code": "C170401222000032072988994464",
-                                "days": null,
-                                "name": "重组胶原蛋白妇科修护凝胶(女后加随机编码)",
-                                "time": 1773134175,
-                                "type": "08",
-                                "price": 19,
-                                "source": "z_advice",
-                                "source_id": 63636118,
-                                "group_code": "24",
-                                "total_cash": 19
+                                "source_id": 63635026,
+                                "group_code": "27",
+                                "total_cash": 2.4
                             }
                         ]
                     }
                 },
-                "hospital_bussiness_type": 4
+                "hospital_bussiness_type": 1
             }
         ]
     }
