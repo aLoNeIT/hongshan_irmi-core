@@ -1,0 +1,499 @@
+{
+    "rule": {
+        "code": "1114001",
+        "name": "超范围支付",
+        "item_code": "T002100718",
+        "item_name": "松香",
+        "desc": "测试不超过3味【T002100718/松香】就诊信息中药饮片上传味数超出限定味数（建议阈值：25味）",
+        "category": 1,
+        "type": 3,
+        "sub_type": 2,
+        "options": {
+            "num": {
+                "type": 4,
+                "value": [
+                    null,
+                    3
+                ]
+            },
+            "item_type": "10"
+        }
+    },
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "birth_weight": 0,
+                "in_days": 1,
+                "out_date": 0,
+                "hospital_code": "66666666",
+                "hospital_type": 2,
+                "hospital_level": 2,
+                "hospital_business_type": 4,
+                "code": "0190000162",
+                "realname": "25位中药品",
+                "sex": 1,
+                "age": 25,
+                "age_day": null,
+                "weight": 0,
+                "in_branch": "A03",
+                "out_branch": "A03",
+                "visit_type": 2,
+                "in_date": 1774247907,
+                "insurance_type": [
+                    1
+                ],
+                "diagnosis": [
+                    "A01.200"
+                ],
+                "medical_insurance_set": {
+                    "1774195200": {
+                        "T002100718": [
+                            {
+                                "id": 63640008,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100718",
+                                "name": "松香(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 64,
+                                "price": 64,
+                                "total_cash": 640,
+                                "source": "z_advice",
+                                "source_id": 63640008
+                            }
+                        ],
+                        "T002100250": [
+                            {
+                                "id": 63640015,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100250",
+                                "name": "蜂蜡(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 57,
+                                "price": 57,
+                                "total_cash": 570,
+                                "source": "z_advice",
+                                "source_id": 63640015
+                            }
+                        ],
+                        "T001300107": [
+                            {
+                                "id": 63640022,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300107",
+                                "name": "炒葶苈子(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 50,
+                                "price": 50,
+                                "total_cash": 500,
+                                "source": "z_advice",
+                                "source_id": 63640022
+                            }
+                        ],
+                        "T001300017": [
+                            {
+                                "id": 63640029,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300017",
+                                "name": "白芥子(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 42,
+                                "price": 42,
+                                "total_cash": 420,
+                                "source": "z_advice",
+                                "source_id": 63640029
+                            }
+                        ],
+                        "T002100545": [
+                            {
+                                "id": 63640011,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100545",
+                                "name": "猫爪草(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 61,
+                                "price": 61,
+                                "total_cash": 610,
+                                "source": "z_advice",
+                                "source_id": 63640011
+                            }
+                        ],
+                        "T002000870": [
+                            {
+                                "id": 63640018,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002000870",
+                                "name": "皂矾(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 54,
+                                "price": 54,
+                                "total_cash": 540,
+                                "source": "z_advice",
+                                "source_id": 63640018
+                            }
+                        ],
+                        "T001300069": [
+                            {
+                                "id": 63640025,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300069",
+                                "name": "惮苦杏仁(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 46,
+                                "price": 46,
+                                "total_cash": 460,
+                                "source": "z_advice",
+                                "source_id": 63640025
+                            }
+                        ],
+                        "T000100099": [
+                            {
+                                "id": 63640032,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T000100099",
+                                "name": "炒牛蒡子(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 14,
+                                "price": 14,
+                                "total_cash": 140,
+                                "source": "z_advice",
+                                "source_id": 63640032
+                            }
+                        ],
+                        "T009900929": [
+                            {
+                                "id": 63640007,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T009900929",
+                                "name": "各种动物脏器（鸡内金除外）和胎、鞭、尾、筋、骨(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 65,
+                                "price": 65,
+                                "total_cash": 650,
+                                "source": "z_advice",
+                                "source_id": 63640007
+                            }
+                        ],
+                        "T002100348": [
+                            {
+                                "id": 63640014,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100348",
+                                "name": "红粉(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 58,
+                                "price": 58,
+                                "total_cash": 580,
+                                "source": "z_advice",
+                                "source_id": 63640014
+                            }
+                        ],
+                        "T001300219": [
+                            {
+                                "id": 63640021,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300219",
+                                "name": "煅瓦楞子(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 51,
+                                "price": 51,
+                                "total_cash": 510,
+                                "source": "z_advice",
+                                "source_id": 63640021
+                            }
+                        ],
+                        "T001300021": [
+                            {
+                                "id": 63640028,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300021",
+                                "name": "白前(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 43,
+                                "price": 43,
+                                "total_cash": 430,
+                                "source": "z_advice",
+                                "source_id": 63640028
+                            }
+                        ],
+                        "T002100578": [
+                            {
+                                "id": 63640010,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100578",
+                                "name": "木芙蓉叶(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 62,
+                                "price": 62,
+                                "total_cash": 620,
+                                "source": "z_advice",
+                                "source_id": 63640010
+                            }
+                        ],
+                        "T002000871": [
+                            {
+                                "id": 63640017,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002000871",
+                                "name": "皂角刺(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 55,
+                                "price": 55,
+                                "total_cash": 550,
+                                "source": "z_advice",
+                                "source_id": 63640017
+                            }
+                        ],
+                        "T001300075": [
+                            {
+                                "id": 63640024,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300075",
+                                "name": "炒白果仁(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 47,
+                                "price": 47,
+                                "total_cash": 470,
+                                "source": "z_advice",
+                                "source_id": 63640024
+                            }
+                        ],
+                        "T001300008": [
+                            {
+                                "id": 63640031,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300008",
+                                "name": "百部(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 40,
+                                "price": 40,
+                                "total_cash": 400,
+                                "source": "z_advice",
+                                "source_id": 63640031
+                            }
+                        ],
+                        "T002100473": [
+                            {
+                                "id": 63640013,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100473",
+                                "name": "枯矾(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 59,
+                                "price": 59,
+                                "total_cash": 590,
+                                "source": "z_advice",
+                                "source_id": 63640013
+                            }
+                        ],
+                        "T002000748": [
+                            {
+                                "id": 63640020,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002000748",
+                                "name": "土荆皮(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 52,
+                                "price": 52,
+                                "total_cash": 520,
+                                "source": "z_advice",
+                                "source_id": 63640020
+                            }
+                        ],
+                        "T001300022": [
+                            {
+                                "id": 63640027,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300022",
+                                "name": "白屈菜(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 44,
+                                "price": 44,
+                                "total_cash": 440,
+                                "source": "z_advice",
+                                "source_id": 63640027
+                            }
+                        ],
+                        "T002100625": [
+                            {
+                                "id": 63640009,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100625",
+                                "name": "轻粉(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 63,
+                                "price": 63,
+                                "total_cash": 630,
+                                "source": "z_advice",
+                                "source_id": 63640009
+                            }
+                        ],
+                        "T002100214": [
+                            {
+                                "id": 63640016,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100214",
+                                "name": "煅炉甘石(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 56,
+                                "price": 56,
+                                "total_cash": 560,
+                                "source": "z_advice",
+                                "source_id": 63640016
+                            }
+                        ],
+                        "T001300090": [
+                            {
+                                "id": 63640023,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300090",
+                                "name": "炒芥子(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 48,
+                                "price": 48,
+                                "total_cash": 480,
+                                "source": "z_advice",
+                                "source_id": 63640023
+                            }
+                        ],
+                        "T001300011": [
+                            {
+                                "id": 63640030,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300011",
+                                "name": "白果仁(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 41,
+                                "price": 41,
+                                "total_cash": 410,
+                                "source": "z_advice",
+                                "source_id": 63640030
+                            }
+                        ],
+                        "T002100513": [
+                            {
+                                "id": 63640012,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002100513",
+                                "name": "炉甘石(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 60,
+                                "price": 60,
+                                "total_cash": 600,
+                                "source": "z_advice",
+                                "source_id": 63640012
+                            }
+                        ],
+                        "T002000801": [
+                            {
+                                "id": 63640019,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T002000801",
+                                "name": "雄黄粉(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 53,
+                                "price": 53,
+                                "total_cash": 530,
+                                "source": "z_advice",
+                                "source_id": 63640019
+                            }
+                        ],
+                        "T001300040": [
+                            {
+                                "id": 63640026,
+                                "type": "10",
+                                "group_code": "80",
+                                "days": null,
+                                "code": "T001300040",
+                                "name": "板栗壳(25味药)",
+                                "time": 1774249272,
+                                "num": 10,
+                                "cash": 45,
+                                "price": 45,
+                                "total_cash": 450,
+                                "source": "z_advice",
+                                "source_id": 63640026
+                            }
+                        ]
+                    }
+                },
+                "procedure": []
+            }
+        ]
+    }
+}
