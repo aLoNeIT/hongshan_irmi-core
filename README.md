@@ -85,6 +85,7 @@
         - name：属性名称
         - value：属性值
         - operator：属性操作符，为>、<、=、>=、<=、!=、in、not in、regex
+        - condition：前置条件，数组，每个元素是一个对象，包含name、operator、value属性
     - treatment_days：治疗天数
     - `(暂未实现)`date_interval：日期间隔配置 
         - num：间隔数量，如5日、三月
