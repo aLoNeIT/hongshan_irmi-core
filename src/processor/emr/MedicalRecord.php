@@ -72,7 +72,7 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
     protected function detectProperty(MedicalRecordStruct $medicalRecord, IRMIRule $rule): JsonTable
     {
         $errors = [];
-        $result = Util::detectFormula($medicalRecord, $rule->options['property'] ?? []);
+        $result = Util::detectFormula($medicalRecord, $rule->options['property'] ?? [], $rule->getIRMIRuleSet()->dict);
         // 判断返回结果
         if (!empty($result)) {
             foreach ($result as $item) {
