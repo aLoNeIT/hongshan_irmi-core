@@ -265,7 +265,7 @@ class Util
             if (!\is_null($condition)) {
                 // 存在条件，需要先判断条件是否符合
                 $result = self::detectFormula($props, $condition, $dict);
-                if (!$result) {
+                if (!empty($result)) {
                     // 前置条件不符合，无需比对
                     continue;
                 }
