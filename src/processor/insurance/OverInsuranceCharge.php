@@ -312,7 +312,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                                     if (!isset($tmpCodes[$item->code])) {
                                         $tmpCodes[$item->code] = 1;
                                         // 集合中不存在，此时需要判断集合中数量是否超标，若超标则记录当前id
-                                        if ($this->compareNum(count($tmpCodes), $ruleNum)) {
+                                        if (1 == \bccomp((string)count($tmpCodes), (string)$max)) {
                                             $itemIds[] = $item->id;
                                             continue;
                                         }
@@ -323,7 +323,7 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                                 $tmpTotalNum = 0;
                                 foreach ($sortItems as $item) {
                                     $tmpTotalNum += $item->num;
-                                    if ($this->compareNum($tmpTotalNum, $ruleNum)) {
+                                    if (1 == \bccomp((string)$tmpTotalNum, (string)$max)) {
                                         $itemIds[] = $item->id;
                                         continue;
                                     }
