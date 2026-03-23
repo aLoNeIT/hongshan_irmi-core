@@ -272,8 +272,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             case 4: // 群组中项目个数
             case 5: //群组中项目的计费总数，后续如果有需要再优化为根据价格之类
                 $errTmplMap = [
-                    4 => '当前项目[{$ruleItemName}]在同一分组内，项目类别总数应[{$ruleErrorStr}]，实际[{$num}]',
-                    5 => '当前项目[{$ruleItemName}]在同一分组内，计费总数应[{$ruleErrorStr}]，实际[{$num}]',
+                    4 => '当前项目[{$ruleItemName}]的同一分组内，项目类别总数应[{$ruleErrorStr}]，实际[{$num}]',
+                    5 => '当前项目[{$ruleItemName}]的同一分组内，计费总数应[{$ruleErrorStr}]，实际[{$num}]',
                 ];
                 $errTmpl = $errTmplMap[$ruleNumType] ?? '超医保支付范围';
                 // {"P123123":{"T000700200":[miitem1,miitem2],"T000700201":[miitem3]},"P123124":{"T000700202":[miitem4,miitem5]}}
@@ -310,23 +310,23 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                                 $tmpCodes = [];
                                 foreach ($sortItems as $item) {
                                     if (!isset($tmpCodes[$item->code])) {
+                                        $tmpCodes[$item->code] = 1;
                                         // 集合中不存在，此时需要判断集合中数量是否超标，若超标则记录当前id
-                                        if (count($tmpCodes) > $ruleNum) {
+                                        if ($this->compareNum(count($tmpCodes), $ruleNum)) {
                                             $itemIds[] = $item->id;
                                             continue;
                                         }
-                                        $tmpCodes[$item->code] = 1;
                                     }
                                 }
                             } else if (5 == $ruleNumType) {
                                 // 这里计算的是计费总数
                                 $tmpTotalNum = 0;
                                 foreach ($sortItems as $item) {
-                                    if ($tmpTotalNum > $ruleNum) {
+                                    $tmpTotalNum += $item->num;
+                                    if ($this->compareNum($tmpTotalNum, $ruleNum)) {
                                         $itemIds[] = $item->id;
                                         continue;
                                     }
-                                    $tmpTotalNum += $item->num;
                                 }
                             }
                         }
