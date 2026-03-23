@@ -328,6 +328,7 @@ class Util
                 case 'between':
                     $value = \is_array($value) ? $value : \explode(',', (string)$value);
                     $result = $propertyValue >= $value[0] && $propertyValue <= $value[1];
+                    break;
                 case 'regex':
                     $propertyValue = \is_array($propertyValue) ? $propertyValue : [$propertyValue];
                     $elements = array_filter($propertyValue, function ($item) use ($value) {
