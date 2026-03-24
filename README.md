@@ -59,7 +59,7 @@
         - coefficient：计算系数，如果type为2，且设置了该系数，则会将指定属性的值乘以该系数
         - item_code：如果type为3，则有该属性，属性值为另一个项目的编码
         - time_type：如果type为3，择优该属性，用于标记取另一个项目数据的时间范围时间类型，1-按日，2-全部
-    - detect_type：检测方式，1-按日，2-范围；
+    - detect_type：检测方式，1-按日，2-全部；
     - combine_items：合并计数的项目，数组，每个元素是项目编码，用于将指定编码的数据一同累计数量；
     - exclude_items：排除项目配置
         - time_type：时间类型，1-按日，2-全部，3-时间区间，4-同一处方，10-同一小时
@@ -126,6 +126,10 @@
                 - time_range
                 - include_branch、exclude_branch
                 - property
+        - type=5，SplitCharge，分解收费
+            - sub_type=1，检测多个项目同时存在
+                - include_items：指定需要检测的项目集合
+                - required_count：同时存在的最少项目数量
     - emr：病历相关
         - type=1，MedicalRecord，病历属性不合规
             - sub_type=1，手术与诊断不不符
