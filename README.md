@@ -126,6 +126,10 @@
                 - time_range
                 - include_branch、exclude_branch
                 - property
+        - type=5，SplitCharge，分解收费
+            - sub_type=1，检测多个项目同时存在
+                - include_items：指定需要检测的项目集合
+                - required_count：同时存在的最少项目数量
     - emr：病历相关
         - type=1，MedicalRecord，病历属性不合规
             - sub_type=1，手术与诊断不不符
