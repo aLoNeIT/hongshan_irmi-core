@@ -1,0 +1,136 @@
+{
+  "rule": {
+    "code": "10276654",
+    "name": "[诊断对应年龄与参保人年龄不符]",
+    "item_code": "A04.100x002",
+    "item_name": "新生儿母乳喂养困难",
+    "desc": "新生儿母乳喂养困难(P92.500)为诊断对应年龄与参保人年龄不符，参保人年龄应0-28天，否则属于诊断与年龄不符",
+    "category": 2,
+    "type": 1,
+    "sub_type": 2,
+    "options": {
+      "property": [
+        {
+          "name": "age_day",
+          "operator": "<=",
+          "value": 28
+        },
+        {
+          "name": "age",
+          "operator": "=",
+          "value": 0,
+          "condition": [
+            {
+              "name": "age_day",
+              "operator": "=",
+              "value": null
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "BHLZL-AGE-FAIL-003",
+        "desc": "真实病历数据：住院患者(sex=2,age=40,age_day=null)同时收费P92.500，年龄严重不符，应检出",
+        "sex": 2,
+        "age": 40,
+        "age_day": null,
+        "weight": 0,
+        "birth_weight": 0,
+        "in_branch": "A03",
+        "out_branch": "A03",
+        "in_days": 212,
+        "visit_type": 2,
+        "in_date": 1756092540,
+        "out_date": 1757383320,
+        "diagnosis": ["J39.300", "B37.302+N77.1*", "A04.100x002"],
+        "insurance_type": [1],
+        "medical_insurance_set": {
+          "1774281600": {
+            "T002100578": [
+              {
+                "id": 63640346,
+                "type": "10",
+                "group_code": "32",
+                "days": null,
+                "code": "T002100578",
+                "name": "木芙蓉叶(25味药)",
+                "time": 1774344362,
+                "num": 1,
+                "cash": 62,
+                "price": 62,
+                "total_cash": 62
+              }
+            ],
+            "002501020010000": [
+              {
+                "id": 63640400,
+                "type": "04",
+                "group_code": "32",
+                "days": null,
+                "code": "P92.500",
+                "name": "新生儿母乳喂养困难",
+                "time": 1774344362,
+                "num": 1,
+                "price": 0,
+                "cash": 0,
+                "total_cash": 0
+              }
+            ]
+          },
+          "1774368000": {
+            "002501020010000-250102001a": [
+              {
+                "id": 63640582,
+                "type": "04",
+                "group_code": "33",
+                "days": null,
+                "code": "002501020010000-250102001a",
+                "name": "尿液分析(重复收费3)",
+                "time": 1774416980,
+                "num": 1,
+                "cash": 15,
+                "price": 15,
+                "total_cash": 15
+              }
+            ],
+            "002501020010000": [
+              {
+                "id": 63640582,
+                "type": "04",
+                "group_code": "33",
+                "days": null,
+                "code": "002501020010000",
+                "name": "尿液分析(重复收费3)",
+                "time": 1774416980,
+                "num": 1,
+                "cash": 15,
+                "price": 15,
+                "total_cash": 15
+              }
+            ],
+            "014100000160000": [
+              {
+                "id": 63640583,
+                "type": "05",
+                "group_code": "34",
+                "days": null,
+                "code": "014100000160000",
+                "name": "中医药线引流(超八项)",
+                "time": 1774417413,
+                "num": 3,
+                "cash": 25,
+                "price": 25,
+                "total_cash": 75
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

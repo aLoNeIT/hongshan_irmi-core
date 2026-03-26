@@ -1,0 +1,164 @@
+{
+    "rule": {
+        "code": "10279026",
+        "name": "病历属性不合规[诊断与患者性别不符]",
+        "item_code": "Z90.706",
+        "item_name": "单侧输卵管卵巢切除术后状态",
+        "desc": "单侧输卵管卵巢切除术后状态(Z90.706)为女性专属疾病，患者性别应为女(sex=2)，男性患者使用该诊断属于诊断与性别不符",
+        "category": 2,
+        "type": 1,
+        "sub_type": 2,
+        "options": {
+            "property": [
+                {
+                    "name": "sex",
+                    "operator": "=",
+                    "value": 2
+                }
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [
+            {
+                "code": "BLSXBHG-DSEX-SUCCESS-001",
+                "desc": "女性患者(sex=2)诊断单侧输卵管卵巢切除术后状态，性别匹配，应通过",
+                "sex": 2,
+                "age": 45,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A01",
+                "in_days": 7,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742227200,
+                "diagnosis": [
+                    "Z90.706"
+                ],
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "T000100001": [
+                            {
+                                "id": 1,
+                                "code": "T000100001",
+                                "name": "妇科常规检查",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 30.00,
+                                "cash": 30.00,
+                                "total_cash": 30.00
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "code": "BLSXBHG-DSEX-SUCCESS-002",
+                "desc": "男性患者诊断其他疾病(高血压)，不涉及该规则，应通过",
+                "sex": 1,
+                "age": 55,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A01",
+                "in_days": 5,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742054400,
+                "diagnosis": [
+                    "I10.x00"
+                ],
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "T000200001": [
+                            {
+                                "id": 2,
+                                "code": "T000200001",
+                                "name": "硝苯地平缓释片",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 25.00,
+                                "cash": 25.00,
+                                "total_cash": 25.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": [
+            {
+                "code": "BLSXBHG-DSEX-FAIL-001",
+                "desc": "男性患者(sex=1)诊断单侧输卵管卵巢切除术后状态，性别不符，应检出",
+                "sex": 1,
+                "age": 50,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A01",
+                "in_days": 5,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742054400,
+                "diagnosis": [
+                    "Z90.706"
+                ],
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "T000100001": [
+                            {
+                                "id": 3,
+                                "code": "T000100001",
+                                "name": "妇科常规检查",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 30.00,
+                                "cash": 30.00,
+                                "total_cash": 30.00
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "code": "BLSXBHG-DSEX-FAIL-002",
+                "desc": "男性患者(sex=1)多个诊断中包含单侧输卵管卵巢切除术后状态，性别不符，应检出",
+                "sex": 1,
+                "age": 60,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A01",
+                "out_branch": "A01",
+                "in_days": 7,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742227200,
+                "diagnosis": [
+                    "I10.x00",
+                    "Z90.706"
+                ],
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "T000100001": [
+                            {
+                                "id": 4,
+                                "code": "T000100001",
+                                "name": "妇科常规检查",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 30.00,
+                                "cash": 30.00,
+                                "total_cash": 30.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
