@@ -1,0 +1,126 @@
+{
+    "rule": {
+        "code": "9274702",
+        "name": "不合理诊疗[手术与患者性别不符]",
+        "item_code": "03.7906",
+        "item_name": "输卵管脊膜吻合术",
+        "desc": "输卵管脊膜吻合术(03.7906)为女性专属手术，患者性别应为女(sex=2)，男性患者使用该手术属于手术与性别不符",
+        "category": 1,
+        "type": 4,
+        "sub_type": 2,
+        "options": {
+            "property": [
+                {
+                    "name": "sex",
+                    "operator": "=",
+                    "value": 2
+                }
+            ]
+        }
+    },
+    "medical_records": {
+        "success": [
+            {
+                "code": "BHLZL-PSEX-SUCCESS-001",
+                "desc": "女性患者(sex=2)行输卵管脊膜吻合术，性别匹配，应通过",
+                "sex": 2,
+                "age": 35,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A03",
+                "out_branch": "A03",
+                "in_days": 10,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742486400,
+                "procedure": [
+                    "03.7906"
+                ],
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "03.7906": [
+                            {
+                                "id": 1,
+                                "code": "03.7906",
+                                "name": "输卵管脊膜吻合术",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 5000.00,
+                                "cash": 5000.00,
+                                "total_cash": 5000.00
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "code": "BHLZL-PSEX-SUCCESS-002",
+                "desc": "男性患者行其他手术(阑尾切除术)，不涉及输卵管脊膜吻合术规则，应通过",
+                "sex": 1,
+                "age": 30,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A03",
+                "out_branch": "A03",
+                "in_days": 5,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742054400,
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "47.09": [
+                            {
+                                "id": 2,
+                                "code": "47.09",
+                                "name": "阑尾切除术",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 3000.00,
+                                "cash": 3000.00,
+                                "total_cash": 3000.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": [
+            {
+                "code": "BHLZL-PSEX-FAIL-001",
+                "desc": "男性患者(sex=1)行输卵管脊膜吻合术，性别不符，应检出",
+                "sex": 1,
+                "age": 50,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "A03",
+                "out_branch": "A03",
+                "in_days": 10,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742486400,
+                "procedure": [
+                    "03.7906"
+                ],
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "03.7906": [
+                            {
+                                "id": 3,
+                                "code": "03.7906",
+                                "name": "输卵管脊膜吻合术",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 5000.00,
+                                "cash": 5000.00,
+                                "total_cash": 5000.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

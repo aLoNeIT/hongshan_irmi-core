@@ -1,0 +1,245 @@
+{
+    "rule": {
+        "code": "CFSF001",
+        "name": "重复收费-超声检查",
+        "item_code": "110400001",
+        "item_name": "彩色多普勒超声检查",
+        "desc": "彩色多普勒超声检查(110400001)与B超检查(110400002)属于同类检查项目，同日不应同时收取费用",
+        "category": 1,
+        "type": 1,
+        "sub_type": 1,
+        "options": {
+            "exclude_items": {
+                "time_type": 1,
+                "collection": {
+                    "110400002": null
+                }
+            }
+        }
+    },
+    "medical_records": {
+        "success": [
+            {
+                "code": "CFSF-SUCCESS-001",
+                "desc": "仅收取彩色多普勒超声检查，无B超检查，不存在重复收费，应通过",
+                "sex": 1,
+                "age": 55,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "01",
+                "in_days": 5,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742054400,
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "110400001": [
+                            {
+                                "id": 1,
+                                "code": "110400001",
+                                "name": "彩色多普勒超声检查",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 180.00,
+                                "cash": 180.00,
+                                "total_cash": 180.00
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "code": "CFSF-SUCCESS-002",
+                "desc": "彩色多普勒与B超分别在不同日期收取(按日检测time_type=1)，不算重复，应通过",
+                "sex": 2,
+                "age": 48,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "01",
+                "in_days": 7,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742227200,
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "110400001": [
+                            {
+                                "id": 2,
+                                "code": "110400001",
+                                "name": "彩色多普勒超声检查",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 180.00,
+                                "cash": 180.00,
+                                "total_cash": 180.00
+                            }
+                        ]
+                    },
+                    "1741708800": {
+                        "110400002": [
+                            {
+                                "id": 3,
+                                "code": "110400002",
+                                "name": "B超检查",
+                                "time": 1741737600,
+                                "num": 1,
+                                "price": 80.00,
+                                "cash": 80.00,
+                                "total_cash": 80.00
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "code": "CFSF-SUCCESS-003",
+                "desc": "彩色多普勒与组外项目(心电图)同日收取，不属于排除项，应通过",
+                "sex": 1,
+                "age": 62,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "02",
+                "out_branch": "02",
+                "in_days": 3,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1741881600,
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "110400001": [
+                            {
+                                "id": 4,
+                                "code": "110400001",
+                                "name": "彩色多普勒超声检查",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 180.00,
+                                "cash": 180.00,
+                                "total_cash": 180.00
+                            }
+                        ],
+                        "110500001": [
+                            {
+                                "id": 5,
+                                "code": "110500001",
+                                "name": "心电图检查",
+                                "time": 1741654800,
+                                "num": 1,
+                                "price": 30.00,
+                                "cash": 30.00,
+                                "total_cash": 30.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "fail": [
+            {
+                "code": "CFSF-FAIL-001",
+                "desc": "同一天同时收取彩色多普勒超声检查和B超检查，属于重复收费，应检出",
+                "sex": 1,
+                "age": 50,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "01",
+                "in_days": 5,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742054400,
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "110400001": [
+                            {
+                                "id": 6,
+                                "code": "110400001",
+                                "name": "彩色多普勒超声检查",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 180.00,
+                                "cash": 180.00,
+                                "total_cash": 180.00
+                            }
+                        ],
+                        "110400002": [
+                            {
+                                "id": 7,
+                                "code": "110400002",
+                                "name": "B超检查",
+                                "time": 1741654800,
+                                "num": 1,
+                                "price": 80.00,
+                                "cash": 80.00,
+                                "total_cash": 80.00
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "code": "CFSF-FAIL-002",
+                "desc": "住院多天，其中某天同时收取了彩色多普勒和B超，该天应检出重复收费",
+                "sex": 2,
+                "age": 40,
+                "age_day": null,
+                "weight": null,
+                "birth_weight": null,
+                "in_branch": "01",
+                "out_branch": "01",
+                "in_days": 5,
+                "visit_type": 2,
+                "in_date": 1741622400,
+                "out_date": 1742054400,
+                "medical_insurance_set": {
+                    "1741622400": {
+                        "110400001": [
+                            {
+                                "id": 8,
+                                "code": "110400001",
+                                "name": "彩色多普勒超声检查",
+                                "time": 1741651200,
+                                "num": 1,
+                                "price": 180.00,
+                                "cash": 180.00,
+                                "total_cash": 180.00
+                            }
+                        ]
+                    },
+                    "1741708800": {
+                        "110400001": [
+                            {
+                                "id": 9,
+                                "code": "110400001",
+                                "name": "彩色多普勒超声检查",
+                                "time": 1741737600,
+                                "num": 1,
+                                "price": 180.00,
+                                "cash": 180.00,
+                                "total_cash": 180.00
+                            }
+                        ],
+                        "110400002": [
+                            {
+                                "id": 10,
+                                "code": "110400002",
+                                "name": "B超检查",
+                                "time": 1741741200,
+                                "num": 1,
+                                "price": 80.00,
+                                "cash": 80.00,
+                                "total_cash": 80.00
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

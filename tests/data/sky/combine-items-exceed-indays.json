@@ -1,0 +1,124 @@
+{
+  "rule": {
+    "code": "ZJHZ001",
+    "name": "多项目合计数量不超过住院天数",
+    "item_code": "110200005",
+    "item_name": "住院诊查费",
+    "desc": "【住院诊查费(110200005) + 护理费(110200010) + 床位费(110200011)】三项合计数量不得超过住院天数(in_days)",
+    "category": 1,
+    "type": 2,
+    "sub_type": 1,
+    "options": {
+      "detect_type": 2,
+      "unit_type": "num",
+      "combine_items": ["110200010", "110200011"],
+      "num": {
+        "type": 2,
+        "property": "in_days"
+      }
+    }
+  },
+  "medical_records": {
+    "success": [],
+    "fail": [
+      {
+        "code": "FAIL-001",
+        "desc": "主项目3次+护理费2次+床位费1次=6次，超过住院天数(5)，应检出",
+        "sex": 1,
+        "age": 50,
+        "age_day": null,
+        "weight": null,
+        "birth_weight": null,
+        "in_branch": "01",
+        "out_branch": "01",
+        "in_days": 5,
+        "visit_type": 2,
+        "in_date": 1741622400,
+        "out_date": 1742054400,
+        "medical_insurance_set": {
+          "1741622400": {
+            "110200005": [
+              {
+                "id": 7,
+                "code": "110200005",
+                "name": "住院诊查费",
+                "time": 1741651200,
+                "num": 3,
+                "price": 10.0,
+                "cash": 10.0,
+                "total_cash": 30.0
+              }
+            ],
+            "110200010": [
+              {
+                "id": 8,
+                "code": "110200010",
+                "name": "护理费",
+                "time": 1741654800,
+                "num": 2,
+                "price": 20.0,
+                "cash": 20.0,
+                "total_cash": 40.0
+              }
+            ],
+            "110200011": [
+              {
+                "id": 9,
+                "code": "110200011",
+                "name": "床位费",
+                "time": 1741658400,
+                "num": 1,
+                "price": 30.0,
+                "cash": 30.0,
+                "total_cash": 30.0
+              }
+            ]
+          }
+        }
+      },
+      {
+        "code": "FAIL-002",
+        "desc": "主项目2次+护理费2次=4次，超过住院天数(3)，应检出",
+        "sex": 2,
+        "age": 38,
+        "age_day": null,
+        "birth_weight": null,
+        "weight": null,
+        "in_branch": "02",
+        "out_branch": "02",
+        "in_days": 3,
+        "visit_type": 2,
+        "in_date": 1741622400,
+        "out_date": 1741881600,
+        "medical_insurance_set": {
+          "1741622400": {
+            "110200005": [
+              {
+                "id": 10,
+                "code": "110200005",
+                "name": "住院诊查费",
+                "time": 1741651200,
+                "num": 2,
+                "price": 10.0,
+                "cash": 10.0,
+                "total_cash": 20.0
+              }
+            ],
+            "110200010": [
+              {
+                "id": 11,
+                "code": "110200010",
+                "name": "护理费",
+                "time": 1741654800,
+                "num": 2,
+                "price": 20.0,
+                "cash": 20.0,
+                "total_cash": 40.0
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
