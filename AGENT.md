@@ -1,686 +1,523 @@
-# hongshan_irmi-core 项目约束与架构说明
+# AGENTS.md - 红杉健康医保智能审核核心类库开发指南
 
-本文档面向后续参与本仓库开发的 AI / 开发者，目标不是做产品宣传，而是明确当前代码的真实架构、调用链、数据约定、扩展方式和实现边界。
+## 项目概述
 
-除非明确要做重构，否则后续修改应优先遵守本文档中的现有约定。
+**项目名称**: hongshan_irmi-core  
+**描述**: 红杉健康医保智能审核核心类库（Intelligent review of medical insurance）  
+**PHP 版本**: >= 8.0  
+**许可证**: MulanPSL-2.0  
 
-## 1. 项目定位
+## 项目结构
 
-`hongshan_irmi-core` 是一个基于规则驱动的医保智能审核核心库。
-
-核心能力：
-
-- 加载规则集 `IRMIRuleSet`
-- 加载病历/就诊记录 `MedicalRecord`
-- 根据规则类别与规则类型，把规则路由到对应 `processor`
-- 返回统一 `JsonTable` 风格的审核结果数组
-
-当前项目不是典型的 MVC / DDD / ORM 项目，核心组织方式是：
-
-- `IRMI / Driver` 负责调度
-- `struct/*` 负责结构化数据
-- `processor/*` 负责规则执行
-- `constant/*` 负责类别与处理器映射
-- `tests/*` 既是测试入口，也是规则 JSON 与病历 JSON 的真实样例来源
-
-## 2. 目录结构
-
-```text
-src/
-├─ config/                 默认配置
-├─ constant/               类别、键名、别名映射
-├─ driver/                 驱动实现，当前只有 ShaanXi
-├─ interfaces/             处理器接口
-├─ processor/
-│  ├─ emr/                 病历类规则处理器
-│  └─ insurance/           医保项目类规则处理器
-├─ struct/                 规则、病历、项目、结果等结构体
-├─ Driver.php              驱动基类，核心审核流程在这里
-├─ IRMI.php                对外入口，负责实例化 driver
-├─ IRMIException.php       统一异常
-├─ IRMILog.php             PSR-3 日志包装
-└─ Util.php                通用工具方法与公式计算
-
-tests/
-├─ IRMI.php                CLI 测试入口
-├─ App.php                 批量数据导出示例
-└─ data/                   规则样例、病历样例、回归用例
+```
+hongshan_irmi-core/
+├── src/
+│   ├── IRMI.php              # 主管理类
+│   ├── Driver.php            # 驱动基类
+│   ├── IRMIException.php     # 异常类
+│   ├── IRMILog.php           # 日志类
+│   ├── Util.php              # 工具类
+│   ├── config/               # 配置文件
+│   ├── constant/             # 常量定义
+│   ├── driver/               # 具体驱动实现
+│   ├── interfaces/           # 接口定义
+│   ├── processor/            # 处理器
+│   │   ├── Base.php          # 处理器基类
+│   │   ├── insurance/        # 医保项目处理器
+│   │   ├── emr/              # 电子病历处理器
+│   │   ├── patient/          # 患者档案处理器
+│   │   └── hospital/         # 医院信息处理器
+│   ├── rule/                 # 规则相关
+│   └── struct/               # 数据结构
+│       ├── Base.php          # 结构体基类
+│       ├── IRMIRule.php      # 审核规则
+│       ├── IRMIRuleSet.php   # 规则集合
+│       ├── MedicalRecord.php # 病历结构
+│       ├── MedicalInsuranceItem.php  # 医保项目
+│       └── JsonTable.php     # 结果封装
+├── tests/                    # 测试文件
+├── composer.json             # 依赖配置
+└── README.md                 # 项目说明
 ```
 
-## 3. 核心执行链路
+## 代码规范
 
-标准调用顺序：
+### 1. 基础规范
 
-1. `IRMI::instance($config)->store('shaanxi')` 获取驱动实例
-2. `Driver::load($code, $data)` 加载规则集
-3. `(new MedicalRecord())->load($record)` 加载病历
-4. `$driver->switch($code)->detectInsurance($medicalRecord, $ruleOption)` 执行审核
-5. 返回统一数组结果，结构与 `JsonTable->toArray()` 一致
+```php
+<?php
 
-内部实际执行流程：
+declare(strict_types=1);  // 必须声明严格类型
 
-1. `IRMI::store()` 根据配置实例化 driver
-2. `Driver::load()` 创建/切换 `IRMIRuleSet`
-3. `IRMIRuleSet::load()` 把每条规则转成 `IRMIRule`，并建立 `category + itemCode -> ruleCode[]` 索引
-4. `MedicalRecord::load()` 把原始 `medical_insurance_set` 转成 `MedicalInsuranceItem` 对象，并生成临时索引 `medical_insurance_item_with_code`
-5. `Driver::detectInsurance()` 依次处理：
-   - 医保项目类规则 `CATEGORY_INSURANCE`
-   - 病历类规则 `CATEGORY_EMR`
-6. 对每条命中的规则，根据 `Processor::TYPE_MAP` 找到处理器类
-7. 处理器返回 `JsonTable`
-8. driver 收集所有失败项，最终返回：
-   - 无错误：`state = 0`
-   - 有错误：`state = 10`，`data` 为各处理器失败结果数组
+namespace hongshanhealth\irmi;  // 使用 PSR-4 命名空间
 
-注意：
+use hongshanhealth\irmi\struct\{
+    IRMIRule,
+    JsonTable,
+    MedicalRecord
+};  // 多个类使用 use 组导入
+```
 
-- `Driver::detectInsurance()` 对外返回的是 `array`，不是 `JsonTable` 对象
-- 单条规则是否被执行，前提是：
-  - `category` 必须可路由
-  - `item_code` 必须能在当前病历中命中
-  - `type` 必须能在 `Processor::TYPE_MAP` 中找到处理器
+### 2. 类定义规范
 
-## 4. 核心类职责
+- **类名**: 使用 PascalCase（大驼峰）命名
+- **属性**: 使用 camelCase（小驼峰）命名，必须有类型声明
+- **方法**: 使用 camelCase 命名，必须有返回类型声明
+- **接口**: 以 `I` 开头，如 `IDetectInsuranceProcessor`
 
-### 4.1 IRMI
-
-- 统一入口
-- 维护 driver 配置和 driver 单例缓存
-- 当前默认 driver 为 `shaanxi`
-
-### 4.2 Driver
-
-职责：
-
-- 管理多个规则集实例
-- 执行完整审核流程
-- 汇总错误码与错误消息
-
-当前 `Driver` 不是空壳，核心业务调度都在这里，新增审核能力时通常不应改 `IRMI`，而应改：
-
-- `constant/Processor.php`
-- 对应 `processor/*`
-- 必要时补充 `struct/*`
-
-### 4.3 IRMIRuleSet
-
-职责：
-
-- 保存规则集基本信息：`code`、`name`、`dict`
-- 把原始规则数组转成 `IRMIRule`
-- 建立规则索引
-- 按 `category + itemCode` 过滤规则
-- 支持白名单 / 黑名单过滤
-
-关键点：
-
-- `dict` 供公式判断与集合展开使用
-- `__call()` 会把 `detectInsurance()` 等调用转发给绑定的 `Driver`
-
-### 4.4 MedicalRecord
-
-职责：
-
-- 承载病历主数据
-- 在 `load()` 阶段把原始医保项目数组转成对象
-- 生成临时索引供 processor 快速读取
-
-关键临时索引：
-
-- `Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE`
-- 值结构：`array<string, MedicalInsuranceItem[]>`
-- 这是大多数医保处理器的直接数据源
-
-## 5. 数据结构约定
-
-### 5.1 命名转换规则
-
-结构体内部属性使用 camelCase，例如：
-
-- `itemCode`
-- `subType`
-- `medicalInsuranceSet`
-
-输入 JSON / 数组必须使用 snake_case，例如：
-
-- `item_code`
-- `sub_type`
-- `medical_insurance_set`
-
-原因：
-
-- `struct\Base::load()` 会把结构体 public 属性转成 snake_case 后再从输入数组取值
-
-因此新增结构体字段时必须同步遵守：
-
-- PHP 属性名使用 camelCase
-- 外部输入字段名使用 snake_case
-
-### 5.2 MedicalRecord 结构
-
-常用字段：
-
-- `code`
-- `sex`
-- `age`
-- `age_day`
-- `weight`
-- `birth_weight`
-- `in_branch`
-- `out_branch`
-- `in_days`
-- `visit_type`
-- `in_date`
-- `out_date`
-- `diagnosis`
-- `procedure`
-- `insurance_type`
-- `hospital_code`
-- `hospital_type`
-- `hospital_level`
-- `hospital_business_type`
-- `medical_insurance_set`
-
-内部派生字段：
-
-- `principalDiagnosis` = `diagnosis[0] ?? null`
-- `majorProcedure` = `procedure[0] ?? null`
-
-`medical_insurance_set` 输入结构：
-
-```json
+```php
+/**
+ * 类描述
+ * 
+ * @author 作者名 <email>
+ */
+class ClassName extends BaseClass implements InterfaceName
 {
-  "1709222400": {
-    "120300002b": [
-      {
-        "id": 1,
-        "code": "120300002b",
-        "name": "示例项目",
-        "group_code": "RX-001",
-        "type": "drug",
-        "time": 1709251200,
-        "num": 1,
-        "price": 10,
-        "cash": 10,
-        "total_cash": 10,
-        "days": 1
-      }
-    ]
-  }
-}
-```
-
-说明：
-
-- 第一层 key 是日期零点时间戳
-- 第二层 key 是项目编码
-- 第三层是该项目在该日期下的多条明细
-- `id` 虽非强制，但强烈建议提供，否则结果中的 `item_ids` 会缺失
-
-### 5.3 IRMIRuleSet 结构
-
-```json
-{
-  "code": "RULESET-01",
-  "name": "规则集名称",
-  "dict": {
-    "drug": {
-      "group1": ["A001", "A002"]
-    }
-  },
-  "rules": []
-}
-```
-
-### 5.4 IRMIRule 结构
-
-高频字段：
-
-- `code`
-- `name`
-- `category`
-- `type`
-- `sub_type`
-- `item_code`
-- `item_name`
-- `item_type`
-- `visit_type`
-- `detect_type`
-- `description`
-- `options`
-
-强约束：
-
-- `category` 必须明确填写
-- 当前 driver 只会扫描：
-  - `1` 医保项目类
-  - `2` 病历类
-- 如果 `category` 为空，规则通常无法进入正常路由
-
-## 6. 当前已实现的规则类别与处理器映射
-
-定义位置：`src/constant/Processor.php`
-
-### 6.1 类别
-
-- `1` 医保项目类 `CATEGORY_INSURANCE`
-- `2` 病历类 `CATEGORY_EMR`
-- `3` 患者类 `CATEGORY_PATIENT`，当前未实现
-- `4` 医院类 `CATEGORY_HOSPITAL`，当前未实现
-
-### 6.2 type 映射
-
-医保项目类：
-
-- `1` `processor\insurance\DuplicateCharge`
-- `2` `processor\insurance\OverStandardCharge`
-- `3` `processor\insurance\OverInsuranceCharge`
-- `4` `processor\insurance\UnReasonableTreatment`
-- `5` `processor\insurance\SplitCharge`
-
-病历类：
-
-- `1` `processor\emr\MedicalRecord`
-
-## 7. 当前代码真实支持的规则能力
-
-以下内容以 `src/processor/*` 代码为准，不以历史 README 或旧样例为准。
-
-### 7.1 DuplicateCharge
-
-处理器：`processor\insurance\DuplicateCharge`
-
-已实现：
-
-- `type = 1`
-- `sub_type = 1`
-- 本质依赖 `exclude_items` / `include_items` 的通用集合判断
-
-### 7.2 OverStandardCharge
-
-处理器：`processor\insurance\OverStandardCharge`
-
-已实现：
-
-- `type = 2, sub_type = 1`
-  - 当前项目数量/金额超限
-  - 支持按天或全量检测
-  - 支持 `combine_items`
-  - 支持超出部分按比例收费校验 `ratio`
-- `type = 2, sub_type = 2`
-  - 多项目并存时折扣收费校验
-  - 支持 `discount_items`
-  - 支持 `discount_target`
-
-说明：
-
-- 代码里只处理 `sub_type = 1/2`
-- 历史样例里若出现 `sub_type = 3/4`，当前主代码不会处理
-
-### 7.3 OverInsuranceCharge
-
-处理器：`processor\insurance\OverInsuranceCharge`
-
-已实现：
-
-- `type = 3, sub_type = 1`
-  - 就诊类型限制 `visit_type`
-  - 年龄范围限制 `age_range`
-  - 总天数限制 `total_days`
-  - 周期限制 `period`
-  - 包含/排除项目校验 `include_items` / `exclude_items`
-- `type = 3, sub_type = 2`
-  - 数量类超限
-  - 支持按 `unit_type`
-  - 支持 `num.type = 1/2/3/4/5`
-  - 支持按组统计 `group_code`
-
-### 7.4 UnReasonableTreatment
-
-处理器：`processor\insurance\UnReasonableTreatment`
-
-已实现：
-
-- `type = 4, sub_type = 1`
-  - 包含/排除项目关系校验
-  - 可对 `days` 做数量比对
-- `type = 4, sub_type = 2`
-  - 基于病历属性公式校验 `property`
-  - 可叠加科室限制 `include_branch` / `exclude_branch`
-
-### 7.5 SplitCharge
-
-处理器：`processor\insurance\SplitCharge`
-
-已实现：
-
-- `type = 5, sub_type = 1`
-  - 检测当前项目与组合项目是否同时存在
-  - 支持按天或全量判断 `detect_type`
-
-注意：
-
-- `combine_items` 在这里是必填
-- 当前实现里会把当前 `item_code` 和组合项目一起判断
-
-### 7.6 EMR MedicalRecord
-
-处理器：`processor\emr\MedicalRecord`
-
-已实现：
-
-- `category = 2, type = 1, sub_type = 1`
-  - 诊断/手术触发的病历属性校验
-- `category = 2, type = 1, sub_type = 2`
-  - 直接病历属性校验
-
-核心能力：
-
-- 使用 `Util::detectFormula()` 执行 `property` 公式
-- 错误项会返回全病历相关 `item_ids`
-
-## 8. options 字段支持范围
-
-### 8.1 通用时间控制
-
-- `time_range: [beginTimestamp|null, endTimestamp|null]`
-
-行为：
-
-- 在 processor 中按“项目所属日期 `item->date`”过滤
-- 判断逻辑是：
-  - `date >= begin`
-  - `date < end`
-
-因此结束时间是左闭右开。
-
-### 8.2 include_items / exclude_items
-
-代码依赖的标准结构：
-
-```json
-{
-  "time_type": 2,
-  "time_offset": [null, null],
-  "collection_type": null,
-  "collection": {
-    "ITEM001": null,
-    "ITEM002": {
-      "num": 2,
-      "combine_items": ["ITEM003"]
-    }
-  }
-}
-```
-
-支持的 `time_type`：
-
-- `1` 按天
-- `2` 全量
-- `3` 时间偏移区间
-- `4` 同一处分组 / 处方组（按 `group_code`）
-- `10` 同一小时
-
-补充说明：
-
-- `collection_type` 不为空时，会从规则集 `dict` 中展开集合
-- `collection` 的 key 才是最终比对项目编码
-- 历史样例里出现的 `code_set` 不是当前主代码读取字段，新增规则不要再用
-
-### 8.3 num
-
-`num` 可以是标量，也可以是对象。
-
-标量示例：
-
-```json
-{
-  "num": 24
-}
-```
-
-对象示例：
-
-```json
-{
-  "num": {
-    "type": 2,
-    "property": "in_days",
-    "coefficient": 24
-  }
-}
-```
-
-当前代码支持：
-
-- `type = 1` 直接使用 `value`
-- `type = 2` 使用病历属性值，可乘 `coefficient`
-- `type = 3` 使用其他项目的累计值
-- `type = 4` 组内项目种类数
-- `type = 5` 组内项目累计数量
-
-注意：
-
-- `num.type = 2` 时读取的是病历属性，字段名需写 snake_case，例如 `in_days`
-- `num.type = 3` 时当前实现依赖其他项目统计，使用前需确保规则和数据结构匹配
-
-### 8.4 property
-
-用于病历属性公式判断，格式：
-
-```json
-[
-  {
-    "name": "sex",
-    "operator": "=",
-    "value": 2
-  }
-]
-```
-
-`Util::detectFormula()` 当前支持的运算符：
-
-- `=`
-- `!=`
-- `<`
-- `<=`
-- `>`
-- `>=`
-- `in`
-- `not in`
-- `in dict`
-- `not in dict`
-- `between`
-- `regex`
-
-支持 `condition` 前置条件，例如：
-
-```json
-[
-  {
-    "name": "age",
-    "operator": "<=",
-    "value": 12,
-    "condition": [
-      {
-        "name": "visit_type",
-        "operator": "=",
-        "value": 2
-      }
-    ]
-  }
-]
-```
-
-### 8.5 其他常用 options
-
-- `unit_type`
-  - 常见值：`num`、`cash`、`days`
-- `detect_type`
-  - 常见值：`1` 按天，`2` 全量
-- `combine_items`
-  - 组合项目编码数组
-- `discount_items`
-  - 折扣目标项目集合
-- `discount_target`
-  - `1` 其他项目打折
-  - `2` 当前项目自己打折
-- `ratio`
-  - 折扣比例或超限部分收费比例
-- `visit_type`
-  - `1` 门诊
-  - `2` 住院
-- `age_range`
-  - `[min|null, max|null]`
-- `period`
-  - `type` 周期类型
-  - `num` 周期长度
-  - `sub_num` 周期内允许数量
-- `include_branch` / `exclude_branch`
-  - 科室编码数组
-- `item_type`
-  - 主要用于组内项目统计时按项目类型过滤
-
-## 9. 结果格式约定
-
-顶层返回格式：
-
-```json
-{
-  "state": 0,
-  "msg": "success"
-}
-```
-
-有错误时：
-
-```json
-{
-  "state": 10,
-  "msg": "未通过检测",
-  "data": [
+    /**
+     * 属性描述
+     *
+     * @var 类型|null
+     */
+    public ?string $propertyName = null;
+    
+    /**
+     * 方法描述
+     *
+     * @param Type $param 参数描述
+     * @return ReturnType 返回值描述
+     */
+    public function methodName(Type $param): ReturnType
     {
-      "state": 201,
-      "msg": "超标准收费",
-      "data": {
-        "errors": [
-          {
-            "msg": "具体错误描述",
-            "data": {
-              "rule": {
-                "category": 1,
-                "type": 2,
-                "sub_type": 1,
-                "code": "RULE-001",
-                "name": "规则名称",
-                "item_code": "ITEM001",
-                "item_name": "项目名称"
-              },
-              "item_ids": [1, 2, 3]
-            }
-          }
-        ]
-      }
+        // 方法实现
     }
-  ]
 }
 ```
 
-注意：
+### 3. 类型声明
 
-- 一个规则处理器返回一个失败块
-- 每个失败块里可能有多个 `errors`
-- 最终用户真正要消费的通常是 `data[*].data.errors[*]`
+- 必须使用严格类型模式 `declare(strict_types=1);`
+- 所有属性和方法参数必须有类型声明
+- 可空类型使用 `?Type` 语法
+- 混合类型使用 `mixed`
+- 数组类型使用 `array` 或具体类型如 `string[]`
 
-## 10. 扩展方式
+```php
+public ?int $age = null;
+public array $items = [];
+public function getData(): mixed {}
+public function getItems(): array {}
+public function setItems(array $items): static {}
+```
 
-### 10.1 新增地区/政策驱动
+### 4. 数组操作
 
-方式：
+使用 PHP 8.0+ 的展开运算符：
 
-- 新建 `src/driver/YourDriver.php`
-- 继承 `Driver`
-- 在 `IRMI` 配置中注册 `stores`
+```php
+// 数组合并
+$result = [
+    ...$array1,
+    ...$array2,
+];
 
-适用场景：
+// 条件添加
+$result = [
+    ...$base,
+    ...(!\is_null($data) ? ['data' => $data] : [])
+];
+```
 
-- 不同地区需要不同默认配置
-- 需要覆写加载逻辑或审核入口逻辑
+### 5. 匹配表达式
 
-### 10.2 新增规则类型
+使用 `match` 替代 `switch`：
 
-标准做法：
+```php
+$propertyName = match (true) {
+    $medicalRecord->principalDiagnosis == $rule->itemCode => 'principalDiagnosis',
+    $medicalRecord->majorProcedure == $rule->itemCode => 'majorProcedure',
+    default => null,
+};
+```
 
-1. 在 `src/processor/...` 下新增处理器
-2. 实现 `IDetectInsuranceProcessor`
-3. 在 `src/constant/Processor.php` 中补充 `TYPE_MAP`
-4. 定义清楚新的 `type / sub_type / options` 约定
-5. 增加对应测试样例
+### 6. 空值处理
 
-不建议：
+```php
+// 使用空合并运算符
+$value = $data['key'] ?? null;
 
-- 直接在 `Driver::detectInsurance()` 中写大量分支
-- 把多个规则类型硬塞进同一个已有处理器而不区分 `sub_type`
+// 使用空合并赋值运算符
+$data['key'] ??= 'default';
 
-### 10.3 新增数据结构
+// 使用 nullsafe 运算符
+$value = $object?->property?->method();
 
-方式：
+// 类型检查
+if (\is_null($value)) {}
+if (!\is_null($value)) {}
+```
 
-- 继承 `struct\Base`
-- 使用 public 属性
-- 输入字段坚持 snake_case
-- 若需要临时计算缓存，可参考 `MedicalRecord::$tmpData`
+### 7. 字符串处理
 
-## 11. 后续 AI 修改代码时必须遵守的约束
+```php
+// 使用单引号定义普通字符串
+$message = 'Hello World';
 
-### 11.1 结构体约束
+// 使用双引号定义包含变量的字符串
+$message = "Hello, {$name}!";
 
-- 新增结构体字段时，PHP 属性名必须是 camelCase
-- 外部 JSON 字段名必须是 snake_case
-- 尽量只使用 public 属性让 `Base::load()` 自动装配
+// 多行字符串使用 nowdoc/heredoc
+$sql = <<<'SQL'
+SELECT * FROM table
+WHERE id = 1
+SQL;
+```
 
-### 11.2 规则约束
+## 核心组件
 
-- 新规则 JSON 必须显式提供 `category`
-- `item_code` 必须能在病历命中，否则规则不会执行
-- 新增 option 前先确认 processor 是否真的读取该字段
+### 1. IRMI 管理类
 
-### 11.3 处理器约束
+```php
+use hongshanhealth\irmi\IRMI;
 
-- 返回值必须是 `JsonTable`
-- 错误信息统一通过 `getResult()` 返回
-- 尽量保留 `rule` 与 `item_ids`，便于追溯
+$irmi = IRMI::instance($config);
+$driver = $irmi->store('shaanxi');  // 获取驱动
+$result = $driver->detectInsurance($ruleSet, $medicalRecord);
+```
 
-### 11.4 测试约束
+### 2. Driver 驱动类
 
-- 新能力至少补充一个 `success` 用例和一个 `fail` 用例
-- 优先沿用 `tests/data/*` 现有 JSON 组织方式
+驱动继承自 `hongshanhealth\irmi\Driver` 基类：
 
-## 12. 当前实现边界与注意事项
+```php
+namespace hongshanhealth\irmi\driver;
 
-这些内容对后续 AI 很重要，避免误判现状：
+use hongshanhealth\irmi\Driver;
 
-- 当前只有 `ShaanXi` driver，且本身没有覆写业务逻辑，核心逻辑都在 `Driver`
-- `CATEGORY_PATIENT` 与 `CATEGORY_HOSPITAL` 仅预留，未实现
-- `Processor::TYPE_MAP` 决定实际可路由能力，文档和样例不能替代它
-- 历史样例中存在旧字段命名，不应直接当作现行规范
-- `MedicalRecord::load()` 会重建 `medicalInsuranceSet`，后续处理器默认依赖这个结构和临时索引
-- 大部分规则是“命中 item_code 后再判断附加条件”，不是先全局扫描
-- `dict` 目前主要用于：
-  - `Util::detectFormula()` 的 `in dict / not in dict`
-  - `include_items / exclude_items` 的 `collection_type` 展开
+class ShaanXi extends Driver 
+{
+    // 自定义实现
+}
+```
 
-## 13. 推荐的开发心智模型
+### 3. 处理器接口
 
-理解本项目最有效的方式是记住下面这条主线：
+所有处理器必须实现 `IDetectInsuranceProcessor` 接口：
 
-`规则先按 category + item_code 命中 -> 再按 type 找处理器 -> 再读取 options 做细分判断 -> 返回统一错误块`
+```php
+use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
+use hongshanhealth\irmi\struct\{MedicalRecord, IRMIRule, JsonTable};
 
-后续新增功能时，优先问自己四个问题：
+class CustomProcessor extends Base implements IDetectInsuranceProcessor
+{
+    public function detect(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
+    {
+        // 实现检测逻辑
+        return $this->jsonTable->success();
+    }
+}
+```
 
-1. 新规则属于哪个 `category`？
-2. 新规则应该复用现有 `type/sub_type` 还是新增处理器？
-3. 规则命中的起点 `item_code` 是什么？
-4. 新增的 `options` 字段是否已有处理器真正消费？
+### 4. 处理器基类
 
-如果这四点不清楚，就不要先写代码。
+处理器应继承 `hongshanhealth\irmi\processor\Base`：
+
+```php
+namespace hongshanhealth\irmi\processor\insurance;
+
+use hongshanhealth\irmi\processor\Base;
+use hongshanhealth\irmi\interfaces\IDetectInsuranceProcessor;
+
+class CustomProcessor extends Base implements IDetectInsuranceProcessor
+{
+    // 可用的基类方法：
+    // - getRuleInfo(IRMIRule $rule): array
+    // - getResult(int $errNo, string $errMsg, array $errData): JsonTable
+    // - getMedicalItemIdByRule(MedicalRecord $medicalRecord, IRMIRule $rule): array
+    // - filterMIItemByDateRange(array $miItems, IRMIRule $rule): array
+}
+```
+
+### 5. 数据结构
+
+#### IRMIRule - 审核规则
+
+```php
+$rule = new IRMIRule();
+$rule->code = '01-01';
+$rule->name = '重复收费';
+$rule->itemCode = '120300001b';
+$rule->itemName = '持续吸氧';
+$rule->category = 1;  // 1-医疗项目，2-病历，3-医疗机构，4-患者档案
+$rule->type = 1;      // 规则类型
+$rule->subType = 1;   // 子类型
+$rule->options = [    // 规则选项
+    'time_range' => [1535731200, null],
+    'exclude_items' => [...],
+];
+```
+
+#### MedicalRecord - 病历结构
+
+```php
+$record = new MedicalRecord();
+$record->code = '0000001';
+$record->sex = 1;  // 1-男，2-女
+$record->age = 20;
+$record->visitType = 2;  // 1-门诊，2-住院
+$record->inDate = 1722470400;
+$record->outDate = 1722592800;
+$record->diagnosis = ['A001', 'B002'];
+$record->procedure = ['S001'];
+$record->medicalInsuranceSet = [
+    '1722441600' => [  // 日期戳
+        '120300002b' => [  // 项目编码
+            [
+                'code' => '120300002b',
+                'name' => 'XX 费用',
+                'time' => 1722474000,
+                'num' => 2,
+                'price' => 19.00,
+                'cash' => 19.00,
+                'total_cash' => 38.00
+            ]
+        ]
+    ]
+];
+```
+
+#### JsonTable - 结果封装
+
+```php
+// 成功结果
+$result = $jsonTable->success('检测通过');
+
+// 错误结果
+$result = $jsonTable->error('检测失败', 100, [
+    'errors' => [
+        [
+            'msg' => '错误描述',
+            'data' => [...]
+        ]
+    ]
+]);
+
+// 转换为数组
+$array = $result->toArray();
+
+// 转换为 JSON
+$json = $result->toJson();
+```
+
+## 处理器类型映射
+
+处理器类型在 `src/constant/Processor.php` 中定义：
+
+```php
+const TYPE_MAP = [
+    self::CATEGORY_INSURANCE => [
+        1 => '\hongshanhealth\irmi\processor\insurance\DuplicateCharge',      // 重复收费
+        2 => '\hongshanhealth\irmi\processor\insurance\OverStandardCharge',   // 超标准收费
+        3 => '\hongshanhealth\irmi\processor\insurance\OverInsuranceCharge',  // 超医保费用
+        4 => '\hongshanhealth\irmi\processor\insurance\UnReasonableTreatment',// 不合理诊疗
+        5 => '\hongshanhealth\irmi\processor\insurance\SplitCharge',          // 分解收费
+        9 => '\hongshanhealth\irmi\processor\insurance\Custom',               // 自定义
+    ],
+    self::CATEGORY_EMR => [
+        1 => '\hongshanhealth\irmi\processor\emr\MedicalRecord',              // 病历检测
+    ],
+];
+```
+
+## 规则类型说明
+
+### 医保项目处理器 (CATEGORY_INSURANCE)
+
+| type | 名称 | sub_type | 说明 |
+|------|------|----------|------|
+| 1 | DuplicateCharge | 1 | 重复收费 |
+| 2 | OverStandardCharge | 1 | 超标准收费 - 数量超限 |
+| 2 | OverStandardCharge | 2 | 超标准收费 - 折扣检测 |
+| 3 | OverInsuranceCharge | 1 | 超医保费用 |
+| 3 | OverInsuranceCharge | 2 | 医保支付范围检测 |
+| 4 | UnReasonableTreatment | 1 | 不合理诊疗 |
+| 4 | UnReasonableTreatment | 2 | 属性不符合要求 |
+| 5 | SplitCharge | 1 | 分解收费 |
+| 9 | Custom | 1 | 自定义检测 |
+
+### 电子病历处理器 (CATEGORY_EMR)
+
+| type | 名称 | sub_type | 说明 |
+|------|------|----------|------|
+| 1 | MedicalRecord | 1 | 手术与诊断不符 |
+| 1 | MedicalRecord | 2 | 病历属性不合规 |
+
+## 规则选项配置
+
+### 通用选项
+
+```php
+'options' => [
+    // 时间范围 [开始时间戳，结束时间戳]，null 表示不限制
+    'time_range' => [1535731200, null],
+    
+    // 就诊类型：1-门诊，2-住院
+    'visit_type' => 2,
+    
+    // 年龄范围 [开始年龄，结束年龄]
+    'age_range' => [18, null],
+]
+```
+
+### 项目检测选项
+
+```php
+'options' => [
+    // 包含的项目
+    'include_items' => ['item1', 'item2'],
+    
+    // 排除的项目
+    'exclude_items' => [
+        'item_code' => [
+            'time_type' => 1,  // 1-按日，2-全部
+        ]
+    ],
+    
+    // 联合项目
+    'combine_items' => ['item1', 'item2'],
+    
+    // 检测类型：1-按日，2-全部
+    'detect_type' => 1,
+]
+```
+
+### 病历属性检测
+
+```php
+'options' => [
+    'property' => [
+        [
+            'name' => 'age',
+            'operator' => '>',  // =, !=, <, <=, >, >=, in, not in, regex, between
+            'value' => 18,
+            'condition' => [...]  // 前置条件（可选）
+        ]
+    ]
+]
+```
+
+## 错误码规范
+
+```php
+protected $errCode = [
+    '2' => '未加载正确的 IMRI 配置',
+    '10' => '未通过检测',
+    // 100 以上业务错误
+    '100' => '重复收费',
+    '200' => '超标准收费',
+    '201' => '超标准收费 [当前项目计费量超过要求]',
+    '300' => '超医保支付范围',
+    '400' => '不合理诊疗',
+    '500' => '分解收费',
+    '900' => '其他违规',
+    '1100' => '病历属性不合规',
+];
+```
+
+## 工具类方法
+
+### Util 类常用方法
+
+```php
+use hongshanhealth\irmi\Util;
+
+// JsonTable 相关
+Util::jsuccess($msg, $data);           // 成功结果
+Util::jerror($state, $msg, $data);     // 错误结果
+Util::jdata($data, $msg);              // 带数据的成功结果
+Util::isSuccess($jtable);              // 判断是否成功
+
+// 字符串转换
+Util::snake($string);                  // 驼峰转下划线
+Util::camel($string);                  // 下划线转驼峰（首字母小写）
+Util::studly($string);                 // 下划线转驼峰（首字母大写）
+
+// 属性获取
+Util::getPublicProps($object);         // 获取对象公共属性
+
+// 公式检测
+Util::detectFormula($props, $formulas, $dict);  // 根据公式检测属性
+
+// 调试输出
+Util::dd(...$vars);                    // 输出并终止
+Util::dump(...$vars);                  // 输出
+```
+
+## 测试规范
+
+### 执行测试
+
+```bash
+# 执行全部测试
+composer irmi
+
+# 执行指定目录下所有文件
+composer irmi -- -p alone
+
+# 执行指定目录下指定文件
+composer irmi -- -p alone -n case1
+```
+
+### 测试数据结构
+
+```json
+{
+    "code": "规则集编码",
+    "name": "规则集名称",
+    "rules": [
+        {
+            "code": "规则编码",
+            "name": "规则名称",
+            "item_code": "项目编码",
+            "item_name": "项目名称",
+            "category": 1,
+            "type": 1,
+            "sub_type": 1,
+            "options": {}
+        }
+    ]
+}
+```
+
+## 开发注意事项
+
+1. **类型安全**: 始终使用严格类型声明，避免类型相关的 bug
+2. **空值处理**: 使用可空类型和空合并运算符安全处理空值
+3. **错误处理**: 使用 `IRMILog` 记录异常，使用 `JsonTable` 封装返回结果
+4. **性能优化**: 使用缓存、延迟加载等技术优化性能
+5. **代码复用**: 提取公共逻辑到基类或工具方法
+6. **文档注释**: 为所有公共 API 添加完整的 PHPDoc 注释
+
+## 常用命令
+
+```bash
+# 安装依赖
+composer install
+
+# 运行测试
+composer test
+composer irmi
+
+# 代码风格检查
+# (如果配置了 PHPStan/PHPCS)
+```
+
+## 版本信息
+
+- **当前版本**: 1.0.0
+- **PHP 要求**: >= 8.0
+- **依赖**:
+  - alonetech/simhash: ~0.0
+  - ulrichsg/getopt-php: ^4.0
+  - psr/log: ^3.0
+
+## Powered By Cline && Qwen3.5-plus
