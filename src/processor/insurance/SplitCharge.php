@@ -49,8 +49,8 @@ class SplitCharge extends Base implements IDetectInsuranceProcessor
         // 获取医保项目集合
         /** @var array<string,MedicalInsuranceItem[]> $miItemSet */
         $tmpMiItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-        $currItems = $this->filterMIItemByDateRange($tmpMiItemSet[$rule->itemCode] ?? [], $rule);
         // 获取当前规则涉及的项目编码集合
+        $currItems = $this->filterMIItemByDateRange($tmpMiItemSet[$rule->itemCode] ?? [], $rule);
         $detectType = $rule->options['detect_type'] ?? 1;
         $combineItems = $rule->options['combine_items'] ?? [];
         if (empty($combineItems)) {

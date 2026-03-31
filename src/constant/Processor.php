@@ -37,7 +37,7 @@ class Processor
             3 => '\hongshanhealth\irmi\processor\insurance\OverInsuranceCharge',
             4 => '\hongshanhealth\irmi\processor\insurance\UnReasonableTreatment',
             5 => '\hongshanhealth\irmi\processor\insurance\SplitCharge',
-
+            9 => '\hongshanhealth\irmi\processor\insurance\Custom',
         ],
         self::CATEGORY_EMR => [
             1 => '\hongshanhealth\irmi\processor\emr\MedicalRecord',
