@@ -342,7 +342,10 @@ class Util
             }
             if (!$result) {
                 // 检测出问题，记录下来
-                $errors[] = $formula;
+                $errors[] = [
+                    ...$formula,
+                    'property_value' => $propertyValue,
+                ];
             }
         }
         return $errors;
