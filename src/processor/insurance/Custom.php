@@ -59,7 +59,7 @@ class Custom extends Base implements IDetectInsuranceProcessor
         }
         if (!empty($ids)) {
             $errors[] = [
-                'msg' => "当前项目[{$rule->itemName}]单位[{$item->unit}]不在允许的单位集合中",
+                'msg' => "当前项目[{$rule->itemName}]的单位不在允许的集合中",
                 'data' => [
                     'rule' => $this->getRuleInfo($rule),
                     'item_ids' => $ids

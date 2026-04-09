@@ -54,11 +54,12 @@ class SplitCharge extends Base implements IDetectInsuranceProcessor
         $detectType = $rule->options['detect_type'] ?? 1;
         $combineItems = $rule->options['combine_items'] ?? [];
         if (empty($combineItems)) {
-            // 非空，则需要检查项目是否存在
+            // 为空，则抛出异常
             throw new IRMIException('分解收费规则中combine_items不能为空');
         }
         // 添加当前项目到集合中
         $combineItems = [
+            ...$combineItems,
             $rule->itemCode,
         ];
         // 根据检测方式决定处理逻辑
