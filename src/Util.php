@@ -212,14 +212,14 @@ class Util
      * @param boolean $ignoreNull 是否忽略null值，默认false
      * @return array 包含属性名和属性值的kv数组
      */
-    public static function getPublicProps(object $object, bool $valued = true, bool $snaked = false, bool $ignoreNull = false): array
+    public static function getPublicProps(object $object, bool $origined = true, bool $snaked = false, bool $ignoreNull = false): array
     {
         $props = [];
         $reflection = new \ReflectionObject($object);
         foreach ($reflection->getProperties() as $key => $value) {
             if ($value->isPublic()) {
                 // 只有public类型的才需要记录
-                if ($valued) {
+                if ($origined) {
                     $v = $value->getValue($object);
                     if ($ignoreNull && \is_null($v)) {
                         continue;
@@ -237,75 +237,118 @@ class Util
      * 根据公式做匹配检测
      *
      * @param array|object $props 属性值，如果是oebject类型，则会自动获取其公共属性
-     * @param array $formula 公式数组，格式为：[属性名,操作符,值]
-     * @return boolean 返回是否符合公式结果
+     * @param array<string,mixed>[] $formulas 公式数组，格式为：[['name'=>属性名,'operator'=>操作符,'value'=>值]]
+     * @param array<string,array<string,mixed>> $dict 字典数组，格式为：['字典类型'=>[ '类别编码'=>['1','2'] ]]
+     * @return array 返回不匹配的公式数组
      */
-    public static function detectFormula($props, array $formula): bool
+    public static function detectFormula(array|object $props, array $formulas, array $dict = []): array
     {
+        $errors = [];
+        // 如果是对象，则获取对象内的公共属性原始值，且转换为下划线风格索引数组
         if (\is_object($props)) {
-            $props = self::getPublicProps($props);
+            $props = self::getPublicProps($props, true, true);
         }
-        // 解构参数
-        list($key, $operator, $value) = $formula;
-        $key = self::camel($key);
-        // 判断属性是否存在
-        if (!isset($props[$key]) || \is_null($props[$key])) {
-            return false;
-        }
-        // 进行公式计算(傻瓜方式)
-        switch ($operator) {
-            case '=':
-                $result = $props[$key] == $value;
-                break;
-            case '>':
-                $result = $props[$key] > $value;
-                break;
-            case '<':
-                $result = $props[$key] < $value;
-                break;
-            case '>=':
-                $result = $props[$key] >= $value;
-                break;
-            case '<=':
-                $result = $props[$key] <= $value;
-                break;
-            case '<>':
-            case '!=':
-                $result = $props[$key] != $value;
-                break;
-            case 'in':
-                $result = \in_array($props[$key], $value);
-                break;
-            case 'not in':
-                $result = !\in_array($props[$key], $value);
-                break;
-            case 'between':
-                $result = $props[$key] >= $value[0] && $props[$key] <= $value[1];
-                break;
-            case 'not between':
-                $result = $props[$key] < $value[0] || $props[$key] > $value[1];
-                break;
-            default:
-                $result = false;
-                break;
-        }
-        return $result;
-    }
-    /**
-     * 根据公式数组做匹配检测
-     *
-     * @param array|object $props 待检测的对象
-     * @param array $formulas 公式数组，格式为：[[属性名,操作符,值],[属性名,操作符,值]]
-     * @return boolean 返回是否符合公式结果
-     */
-    public static function detectFormulaArray($props, array $formulas): bool
-    {
+        // 遍历每个公式
         foreach ($formulas as $formula) {
-            if (!self::detectFormula($props, $formula)) {
-                return false;
+            // 解构参数
+            [
+                'name' => $name,
+                'operator' => $operator,
+                'value' => $value
+            ] = $formula;
+            $propertyValue = $props[$name] ?? null;
+            if (\is_null($propertyValue)) {
+                // 当前属性不存在，或值为null，则返回true
+                continue;
+            }
+            $condition = $formula['condition'] ?? null;
+            if (!\is_null($condition)) {
+                // 存在条件，需要先判断条件是否符合
+                $result = self::detectFormula($props, $condition, $dict);
+                if (!empty($result)) {
+                    // 前置条件不符合，无需比对
+                    continue;
+                }
+            }
+            // 开始对比结果
+            $result = false;
+            switch ($operator) {
+                case '=':
+                    $result = $propertyValue == $value;
+                    break;
+                case '!=':
+                    $result = $propertyValue != $value;
+                    break;
+                case '<':
+                    $result = $propertyValue < $value;
+                    break;
+                case '<=':
+                    $result = $propertyValue <= $value;
+                    break;
+                case '>':
+                    $result = $propertyValue > $value;
+                    break;
+                case '>=':
+                    $result = $propertyValue >= $value;
+                    break;
+                case 'in':
+                case 'in dict':
+                    if ('in dict' == $operator) {
+                        // 此时value值为字符串，格式 type.subtype
+                        $types = \explode('.', $value);
+                        $type = $types[0] ?? '';
+                        $subtype = $types[1] ?? '';
+                        $value = $dict[$type][$subtype] ?? [];
+                    } else {
+                        // 处理规则中的数据，转为数组
+                        $value = \is_array($value) ? $value : \explode(',', (string)$value);
+                    }
+                    // 如果病例中的属性是数组类型，则使用交集计算，否则使用in计算
+                    $result = \is_array($propertyValue)
+                        ? !empty(\array_intersect($propertyValue, $value))
+                        : \in_array($propertyValue, $value);
+                    break;
+                case 'not in':
+                case 'not in dict':
+                    if ('not in dict' == $operator) {
+                        // 此时value值为字符串，格式 type.subtype
+                        $types = \explode('.', $value);
+                        $type = $types[0] ?? '';
+                        $subtype = $types[1] ?? '';
+                        $value = $dict[$type][$subtype] ?? [];
+                    } else {
+                        // 处理规则中的数据，转为数组
+                        $value = \is_array($value) ? $value : \explode(',', (string)$value);
+                    }
+                    // 如果病例中的属性是数组类型，则使用交集计算，否则使用in计算
+                    $result = \is_array($propertyValue)
+                        ? empty(\array_intersect($propertyValue, $value))
+                        : !\in_array($propertyValue, $value);
+                    break;
+                case 'between':
+                    $value = \is_array($value) ? $value : \explode(',', (string)$value);
+                    $result = $propertyValue >= $value[0] && $propertyValue <= $value[1];
+                    break;
+                case 'regex':
+                    $propertyValue = \is_array($propertyValue) ? $propertyValue : [$propertyValue];
+                    $elements = array_filter($propertyValue, function ($item) use ($value) {
+                        return preg_match($value, $item);
+                    });
+                    $result = !empty($elements);
+                    break;
+                default:
+                    throw new IRMIException("不支持的运算符[{$operator}]");
+                    break;
+            }
+            if (!$result) {
+                // 检测出问题，记录下来
+                $errors[] = [
+                    ...$formula,
+                    'property_value' => $propertyValue,
+                ];
             }
         }
-        return true;
+        return $errors;
     }
 
     /**

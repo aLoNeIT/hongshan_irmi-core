@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace hongshanhealth\irmi;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * 医保智能审核管理类
  * 
@@ -70,6 +72,18 @@ class IRMI
             static::$instance = new static($config);
         }
         return static::$instance;
+    }
+    /**
+     * 设置日志对象
+     *
+     * @param LoggerInterface $logger 日志对象
+     * 
+     * @return void
+     */
+    public function setLogger(LoggerInterface $logger): static
+    {
+        IRMILog::setLogger($logger);
+        return $this;
     }
     /**
      * 切换驱动

@@ -83,4 +83,10 @@ class MedicalInsuranceItem extends Base
      * @var float|null
      */
     public ?float $days = null;
+    /**
+     * 单位
+     *
+     * @var string|null
+     */
+    public ?string $unit = null;
 }

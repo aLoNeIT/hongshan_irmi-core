@@ -6,6 +6,7 @@ namespace hongshanhealth\irmi\tests;
 
 use GetOpt\{GetOpt, Option};
 use hongshanhealth\irmi\IRMI as IRMIManager;
+use hongshanhealth\irmi\IRMILog;
 use hongshanhealth\irmi\struct\JsonTable;
 use hongshanhealth\irmi\struct\MedicalRecord;
 use hongshanhealth\irmi\Util;

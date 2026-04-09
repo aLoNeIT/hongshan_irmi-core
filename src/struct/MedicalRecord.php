@@ -91,11 +91,23 @@ class MedicalRecord extends Base
      */
     public ?int $outDate = null;
     /**
+     * 主要诊断编码
+     *
+     * @var string|null
+     */
+    public ?string $principalDiagnosis = null;
+    /**
      * 诊断集合
      * 
      * @var string[]
      */
     public array $diagnosis = [];
+    /**
+     * 主要手术及操作编码
+     *
+     * @var string|null
+     */
+    public ?string $majorProcedure = null;
     /**
      * 手术集合
      *
@@ -176,7 +188,10 @@ class MedicalRecord extends Base
         $medicalInsuranceSet = $data['medical_insurance_set'] ?? [];
         unset($data['medical_insurance_set']);
         parent::load($data);
-        // 加载成功数据后，同时生成临时数据
+        // 加载成功，处理主要诊断和主要手术
+        $this->principalDiagnosis = $this->diagnosis[0] ?? null;
+        $this->majorProcedure = $this->procedure[0] ?? null;
+        // 加载成功，同时生成临时数据
         $tmpData = [];
         // 第一级，日期=>所有数据
         foreach ($medicalInsuranceSet as $date => $dateItems) {

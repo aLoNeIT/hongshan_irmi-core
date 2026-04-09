@@ -124,84 +124,23 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                 ...$result
             ];
         }
-        // 再检测其他属性
-        $propertyOptions = $rule->options['property'] ?? [];
-        // 遍历该配置，并且遍历过程中进行检测
-        foreach ($propertyOptions as $propertyItem) {
+        $result = Util::detectFormula($medicalRecord, $rule->options['property'] ?? [], $rule->getIRMIRuleSet()->dict);
+        // 判断返回结果
+        foreach ($result as $item) {
             [
                 'name' => $name,
                 'operator' => $operator,
-                'value' => $value
-            ] = $propertyItem;
-            $propertyName = Util::camel($name);
-            $propertyValue = $medicalRecord->$propertyName;
-            if (\is_null($propertyValue)) {
-                continue;
-            }
-            // 开始对比结果
-            $result = false;
-            switch ($operator) {
-                case '=':
-                    $result = $propertyValue == $value;
-                    break;
-                case '!=':
-                    $result = $propertyValue != $value;
-                    break;
-                case '<':
-                    $result = $propertyValue < $value;
-                    break;
-                case '<=':
-                    $result = $propertyValue <= $value;
-                    break;
-                case '>':
-                    $result = $propertyValue > $value;
-                    break;
-                case '>=':
-                    $result = $propertyValue >= $value;
-                    break;
-                case 'in':
-                    // 处理规则中的数据，转为数组
-                    $value = \is_array($value) ? $value : \explode(',', (string)$value);
-                    // 如果病例中的属性是数组类型，则使用交集计算，否则使用in计算
-                    $result = \is_array($propertyValue)
-                        ? !empty(\array_intersect($propertyValue, $value))
-                        : \in_array($propertyValue, $value);
-                    break;
-                case 'not in':
-                    // 处理规则中的数据，转为数组
-                    $value = \is_array($value) ? $value : \explode(',', (string)$value);
-                    // 如果病例中的属性是数组类型，则使用交集计算，否则使用in计算
-                    $result = \is_array($propertyValue)
-                        ? empty(\array_intersect($propertyValue, $value))
-                        : !\in_array($propertyValue, $value);
-                    break;
-                case 'between':
-                    $value = \is_array($value) ? $value : \explode(',', (string)$value);
-                    $result = $propertyValue >= $value[0] && $propertyValue <= $value[1];
-                case 'regex':
-                    $propertyValue = \is_array($propertyValue) ? $propertyValue : [$propertyValue];
-                    $elements = array_filter($propertyValue, function ($item) use ($value) {
-                        return preg_match($value, $item);
-                    });
-                    $result = !empty($elements);
-                    break;
-                default:
-                    throw new IRMIException("不支持的运算符[{$operator}]");
-                    break;
-            }
-            // 判断返回结果
-            if (!$result) {
-                // 比对失败，则记录错误信息
-                $opAlias = MapConst::OPERATOR_ALIAS[$operator] ?? $operator;
-                $propertyAlias = MapConst::MEDICAL_RECORD_ALIAS[$name] ?? $name;
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]对病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
-                        'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
-                    ]
-                ];
-            }
+            ] = $item;
+            // 比对失败，则记录错误信息
+            $opAlias = MapConst::OPERATOR_ALIAS[$operator] ?? $operator;
+            $propertyAlias = MapConst::MEDICAL_RECORD_ALIAS[$name] ?? $name;
+            $errors[] = [
+                'msg' => "当前项目[{$rule->itemName}]对病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
+                'data' => [
+                    'rule' => $this->getRuleInfo($rule),
+                    'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
+                ]
+            ];
         }
         return $this->getResult(402, '不合理诊疗', $errors);
     }
