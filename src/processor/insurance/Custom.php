@@ -50,16 +50,18 @@ class Custom extends Base implements IDetectInsuranceProcessor
         // 获取当前规则涉及的项目编码集合
         $currItems = $this->filterMIItemByDateRange($tmpMiItemSet[$rule->itemCode] ?? [], $rule);
         $itemUnit = $rule->options['item_unit'] ?? [];
+        $itemUnit = \is_array($itemUnit) ? $itemUnit : [$itemUnit];
         // 依次遍历每个项目，检测他的单位是否在允许的单位集合中
         $ids = [];
         foreach ($currItems as $item) {
-            if (!in_array($item->unit, $itemUnit)) {
+            // 单位为null则跳过检测
+            if (!\is_null($item->unit) && !in_array($item->unit, $itemUnit)) {
                 $ids[] = $item->id;
             }
         }
         if (!empty($ids)) {
             $errors[] = [
-                'msg' => "当前项目[{$rule->itemName}]单位[{$item->unit}]不在允许的单位集合中",
+                'msg' => "当前项目[{$rule->itemName}]的单位不在允许的集合中",
                 'data' => [
                     'rule' => $this->getRuleInfo($rule),
                     'item_ids' => $ids

@@ -50,6 +50,7 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
      */
     protected function detectDiagnosisProcedure(MedicalRecordStruct $medicalRecord, IRMIRule $rule): JsonTable
     {
+        $errors = [];
         // 当前触发规则的属性类型
         $propertyName = match (true) {
             $medicalRecord->principalDiagnosis == $rule->itemCode => 'principalDiagnosis',
@@ -59,8 +60,9 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
         // 是指定的属性触发，才进行检测
         if (!\is_null($propertyName)) {
             $jResult = $this->detectProperty($medicalRecord, $rule);
+            $errors = $jResult->data ?? [];
         }
-        return $this->getResult(1101, '诊断编码与手术操作编码不符', $jResult->data ?: []);
+        return $this->getResult(1101, '诊断编码与手术操作编码不符', $errors);
     }
     /**
      * 检测病历属性之间的关系
