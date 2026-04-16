@@ -25,6 +25,12 @@ class IRMIRule extends Base
      */
     public ?string $name = null;
     /**
+     * 规则分组，同一分组规则只会报第一条错误
+     *
+     * @var string|null
+     */
+    public ?string $group = null;
+    /**
      * 项目类型，如药品、检查、化验、治疗、手术、诊断、性别
      *
      * @var string|null

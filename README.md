@@ -16,6 +16,7 @@
     | :----: | :------: | :--:   | :----: | :--: |
     | code   | 是       | string |        | 规则编码 |
     | name   | 是       | string |        | 规则名称 |
+    | group  | 是       | string |        | 规则分组 |
     | item_code | 是    | string |        | 项目编码 |
     | item_name | 是    | string |        | 项目名称 |
     | category  | 是    | int    | 1-患者医疗项目；2-电子病历；3-患者档案信息；4-医院信息  | 规则类别 |
