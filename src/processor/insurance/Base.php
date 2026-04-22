@@ -137,21 +137,25 @@ class Base extends BaseProcessor
         $result = \in_array($branch, $rule->options[$key]);
         if ($included && !$result) {
             // 指定科室要求，并且当前科室不在指定范围内
-            $errors[] = [
-                'msg' => "当前项目[{$rule->itemName}]未由指定包含科室开具",
-                'data' => [
-                    'rule' => $this->getRuleInfo($rule),
+            $this->addErrors(
+                $errors,
+                $medicalRecord,
+                "当前项目[{$rule->itemName}]未由指定包含科室开具",
+                [
                     'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
-                ]
-            ];
+                ],
+                $rule
+            );
         } else if (!$included && $result) {
-            $errors[] = [
-                'msg' => "当前项目[{$rule->itemName}]不可由指定排除科室开具",
-                'data' => [
-                    'rule' => $this->getRuleInfo($rule),
+            $this->addErrors(
+                $errors,
+                $medicalRecord,
+                "当前项目[{$rule->itemName}]不可由指定排除科室开具",
+                [
                     'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
-                ]
-            ];
+                ],
+                $rule
+            );
         }
         return empty($errors) ? true : $errors;
     }
@@ -214,15 +218,17 @@ class Base extends BaseProcessor
                     $dateStr = date('Y-m-d', $date);
                     if ($included && empty($intersectItems)) {
                         // 未匹配到必须包含的项目
-                        $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]在[{$dateStr}]当天未与指定包含项目同时收费",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            "当前项目[{$rule->itemName}]在[{$dateStr}]当天未与指定包含项目同时收费",
+                            [
                                 'date' => $date,
                                 'include_items' => $itemKeys,
                                 'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
-                            ]
-                        ];
+                            ],
+                            $rule
+                        );
                     } else if (!$included && !empty($intersectItems)) {
                         // 此处遍历交集编码，然后到规则配置中查询是否有num配置
                         foreach ($intersectItems as $code) {
@@ -249,16 +255,17 @@ class Base extends BaseProcessor
                                 }
                             }
                             // 循环写入错误信息
-                            $errors[] = [
-                                'msg' => "当前项目[{$rule->itemName}]在[{$dateStr}]当天与指定排除项目同时收费",
-                                'data' => [
-                                    'rule' => $this->getRuleInfo($rule),
-                                    'date' => $date,
-                                    'exclude_item_code' => $code,
-                                    'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
-                                ]
-
-                            ];
+                            $this->addErrors(
+                                $errors,
+                                $medicalRecord,
+                                "当前项目[{$rule->itemName}]在[{$dateStr}]当天与指定排除项目同时收费",
+                                [
+                                        'date' => $date,
+                                        'exclude_item_code' => $code,
+                                        'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
+                                ],
+                                $rule
+                            );
                         }
                     }
                 }
@@ -303,24 +310,28 @@ class Base extends BaseProcessor
                 // 最后统一计算
                 if ($included && true !== $existed) {
                     // 要求包含的项目不存在
-                    $errors[] = [
-                        'msg' => "当前项目[{$rule->itemName}]未与指定包含项目同时收费",
-                        'data' => [
-                            'rule' => $this->getRuleInfo($rule),
+                    $this->addErrors(
+                        $errors,
+                        $medicalRecord,
+                        "当前项目[{$rule->itemName}]未与指定包含项目同时收费",
+                        [
                             'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule),
                             'include_items' => \array_keys($itemCollection)
-                        ]
-                    ];
+                        ],
+                        $rule
+                    );
                 } else if (!$included && \is_array($existed) && !empty($existed)) {
                     // 未匹配到组合项目，则当前项目重复收费
-                    $errors[] = [
-                        'msg' => "当前项目[{$rule->itemName}]与指定排除项目同时收费",
-                        'data' => [
-                            'rule' => $this->getRuleInfo($rule),
+                    $this->addErrors(
+                        $errors,
+                        $medicalRecord,
+                        "当前项目[{$rule->itemName}]与指定排除项目同时收费",
+                        [
                             'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule),
                             'exclude_items' => $existed
-                        ]
-                    ];
+                        ],
+                        $rule
+                    );
                 }
                 break;
             case 10: // 同一小时
@@ -349,15 +360,17 @@ class Base extends BaseProcessor
                     $dateStr = date('Y-m-d', $date);
                     if ($included && empty($intersectItems)) {
                         // 未匹配到必须包含的项目
-                        $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]在[$dateStr]当天的[{$hour}]时同一小时内未与指定包含项目同时收费",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            "当前项目[{$rule->itemName}]在[$dateStr]当天的[{$hour}]时同一小时内未与指定包含项目同时收费",
+                            [
                                 'date' => $date,
                                 'include_items' => $itemKeys,
                                 'item_ids' => $this->getMedicalItemId([$miItem])
-                            ]
-                        ];
+                            ],
+                            $rule
+                        );
                     } else if (!$included && !empty($intersectItems)) {
                         // 此处遍历交集编码，然后到规则配置中查询是否有num配置
                         foreach ($intersectItems as $code) {
@@ -384,16 +397,17 @@ class Base extends BaseProcessor
                                 }
                             }
                             // 循环写入错误信息
-                            $errors[] = [
-                                'msg' => "当前项目[{$rule->itemName}]在[$dateStr]当天的[{$hour}]时同一小时内与指定排除项目同时收费",
-                                'data' => [
-                                    'rule' => $this->getRuleInfo($rule),
-                                    'date' => $date,
-                                    'exclude_item_code' => $code,
-                                    'item_ids' => $this->getMedicalItemId([$miItem])
-                                ]
-
-                            ];
+                            $this->addErrors(
+                                $errors,
+                                $medicalRecord,
+                                "当前项目[{$rule->itemName}]在[$dateStr]当天的[{$hour}]时同一小时内与指定排除项目同时收费",
+                                [
+                                        'date' => $date,
+                                        'exclude_item_code' => $code,
+                                        'item_ids' => $this->getMedicalItemId([$miItem])
+                                ],
+                                $rule
+                            );
                         }
                     }
                 }
@@ -490,32 +504,36 @@ class Base extends BaseProcessor
                     // 最后统一计算
                     if ($included && true !== $existed) {
                         // 要求包含的项目不存在
-                        $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]{$timeStr}未与指定包含项目同时收费",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            "当前项目[{$rule->itemName}]{$timeStr}未与指定包含项目同时收费",
+                            [
                                 'item_ids' => $this->getMedicalItemId([$miItem]),
                                 'include_items' => \array_keys($itemCollection),
                                 'time_range' => [
                                     'begin_time' => $beginTime,
                                     'end_time' => $endTime
                                 ]
-                            ]
-                        ];
+                            ],
+                            $rule
+                        );
                     } else if (!$included && \is_array($existed) && !empty($existed)) {
                         // 未匹配到组合项目，则当前项目重复收费
-                        $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]{$timeStr}与指定排除项目同时收费",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            "当前项目[{$rule->itemName}]{$timeStr}与指定排除项目同时收费",
+                            [
                                 'item_ids' => $this->getMedicalItemId([$miItem]),
                                 'exclude_items' => $existed,
                                 'time_range' => [
                                     'begin_time' => $beginTime,
                                     'end_time' => $endTime
                                 ]
-                            ]
-                        ];
+                            ],
+                            $rule
+                        );
                     }
                 }
                 break;
@@ -543,30 +561,34 @@ class Base extends BaseProcessor
                                 break;
                             } else {
                                 // 排除项有任意一个则不符合
-                                $errors[] = [
-                                    'msg' => "当前项目[{$rule->itemName}]不能与指定排除项目同时收费",
-                                    'data' => [
-                                        'rule' => $this->getRuleInfo($rule),
+                                $this->addErrors(
+                                    $errors,
+                                    $medicalRecord,
+                                    "当前项目[{$rule->itemName}]不能与指定排除项目同时收费",
+                                    [
                                         'exclude_item_code' => $code,
                                         'item_ids' => $this->getMedicalItemId([
                                             $miItem,
                                             ...$groupItems
                                         ])
-                                    ]
-                                ];
+                                    ],
+                                    $rule
+                                );
                             }
                         }
                     }
                     // 未发现包含项目
                     if ($included && !$find) {
-                        $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]必须与指定包含项目同时收费",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            "当前项目[{$rule->itemName}]必须与指定包含项目同时收费",
+                            [
                                 'exclude_item_code' => $code,
                                 'item_ids' => $this->getMedicalItemId([$miItem])
-                            ]
-                        ];
+                            ],
+                            $rule
+                        );
                     }
                 }
                 break;

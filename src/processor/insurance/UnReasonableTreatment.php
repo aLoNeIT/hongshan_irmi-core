@@ -93,15 +93,17 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                     }
                 }
                 // 超过用药天数
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$ruleNum}{$unit}]",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
+                $this->addErrors(
+                    $errors,
+                    $medicalRecord,
+                    "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$ruleNum}{$unit}]",
+                    [
                         'item' => $miItems,
                         'total_days' => $totalDays,
                         'item_ids' => $itemIds
                     ],
-                ];
+                    $rule
+                );
             }
         }
         return $this->getResult(401, '不合理诊疗', $errors);
@@ -134,13 +136,15 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
             // 比对失败，则记录错误信息
             $opAlias = MapConst::OPERATOR_ALIAS[$operator] ?? $operator;
             $propertyAlias = MapConst::MEDICAL_RECORD_ALIAS[$name] ?? $name;
-            $errors[] = [
-                'msg' => "当前项目[{$rule->itemName}]对病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
-                'data' => [
-                    'rule' => $this->getRuleInfo($rule),
+            $this->addErrors(
+                $errors,
+                $medicalRecord,
+                "当前项目[{$rule->itemName}]对病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
+                [
                     'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
-                ]
-            ];
+                ],
+                $rule
+            );
         }
         return $this->getResult(402, '不合理诊疗', $errors);
     }

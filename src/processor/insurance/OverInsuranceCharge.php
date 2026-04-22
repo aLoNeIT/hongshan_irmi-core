@@ -57,13 +57,15 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 // 就诊类型不匹配
                 $ruleVisitTypeName =  1 == $rule->options['visit_type']  ? '门诊' : '住院';
                 $visitTypeName = 1 == $medicalRecord->visitType ? '门诊' : '住院';
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]适用于[{$ruleVisitTypeName}]，实际[{$visitTypeName}]",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
+                $this->addErrors(
+                    $errors,
+                    $medicalRecord,
+                    "当前项目[{$rule->itemName}]适用于[{$ruleVisitTypeName}]，实际[{$visitTypeName}]",
+                    [
                         'item_ids' => $this->getMedicalItemId($currItems)
-                    ]
-                ];
+                    ],
+                    $rule
+                );
             }
         }
         // 年龄限定
@@ -76,13 +78,15 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 // 年龄不符合要求
                 $ageMinStr = \is_null($ageMin) ? '不限' : $ageMin;
                 $ageMaxStr = \is_null($ageMax) ? '不限' : $ageMax;
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]限定年龄未在[{$ageMinStr},{$ageMaxStr}]范围内，实际年龄[{$medicalRecord->age}]",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
+                $this->addErrors(
+                    $errors,
+                    $medicalRecord,
+                    "当前项目[{$rule->itemName}]限定年龄未在[{$ageMinStr},{$ageMaxStr}]范围内，实际年龄[{$medicalRecord->age}]",
+                    [
                         'item_ids' => $this->getMedicalItemId($currItems)
                     ],
-                ];
+                    $rule
+                );
             }
         }
 
@@ -95,15 +99,17 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
             });
             $days = \count($dates);
             if ($days > $totalDays) {
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]总天数应不超过[{$totalDays}]天，实际[{$days}]天",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
+                $this->addErrors(
+                    $errors,
+                    $medicalRecord,
+                    "当前项目[{$rule->itemName}]总天数应不超过[{$totalDays}]天，实际[{$days}]天",
+                    [
                         'total_days' => $totalDays,
                         'days' => $days,
                         'item_ids' => $this->getMedicalItemId($currItems)
                     ],
-                ];
+                    $rule
+                );
             }
         }
         // 周期类的选项
@@ -123,15 +129,17 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                 );
 
                 if (1 === \bccomp((string)$totalSubNum, (string)$periodSubNum)) {
-                    $errors[] = [
-                        'msg' => "当前项目[{$rule->itemName}]总次数应不超过[{$periodSubNum}]次，实际[{$totalSubNum}]次",
-                        'data' => [
-                            'rule' => $this->getRuleInfo($rule),
+                    $this->addErrors(
+                        $errors,
+                        $medicalRecord,
+                        "当前项目[{$rule->itemName}]总次数应不超过[{$periodSubNum}]次，实际[{$totalSubNum}]次",
+                        [
                             'total_sub_num' => $totalSubNum,
                             'num' => $periodSubNum,
                             'item_ids' => $this->getMedicalItemId($currItems)
                         ],
-                    ];
+                        $rule
+                    );
                 }
             } else {
                 // 日为单位，需要考虑整个时间周期内，每30天算一次总数，看是否超过范围
@@ -165,10 +173,11 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     if ($rangeTotalNum > $periodSubNum) {
                         $firstDayStr = date('Y-m-d', $firstDay);
                         $lastDayStr = date('Y-m-d', $lastDay);
-                        $errors[] = [
-                            'msg' => "当前项目[{$rule->itemName}]在[{$firstDayStr}]至[$lastDayStr]的[{$periodNum}]天内，次数应不超过[{$periodSubNum}]次，实际[{$rangeTotalNum}]次",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            "当前项目[{$rule->itemName}]在[{$firstDayStr}]至[$lastDayStr]的[{$periodNum}]天内，次数应不超过[{$periodSubNum}]次，实际[{$rangeTotalNum}]次",
+                            [
                                 'total_sub_num' => $rangeTotalNum,
                                 'first_day' => $firstDay,
                                 'last_day' => $lastDay,
@@ -179,7 +188,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                                     })
                                 )
                             ],
-                        ];
+                            $rule
+                        );
                     }
                 }
             }
@@ -250,10 +260,11 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                     $totalNum = $item['total_num'];
                     if (!$this->compareNum((float)$totalNum, $ruleNum)) {
                         // 无其他选项，单纯比较超数量要求
-                        $errors[] = [
-                            'msg' => "{$errDateStr}当前项目[{$rule->itemName}]的计费数量[{$totalNum}{$unitTypeStr}]超过[{$ruleNum}{$unitTypeStr}]",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            "{$errDateStr}当前项目[{$rule->itemName}]的计费数量[{$totalNum}{$unitTypeStr}]超过[{$ruleNum}{$unitTypeStr}]",
+                            [
                                 'date' => $date,
                                 'item' => $currItems,
                                 'item_ids' => 'all' == $date
@@ -264,7 +275,8 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                                         })
                                     )
                             ],
-                        ];
+                            $rule
+                        );
                     }
                 }
                 break;
@@ -330,17 +342,19 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                             }
                         }
                         // 实际项目数量超过限定数量
-                        $errors[] = [
-                            'msg' => \str_replace(
-                                ['{$ruleItemName}', '{$ruleErrorStr}', '{$num}'],
-                                [$rule->itemName, $this->getNumErrorStr($ruleNum), $num],
-                                $errTmpl
-                            ),
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            \str_replace(
+                                                            ['{$ruleItemName}', '{$ruleErrorStr}', '{$num}'],
+                                                            [$rule->itemName, $this->getNumErrorStr($ruleNum), $num],
+                                                            $errTmpl
+                                                        ),
+                            [
                                 'item_ids' => $itemIds,
                             ],
-                        ];
+                            $rule
+                        );
                     }
                 }
                 break;

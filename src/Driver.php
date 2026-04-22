@@ -106,6 +106,7 @@ abstract class Driver
     {
         $oldScale = \bcscale(4);
         try {
+            $medicalRecord->setTmpData(KeyConst::KEY_ERROR_RULE_GROUP_SET, []);
             $errors = [];
             foreach (
                 [

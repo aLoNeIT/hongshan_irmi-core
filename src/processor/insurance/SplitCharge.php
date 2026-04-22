@@ -73,10 +73,11 @@ class SplitCharge extends Base implements IDetectInsuranceProcessor
                 if (empty($diff)) {
                     // 为空，说明$combineItems全部包含在$miItemCodeSet中
                     $dateStr = date('Y-m-d', $date);
-                    $errors[] = [
-                        'msg' => "当前项目[{$rule->itemName}]在[{$dateStr}]当天与指定联合项目同时存在",
-                        'data' => [
-                            'rule' => $this->getRuleInfo($rule),
+                    $this->addErrors(
+                        $errors,
+                        $medicalRecord,
+                        "当前项目[{$rule->itemName}]在[{$dateStr}]当天与指定联合项目同时存在",
+                        [
                             'date' => $date,
                             'combine_items' => $combineItems,
                             'item_ids' => (function ($dateMiItemSet) use ($combineItems) {
@@ -89,8 +90,9 @@ class SplitCharge extends Base implements IDetectInsuranceProcessor
                                 }
                                 return $result;
                             })($medicalRecord->medicalInsuranceSet[$date])
-                        ]
-                    ];
+                        ],
+                        $rule
+                    );
                 }
             }
         } else if (2 == $detectType) {
@@ -100,10 +102,11 @@ class SplitCharge extends Base implements IDetectInsuranceProcessor
             $diff = \array_diff($combineItems, $miItemCodeSet);
             if (empty($diff)) {
                 // 为空，说明$combineItems全部包含在$miItemCodeSet中
-                $errors[] = [
-                    'msg' => "当前项目[{$rule->itemName}]与指定联合项目同时存在",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
+                $this->addErrors(
+                    $errors,
+                    $medicalRecord,
+                    "当前项目[{$rule->itemName}]与指定联合项目同时存在",
+                    [
                         'combine_items' => $combineItems,
                         'item_ids' => (function ($miItemSet) use ($combineItems) {
                             $result = [];
@@ -115,8 +118,9 @@ class SplitCharge extends Base implements IDetectInsuranceProcessor
                             }
                             return $result;
                         })($tmpMiItemSet)
-                    ]
-                ];
+                    ],
+                    $rule
+                );
             }
         }
         return $this->getResult(501, '分解收费', $errors);

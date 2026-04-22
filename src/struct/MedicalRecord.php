@@ -188,6 +188,8 @@ class MedicalRecord extends Base
         $medicalInsuranceSet = $data['medical_insurance_set'] ?? [];
         unset($data['medical_insurance_set']);
         parent::load($data);
+        $this->medicalInsuranceSet = [];
+        $this->tmpData = [];
         // 加载成功，处理主要诊断和主要手术
         $this->principalDiagnosis = $this->diagnosis[0] ?? null;
         $this->majorProcedure = $this->procedure[0] ?? null;
@@ -199,14 +201,13 @@ class MedicalRecord extends Base
             foreach ($dateItems as $itemCode => $items) {
                 // 第三级，该项目单一数据
                 foreach ($items as $item) {
-                    $tmpData[$itemCode][] = (new MedicalInsuranceItem())->load([
+                    $itemData = [
                         ...$item,
-                        'date' => $date
-                    ]);
-                    $this->medicalInsuranceSet[$date][$itemCode][] = (new MedicalInsuranceItem())->load([
-                        ...$item,
-                        'date' => $date
-                    ]);
+                        'date' => (int) $date
+                    ];
+                    $miItem = (new MedicalInsuranceItem())->load($itemData);
+                    $tmpData[$itemCode][] = $miItem;
+                    $this->medicalInsuranceSet[$date][$itemCode][] = $miItem;
                 }
             }
         }

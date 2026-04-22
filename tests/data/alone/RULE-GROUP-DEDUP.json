@@ -1,0 +1,74 @@
+{
+    "rules": [
+        {
+            "code": "RULE-1",
+            "name": "Unit Rule One",
+            "group": "GROUP-UNIT",
+            "item_code": "ITEM001",
+            "item_name": "Test Item",
+            "category": 1,
+            "type": 9,
+            "sub_type": 1,
+            "options": {
+                "item_unit": [
+                    "mg"
+                ]
+            }
+        },
+        {
+            "code": "RULE-2",
+            "name": "Unit Rule Two",
+            "group": "GROUP-UNIT",
+            "item_code": "ITEM001",
+            "item_name": "Test Item",
+            "category": 1,
+            "type": 9,
+            "sub_type": 1,
+            "options": {
+                "item_unit": [
+                    "g"
+                ]
+            }
+        }
+    ],
+    "medical_records": {
+        "success": [],
+        "fail": [
+            {
+                "code": "CASE-1",
+                "sex": 1,
+                "age": 30,
+                "in_branch": "A01",
+                "out_branch": "A01",
+                "in_days": 1,
+                "visit_type": 2,
+                "in_date": 1771986309,
+                "out_date": 1772159109,
+                "expected_result": {
+                    "rule_count": 1,
+                    "rule_codes": [
+                        "RULE-1"
+                    ]
+                },
+                "medical_insurance_set": {
+                    "1772595930": {
+                        "ITEM001": [
+                            {
+                                "id": 1,
+                                "type": "10",
+                                "code": "ITEM001",
+                                "name": "Test Item",
+                                "unit": "ml",
+                                "time": 1772595930,
+                                "num": 1,
+                                "price": 10,
+                                "cash": 10,
+                                "total_cash": 10
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
