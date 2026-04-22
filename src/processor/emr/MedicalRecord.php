@@ -93,7 +93,9 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
                     [
                         'item_ids' => null,
                         'item_properties' => [
-                            $name => $propertyValue,
+                            $name =>  [
+                                'value' => $propertyValue
+                            ],
                         ],
                     ],
                     $rule
