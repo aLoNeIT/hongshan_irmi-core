@@ -146,10 +146,11 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                         // 实际收费金额大于标准应收费用，则存在超收情况
                         $diffCash = bcsub((string)$item['total_cash'], (string)$standardCash);
                         $percent = bcmul((string)$ratio, '100');
-                        $errors[] = [
-                            'msg' => "{$errDateStr}当前项目[{$rule->itemName}]应收费用[{$standardCash}]，实收费用[{$item['total_cash']}]，总计费量[{$item['total_num']}]，超出部分未按照[{$percent}%]收费，超收费用[{$diffCash}]",
-                            'data' => [
-                                'rule' => $this->getRuleInfo($rule),
+                        $this->addErrors(
+                            $errors,
+                            $medicalRecord,
+                            "{$errDateStr}当前项目[{$rule->itemName}]应收费用[{$standardCash}]，实收费用[{$item['total_cash']}]，总计费量[{$item['total_num']}]，超出部分未按照[{$percent}%]收费，超收费用[{$diffCash}]",
+                            [
                                 'item' => $miItems,
                                 'standard_cash' => $standardCash,
                                 'total_cash' => $item['total_cash'],
@@ -167,16 +168,18 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                         })
                                     )
                             ],
-                        ];
+                            $rule
+                        );
                         // 继续下一条数据计算
                         continue;
                     }
                 }
                 // 无其他选项，单纯比较超数量要求
-                $errors[] = [
-                    'msg' => "{$errDateStr}当前项目[{$rule->itemName}]的计费数量[{$totalNum}{$unit}]超过[{$ruleNum}{$unit}]",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
+                $this->addErrors(
+                    $errors,
+                    $medicalRecord,
+                    "{$errDateStr}当前项目[{$rule->itemName}]的计费数量[{$totalNum}{$unit}]超过[{$ruleNum}{$unit}]",
+                    [
                         'date' => $date,
                         'item' => $miItems,
                         'item_ids' => 'all' == $date
@@ -187,7 +190,8 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                                 })
                             )
                     ],
-                ];
+                    $rule
+                );
             }
         }
         return $this->getResult(201, '超标准收费', $errors);
@@ -252,27 +256,29 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                 if (2 == $rule->options['discount_target']) {
                     // 自己打折
                     $ratio = $rule->options['ratio'];
-                    \array_walk($currItems, function (MedicalInsuranceItem $item) use (&$errors, $ratio, $rule) {
+                    \array_walk($currItems, function (MedicalInsuranceItem $item) use (&$errors, $ratio, $rule, $medicalRecord) {
                         // 规则中应该收的费用
                         $ruleCash = \bcmul((string)$item->price, (string)$ratio);
                         if (1 === \bccomp((string)$item->cash, $ruleCash)) {
                             // 实收费用大于折扣后费用，则认为超收
                             $percent = bcmul((string)$ratio, '100');
-                            $errors[] = [
-                                'msg' => "当前项目[{$item->name}]应按[{$percent}%]收取费用[{$ruleCash}]，实收费用[{$item->cash}]",
-                                'data' => [
-                                    'rule' => $this->getRuleInfo($rule),
+                            $this->addErrors(
+                                $errors,
+                                $medicalRecord,
+                                "当前项目[{$item->name}]应按[{$percent}%]收取费用[{$ruleCash}]，实收费用[{$item->cash}]",
+                                [
                                     'item' => $item,
                                     'rule_cash' => $ruleCash,
                                     'cash' => $item->cash,
                                     'item_ids' => [$item->id]
-                                ]
-                            ];
+                                ],
+                                $rule
+                            );
                         }
                     });
                 } else {
                     // 1，其他项目打折
-                    \array_walk($detectDisItems, function (array $disItem) use (&$errors, $rule) {
+                    \array_walk($detectDisItems, function (array $disItem) use (&$errors, $rule, $medicalRecord) {
                         $ratio = $disItem['ratio'];
                         // 获取指定项目数据集合，
                         /** @var MedicalInsuranceItem[] $items */
@@ -284,16 +290,18 @@ class OverStandardCharge extends Base implements IDetectInsuranceProcessor
                             if (1 === \bccomp((string)$item->cash, $ruleCash)) {
                                 // 实收费用大于折扣后费用，则认为超收
                                 $percent = bcmul((string)$ratio, '100');
-                                $errors[] = [
-                                    'msg' => "当前项目[{$item->name}]应按[{$percent}%]收取费用[{$ruleCash}]，实收费用[{$item->cash}]",
-                                    'data' => [
-                                        'rule' => $this->getRuleInfo($rule),
+                                $this->addErrors(
+                                    $errors,
+                                    $medicalRecord,
+                                    "当前项目[{$item->name}]应按[{$percent}%]收取费用[{$ruleCash}]，实收费用[{$item->cash}]",
+                                    [
                                         'item' => $item,
                                         'rule_cash' => $ruleCash,
                                         'cash' => $item->cash,
                                         'item_ids' => [$item->id]
-                                    ]
-                                ];
+                                    ],
+                                    $rule
+                                );
                             }
                         }
                     });

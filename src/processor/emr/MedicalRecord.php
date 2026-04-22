@@ -86,16 +86,18 @@ class MedicalRecord extends Base implements IDetectInsuranceProcessor
                 // 比对失败，则记录错误信息
                 $opAlias = MapConst::OPERATOR_ALIAS[$operator] ?? $operator;
                 $propertyAlias = MapConst::MEDICAL_RECORD_ALIAS[$name] ?? $name;
-                $errors[] = [
-                    'msg' => "当前病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
-                    'data' => [
-                        'rule' => $this->getRuleInfo($rule),
+                $this->addErrors(
+                    $errors,
+                    $medicalRecord,
+                    "当前病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
+                    [
                         'item_ids' => null,
                         'item_properties' => [
                             $name => $propertyValue,
                         ],
-                    ]
-                ];
+                    ],
+                    $rule
+                );
             }
         }
         return $this->getResult(1102, '病历属性不合规', $errors);

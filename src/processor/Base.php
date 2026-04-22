@@ -57,7 +57,8 @@ abstract class Base
             'code' => $rule->code,
             'name' => $rule->name,
             'item_code' => $rule->itemCode,
-            'item_name' => $rule->itemName
+            'item_name' => $rule->itemName,
+            'group' => $rule->group,
         ];
     }
     /**
@@ -74,6 +75,35 @@ abstract class Base
             : $this->jsonTable->error($errMsg, $errNo, [
                 'errors' => $errData
             ]);
+    }
+    /**
+     * 添加错误数据到错误数组
+     *
+     * @param array &$errors 错误数组
+     * @param MedicalRecord $medicalRecord 病历数据
+     * @param string $msg 错误信息
+     * @param array $data 错误具体数据
+     * @param IRMIRule $rule 规则数据
+     * @return void
+     */
+    protected function addErrors(array &$errors, MedicalRecord $medicalRecord, string $msg, array $data, IRMIRule $rule): void
+    {
+        $group = $rule->group;
+        if (!\is_null($group) && '' !== $group) {
+            $groupSet = $medicalRecord->getTmpData(Key::KEY_ERROR_RULE_GROUP_SET) ?? [];
+            if (\in_array($group, $groupSet, true)) {
+                return;
+            }
+            $groupSet[] = $group;
+            $medicalRecord->setTmpData(Key::KEY_ERROR_RULE_GROUP_SET, $groupSet);
+        }
+        $errors[] = [
+            'msg' => $msg,
+            'data' => [
+                'rule' => $this->getRuleInfo($rule),
+                ...$data,
+            ]
+        ];
     }
     /**
      * 根据规则获取病历中的项目id

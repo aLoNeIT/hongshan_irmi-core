@@ -60,13 +60,15 @@ class Custom extends Base implements IDetectInsuranceProcessor
             }
         }
         if (!empty($ids)) {
-            $errors[] = [
-                'msg' => "当前项目[{$rule->itemName}]的单位不在允许的集合中",
-                'data' => [
-                    'rule' => $this->getRuleInfo($rule),
+            $this->addErrors(
+                $errors,
+                $medicalRecord,
+                "当前项目[{$rule->itemName}]的单位不在允许的集合中",
+                [
                     'item_ids' => $ids
-                ]
-            ];
+                ],
+                $rule
+            );
         }
         return $this->getResult(901, '其他违规', $errors);
     }

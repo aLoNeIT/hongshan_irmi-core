@@ -6,30 +6,20 @@ namespace hongshanhealth\irmi\tests;
 
 use GetOpt\{GetOpt, Option};
 use hongshanhealth\irmi\IRMI as IRMIManager;
-use hongshanhealth\irmi\IRMILog;
 use hongshanhealth\irmi\struct\JsonTable;
 use hongshanhealth\irmi\struct\MedicalRecord;
-use hongshanhealth\irmi\Util;
 use Psr\Log\LoggerInterface;
 
-// 命令行入口文件
-// 加载基础文件
 require __DIR__ . '/../vendor/autoload.php';
 
-/**
- * 医保智能审核测试
- * 
- * @author 王阮强 <wangruanqiang@hongshanhis.com>
- */
 class IRMI
 {
     protected ?GetOpt $getOpt = null;
+
     public function __construct()
     {
-        // 设置时区
         date_default_timezone_set('Asia/Shanghai');
         $this->getOpt = new GetOpt();
-        // 命令行参数请求构造
         $this->getOpt->addOptions([
             Option::create('p', 'path', GetOpt::REQUIRED_ARGUMENT),
             Option::create('n', 'name', GetOpt::REQUIRED_ARGUMENT),
@@ -39,48 +29,49 @@ class IRMI
     public function run(): void
     {
         try {
-            $argv =  array_filter((array)$_SERVER['argv'], function ($value) {
-                return '--' != $value;
+            $argv = array_filter((array) $_SERVER['argv'], function ($value) {
+                return '--' !== $value;
             });
             $this->getOpt->process($argv);
-            // 获取请求参数
+
             $path = $this->getOpt->getOption('p');
             $name = $this->getOpt->getOption('n');
             $jResult = new JsonTable();
             $files = $this->getCaseFile($path, $name);
-            // 读取规则集合
             $shaanxi = IRMIManager::instance()->store('shaanxi');
+
             $failNum = 0;
             $totalNum = 0;
             $successNum = 0;
+
             foreach ($files as $file) {
-                if (false === strpos($file, '94057.json')) {
-                    // continue;
-                }
                 echo '正在处理文件：' . $file, PHP_EOL;
-                $caseStr = \file_get_contents($file);
-                $caseObj = \json_decode($caseStr, true);
-                $rule = $caseObj['rule'];
-                $medicalRecords = $caseObj['medical_records'];
+
+                $caseStr = file_get_contents($file);
+                $caseObj = json_decode((string) $caseStr, true, 512, JSON_THROW_ON_ERROR);
+                $rules = $this->getCaseRules($caseObj, $file);
+                $medicalRecords = $caseObj['medical_records'] ?? [];
                 $dict = $caseObj['dict'] ?? [];
-                // 加载规则
+
                 $shaanxi->load('01', [
                     'code' => '01',
                     'name' => '测试集合',
-                    'rules' => [$rule],
+                    'rules' => $rules,
                     'dict' => $dict,
                 ]);
-                // 使用测试用例进行检测
-                $mrSuccess = $medicalRecords['success'];
-                $mrFail = $medicalRecords['fail'];
-                // 先执行成功用例
-                foreach ($mrSuccess as $record) {
+
+                foreach (($medicalRecords['success'] ?? []) as $record) {
                     $medicalRecord = (new MedicalRecord())->load($record);
                     $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
-                    if (!$jResult->setByArray($result)->isSuccess()) {
-                        // 失败，记录
+                    $isSuccess = $jResult->setByArray($result)->isSuccess();
+                    $expectationError = $this->getExpectedResultError($result, $record);
+
+                    if (!$isSuccess || null !== $expectationError) {
                         echo '成功测试用例未通过', PHP_EOL;
-                        echo '病历：', (string)$medicalRecord, PHP_EOL;
+                        if (null !== $expectationError) {
+                            echo '期望校验失败：' . $expectationError, PHP_EOL;
+                        }
+                        echo '病历：', (string) $medicalRecord, PHP_EOL;
                         echo '检测结果：', $jResult->toJson(), PHP_EOL;
                         $failNum++;
                     } else {
@@ -88,14 +79,19 @@ class IRMI
                     }
                     $totalNum++;
                 }
-                // 执行失败的用例
-                foreach ($mrFail as $record) {
+
+                foreach (($medicalRecords['fail'] ?? []) as $record) {
                     $medicalRecord = (new MedicalRecord())->load($record);
                     $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
-                    if ($jResult->setByArray($result)->isSuccess()) {
-                        // 失败，记录
+                    $isSuccess = $jResult->setByArray($result)->isSuccess();
+                    $expectationError = $isSuccess ? null : $this->getExpectedResultError($result, $record);
+
+                    if ($isSuccess || null !== $expectationError) {
                         echo '失败测试用例未通过', PHP_EOL;
-                        echo '病历：', (string)$medicalRecord, PHP_EOL;
+                        if (null !== $expectationError) {
+                            echo '期望校验失败：' . $expectationError, PHP_EOL;
+                        }
+                        echo '病历：', (string) $medicalRecord, PHP_EOL;
                         echo '检测结果：', $jResult->toJson(), PHP_EOL;
                         $failNum++;
                     } else {
@@ -104,34 +100,123 @@ class IRMI
                     $totalNum++;
                 }
             }
-            echo  "测试用例执行完毕，用例总量：{$totalNum}，成功用例量：{$successNum}，失败用例量：{$failNum}", PHP_EOL;
+
+            echo "测试用例执行完毕，用例总量：{$totalNum}，成功用例量：{$successNum}，失败用例量：{$failNum}", PHP_EOL;
         } catch (\Throwable $ex) {
             var_dump($ex);
         }
     }
+
     /**
-     * 获取测试用例文件
-     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function getCaseRules(array $caseObj, string $file): array
+    {
+        $rules = $caseObj['rules'] ?? [];
+        if (empty($rules) && isset($caseObj['rule']) && is_array($caseObj['rule'])) {
+            $rules = [$caseObj['rule']];
+        }
+        if (empty($rules)) {
+            throw new \InvalidArgumentException("Case file [{$file}] must define rule or rules.");
+        }
+        return array_values($rules);
+    }
+
+    protected function getExpectedResultError(array $result, array $record): ?string
+    {
+        $expectedResult = $record['expected_result'] ?? null;
+        if (!is_array($expectedResult)) {
+            return null;
+        }
+
+        $actualErrors = $this->getActualErrors($result);
+        $actualRuleCodes = $this->getActualRuleCodes($actualErrors);
+
+        if (isset($expectedResult['rule_count'])) {
+            $actualRuleCount = count($actualRuleCodes);
+            if ($actualRuleCount !== (int) $expectedResult['rule_count']) {
+                return "rule_count expected {$expectedResult['rule_count']}, actual {$actualRuleCount}";
+            }
+        }
+
+        if (isset($expectedResult['rule_codes'])) {
+            $expectedRuleCodes = array_values((array) $expectedResult['rule_codes']);
+            if ($actualRuleCodes !== $expectedRuleCodes) {
+                return sprintf(
+                    'rule_codes expected %s, actual %s',
+                    json_encode($expectedRuleCodes, JSON_UNESCAPED_UNICODE),
+                    json_encode($actualRuleCodes, JSON_UNESCAPED_UNICODE)
+                );
+            }
+        }
+
+        if (isset($expectedResult['error_count'])) {
+            $actualErrorCount = count($actualErrors);
+            if ($actualErrorCount !== (int) $expectedResult['error_count']) {
+                return "error_count expected {$expectedResult['error_count']}, actual {$actualErrorCount}";
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    protected function getActualErrors(array $result): array
+    {
+        $errors = [];
+        foreach (($result['data'] ?? []) as $detectResult) {
+            if (!is_array($detectResult)) {
+                continue;
+            }
+            foreach (($detectResult['data']['errors'] ?? []) as $error) {
+                if (is_array($error)) {
+                    $errors[] = $error;
+                }
+            }
+        }
+        return $errors;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $errors
+     * @return string[]
+     */
+    protected function getActualRuleCodes(array $errors): array
+    {
+        $codes = [];
+        $seen = [];
+        foreach ($errors as $error) {
+            $code = $error['data']['rule']['code'] ?? null;
+            if (!is_string($code) || '' === $code || isset($seen[$code])) {
+                continue;
+            }
+            $codes[] = $code;
+            $seen[$code] = true;
+        }
+        return $codes;
+    }
+
+    /**
      * @return string[]
      */
     protected function getCaseFile(?string $dir = null, ?string $file = null): array
     {
-        if (!\is_null($dir) && '' !== $dir) {
+        if (!is_null($dir) && '' !== $dir) {
             $dirs = [$dir];
         } else {
             $dirs = ['medical_record_jcg'];
         }
-        $pattern = \is_null($file) ? '/*.json' : "/{$file}.json";
-        // 获取指定目录下所有后缀为json的文件
+
+        $pattern = is_null($file) ? '/*.json' : "/{$file}.json";
         $files = [];
         foreach ($dirs as $dir) {
             $dirPath = __DIR__ . '/data/' . $dir;
-            // 使用glob函数获取指定目录下的文件列表
-            $fileList = \glob($dirPath . $pattern);
-            // 将文件列表添加到数组中
+            $fileList = glob($dirPath . $pattern);
             $files = [
                 ...$files,
-                ...$fileList
+                ...$fileList,
             ];
         }
         return $files;
@@ -141,103 +226,72 @@ class IRMI
 class TLogger implements LoggerInterface
 {
     /**
-     * System is unusable.
-     *
      * @param mixed[] $context
      */
     public function emergency(string|\Stringable $message, array $context = []): void
     {
-        var_dump("EMERGENCY: " . $message, $context);
+        var_dump('EMERGENCY: ' . $message, $context);
     }
 
     /**
-     * Action must be taken immediately.
-     *
-     * Example: Entire website down, database unavailable, etc. This should
-     * trigger the SMS alerts and wake you up.
-     *
      * @param mixed[] $context
      */
     public function alert(string|\Stringable $message, array $context = []): void
     {
-        var_dump("ALERT: " . $message, $context);
+        var_dump('ALERT: ' . $message, $context);
     }
 
     /**
-     * Critical conditions.
-     *
-     * Example: Application component unavailable, unexpected exception.
-     *
      * @param mixed[] $context
      */
     public function critical(string|\Stringable $message, array $context = []): void
     {
-        var_dump("CRITICAL: " . $message, $context);
+        var_dump('CRITICAL: ' . $message, $context);
     }
 
     /**
-     * Runtime errors that do not require immediate action but should typically
-     * be logged and monitored.
-     *
      * @param mixed[] $context
      */
     public function error(string|\Stringable $message, array $context = []): void
     {
-        var_dump("ERROR: " . $message, $context);
+        var_dump('ERROR: ' . $message, $context);
     }
 
     /**
-     * Exceptional occurrences that are not errors.
-     *
-     * Example: Use of deprecated APIs, poor use of an API, undesirable things
-     * that are not necessarily wrong.
-     *
      * @param mixed[] $context
      */
     public function warning(string|\Stringable $message, array $context = []): void
     {
-        var_dump("WARNING: " . $message, $context);
+        var_dump('WARNING: ' . $message, $context);
     }
 
     /**
-     * Normal but significant events.
-     *
      * @param mixed[] $context
      */
     public function notice(string|\Stringable $message, array $context = []): void
     {
-        var_dump("NOTICE: " . $message, $context);
+        var_dump('NOTICE: ' . $message, $context);
     }
 
     /**
-     * Interesting events.
-     *
-     * Example: User logs in, SQL logs.
-     *
      * @param mixed[] $context
      */
     public function info(string|\Stringable $message, array $context = []): void
     {
-        var_dump("INFO: " . $message, $context);
+        var_dump('INFO: ' . $message, $context);
     }
 
     /**
-     * Detailed debug information.
-     *
      * @param mixed[] $context
      */
     public function debug(string|\Stringable $message, array $context = []): void
     {
-        var_dump("DEBUG: " . $message, $context);
+        var_dump('DEBUG: ' . $message, $context);
     }
 
     /**
-     * Logs with an arbitrary level.
-     *
      * @param mixed $level
      * @param mixed[] $context
-     *
-     * @throws \Psr\Log\InvalidArgumentException
      */
     public function log($level, string|\Stringable $message, array $context = []): void
     {
@@ -245,7 +299,4 @@ class TLogger implements LoggerInterface
     }
 }
 
-
-
-// 应用初始化
 (new IRMI())->run();
