@@ -11,6 +11,7 @@ use hongshanhealth\irmi\struct\{
     MedicalInsuranceItem
 };
 use hongshanhealth\irmi\constant\Key;
+use hongshanhealth\irmi\IRMILog;
 
 /**
  * 处理器基类
@@ -97,13 +98,15 @@ abstract class Base
             $groupSet[] = $group;
             $medicalRecord->setTmpData(Key::KEY_ERROR_RULE_GROUP_SET, $groupSet);
         }
-        $errors[] = [
+        $error = [
             'msg' => $msg,
             'data' => [
                 'rule' => $this->getRuleInfo($rule),
                 ...$data,
             ]
         ];
+        IRMILog::debug(static::class, __FUNCTION__, $error);
+        $errors[] = $error;
     }
     /**
      * 根据规则获取病历中的项目id

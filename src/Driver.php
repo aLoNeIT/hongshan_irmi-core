@@ -62,6 +62,13 @@ abstract class Driver
     protected $ruleSets = [];
 
     /**
+     * 已实例化的检测处理器集合
+     *
+     * @var array<int|string, array<int|string, IDetectInsuranceProcessor>>
+     */
+    protected array $processors = [];
+
+    /**
      * 构造函数
      * 
      * @param array $config 配置信息
@@ -93,6 +100,30 @@ abstract class Driver
             $this->ruleSets[$code] = (new IRMIRuleSet())->setDriver($this);
         }
         return $this->ruleSets[$code];
+    }
+
+    /**
+     * 根据规则类别和类型获取检测处理器
+     *
+     * @param int|string $category 规则类别
+     * @param int|string $type 规则类型
+     * @return IDetectInsuranceProcessor|null 返回已缓存或新创建的处理器，未匹配到处理器时返回null
+     */
+    public function getProcessor(int|string $category, int|string $type): ?IDetectInsuranceProcessor
+    {
+        if (!isset($this->processors[$category][$type])) {
+            $class = ProcessorConst::TYPE_MAP[$category][$type] ?? null;
+            if (!\is_string($class) || '' === $class || !\class_exists($class)) {
+                return null;
+            }
+            $processor = new $class();
+            if (!$processor instanceof IDetectInsuranceProcessor) {
+                return null;
+            }
+            // 缓存同一类别和类型的处理器，避免重复实例化。
+            $this->processors[$category][$type] = $processor;
+        }
+        return $this->processors[$category][$type];
     }
     /**
      * 检测医保规则
@@ -126,10 +157,11 @@ abstract class Driver
                         \array_walk($props, function ($value) use ($medicalRecord, &$itemCodes) {
                             // 将当前属性编码写入到集合中
                             if (\is_array($medicalRecord->$value)) {
-                                $itemCodes = [
-                                    ...$itemCodes,
-                                    ...$medicalRecord->$value
-                                ];
+                                // 循环比展开处理效率高    
+                                foreach ($medicalRecord->$value as $v) {
+                                    $itemCodes[] = $v;
+                                }
+                                unset($v);
                             } else {
                                 $itemCodes[] = $medicalRecord->$value;
                             }
@@ -140,14 +172,9 @@ abstract class Driver
                 $rules = $ruleSet->getRulesByItemCode($category, $itemCodes, $ruleOption);
                 foreach ($rules as $rule) {
                     // 根据规则类型创建对应的处理器
-                    $class = ProcessorConst::TYPE_MAP[$category][$rule->type];
-                    if (!class_exists($class)) {
-                        continue;
-                    }
-                    /** @var IDetectInsuranceProcessor $processor */
-                    $processor = new $class();
+                    $processor = $this->getProcessor($category, $rule->type);
                     // 执行处理器
-                    if (!$processor instanceof IDetectInsuranceProcessor) {
+                    if (\is_null($processor)) {
                         continue;
                     }
                     $jResult = $processor->detect($medicalRecord, $rule);
