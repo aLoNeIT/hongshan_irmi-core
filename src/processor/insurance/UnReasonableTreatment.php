@@ -44,6 +44,46 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
      * @param IRMIRule $rule
      * @return JsonTable
      */
+    /**
+     * 获取当前规则命中的医保项目集合
+     *
+     * @param MedicalRecord $medicalRecord 病历对象
+     * @param IRMIRule $rule 规则对象
+     * @return MedicalInsuranceItem[]
+     */
+    protected function getCurrentRuleItems(MedicalRecord $medicalRecord, IRMIRule $rule): array
+    {
+        $key = 2 === $rule->itemClass
+            ? Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CLASS
+            : Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE;
+        $miItemSet = $medicalRecord->getTmpData($key) ?? [];
+        return $this->filterMIItemByDateRange($miItemSet[$rule->itemCode] ?? [], $rule);
+    }
+
+    /**
+     * 获取不合理诊疗规则返回信息
+     *
+     * 分类规则命中时，返回实际医保项目编码，而不是规则中的分类编码。
+     *
+     * @param IRMIRule $rule 规则对象
+     * @param MedicalInsuranceItem[] $miItems 命中的医保项目集合
+     * @return array
+     */
+    protected function getDetectedRuleInfo(IRMIRule $rule, array $miItems): array
+    {
+        $ruleInfo = $this->getRuleInfo($rule);
+        if (2 !== $rule->itemClass || empty($miItems)) {
+            return $ruleInfo;
+        }
+
+        $miItem = \reset($miItems);
+        if ($miItem instanceof MedicalInsuranceItem) {
+            $ruleInfo['item_code'] = $miItem->code;
+            $ruleInfo['item_name'] = $miItem->name;
+        }
+        return $ruleInfo;
+    }
+
     protected function detectCommon(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
     {
         $errors = [];
@@ -58,10 +98,9 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
         }
         if (isset($rule->options['unit_type'])) {
             // 获取医保项目集合
-            $miItemSet = $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE);
-            // 获取当前项目数据集合
             /** @var MedicalInsuranceItem[] $miItems */
-            $miItems = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
+            $miItems = $this->getCurrentRuleItems($medicalRecord, $rule);
+            // 获取当前项目数据集合
             $unitType = $rule->options['unit_type'];
             switch ($unitType) {
                 case 'days':
@@ -98,6 +137,7 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                     $medicalRecord,
                     "当前项目[{$rule->itemName}]合计[{$totalDays}{$unit}]超过[{$ruleNum}{$unit}]",
                     [
+                        'rule' => $this->getDetectedRuleInfo($rule, $miItems),
                         'item' => $miItems,
                         'total_days' => $totalDays,
                         'item_ids' => $itemIds
@@ -118,6 +158,8 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
     protected function detectProperty(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
     {
         $errors = [];
+        /** @var MedicalInsuranceItem[] $currItems */
+        $currItems = $this->getCurrentRuleItems($medicalRecord, $rule);
         // 先校验科室要求
         $result = $this->checkIncludedBranch($medicalRecord, $rule);
         if (true !== $result) {
@@ -141,7 +183,8 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
                 $medicalRecord,
                 "当前项目[{$rule->itemName}]对病历属性[{$propertyAlias}]进行[{$opAlias}]计算未通过",
                 [
-                    'item_ids' => $this->getMedicalItemIdByRule($medicalRecord, $rule)
+                    'rule' => $this->getDetectedRuleInfo($rule, $currItems),
+                    'item_ids' => $this->getMedicalItemId($currItems)
                 ],
                 $rule
             );
