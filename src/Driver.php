@@ -151,10 +151,10 @@ abstract class Driver
                     case ProcessorConst::CATEGORY_INSURANCE: // 医保项目
                         $miItemSet = $medicalRecord->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE) ?? [];
                         $miItemClassSet = $medicalRecord->getTmpData(KeyConst::KEY_MEDICAL_INSURANCE_ITEM_WITH_CLASS) ?? [];
-                        $itemCodes = \array_values(\array_unique([
+                        $itemCodes = [
                             ...\array_keys($miItemSet),
                             ...\array_keys($miItemClassSet),
-                        ]));
+                        ];
                         break;
                     case ProcessorConst::CATEGORY_EMR: // 病例属性
                         $props = ['diagnosis', 'procedure'];
