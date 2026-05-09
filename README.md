@@ -18,6 +18,7 @@
     | name   | 是       | string |        | 规则名称 |
     | group  | 是       | string |        | 规则分组 |
     | item_code | 是    | string |        | 项目编码 |
+    | item_class | 否   | int    | 1      | 项目标记类型：1-明细，item_code为项目自身编码；2-分类，item_code为项目分类编码 |
     | item_name | 是    | string |        | 项目名称 |
     | category  | 是    | int    | 1-患者医疗项目；2-电子病历；3-患者档案信息；4-医院信息  | 规则类别 |
     | type   | 是    | int    |  | 规则类型，对应计算器类型取值 |
@@ -174,6 +175,20 @@
                 }
             },
             {
+                "code": "400CLASSDAYS",
+                "name": "Classification unreasonable treatment days",
+                "item_class": 2,
+                "item_code": "CLASS-ANTIBIOTIC",
+                "item_name": "Antibiotic classification",
+                "category": 1,
+                "type": 4,
+                "sub_type": 1,
+                "options": {
+                    "unit_type": "days",
+                    "num": 7
+                }
+            },
+            {
                 "code": "02-01",
                 "name": "超标准收费[指定项目数量超过住院天数]",
                 "item_code": "110200005",
@@ -273,6 +288,7 @@
             - key：项目编码
             - value：该项目每次开单的数据，数组，每个元素结构如下
                 - code：项目编码
+                - classification：医保项目分类编码，用于匹配 item_class=2 的规则
                 - name：项目名称
                 - group_code：项目组号
                 - type：医保项目类型
