@@ -59,6 +59,7 @@ abstract class Base
             'name' => $rule->name,
             'item_code' => $rule->itemCode,
             'item_name' => $rule->itemName,
+            'item_class' => $rule->itemClass,
             'group' => $rule->group,
         ];
     }
