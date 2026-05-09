@@ -110,6 +110,27 @@ abstract class Base
         $errors[] = $error;
     }
     /**
+     * 根据规则获取医疗项目数据
+     *
+     * @param MedicalRecord $medicalRecord 病历对象
+     * @param IRMIRule $rule 规则对象
+     * @return MedicalInsuranceItem[] 返回医疗项目集合
+     */
+    protected function getMedicalItemByRule(MedicalRecord $medicalRecord, IRMIRule $rule): array
+    {
+        // 先获取所有项目数据
+        $miItemSet = 1 == $rule->itemClass
+            ? ($medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE) ?? [])
+            : ($medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CLASS) ?? []);
+
+        // 获取临时数据，同时根据规则有效期进行过滤
+        $currMiItemSet = \array_map(function (array $items) use ($rule) {
+            return $this->filterMIItemByDateRange($items, $rule);
+        }, $miItemSet[$rule->itemCode]);
+        return $currMiItemSet;
+    }
+
+    /**
      * 根据规则获取病历中的项目id
      *
      * @param MedicalRecord $medicalRecord 病历对象
@@ -118,12 +139,9 @@ abstract class Base
      */
     protected function getMedicalItemIdByRule(MedicalRecord $medicalRecord, IRMIRule $rule): array
     {
-        // 获取临时数据，同时根据规则有效期进行过滤
-        $currMiItemSet = \array_map(function (array $items) use ($rule) {
-            return $this->filterMIItemByDateRange($items, $rule);
-        }, $medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE));
+        $currMiItemSet = $this->getMedicalItemByRule($medicalRecord, $rule);
         // 获取诊疗项目id
-        return $this->getMedicalItemId($currMiItemSet[$rule->itemCode]);
+        return $this->getMedicalItemId($currMiItemSet);
     }
     /**
      * 获取医疗项目id
