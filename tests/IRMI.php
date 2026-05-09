@@ -150,6 +150,18 @@ class IRMI
             }
         }
 
+        if (isset($expectedResult['rule_item_codes'])) {
+            $expectedRuleItemCodes = array_values((array) $expectedResult['rule_item_codes']);
+            $actualRuleItemCodes = $this->getActualRuleItemCodes($actualErrors);
+            if ($actualRuleItemCodes !== $expectedRuleItemCodes) {
+                return sprintf(
+                    'rule_item_codes expected %s, actual %s',
+                    json_encode($expectedRuleItemCodes, JSON_UNESCAPED_UNICODE),
+                    json_encode($actualRuleItemCodes, JSON_UNESCAPED_UNICODE)
+                );
+            }
+        }
+
         if (isset($expectedResult['error_count'])) {
             $actualErrorCount = count($actualErrors);
             if ($actualErrorCount !== (int) $expectedResult['error_count']) {
@@ -189,6 +201,25 @@ class IRMI
         $seen = [];
         foreach ($errors as $error) {
             $code = $error['data']['rule']['code'] ?? null;
+            if (!is_string($code) || '' === $code || isset($seen[$code])) {
+                continue;
+            }
+            $codes[] = $code;
+            $seen[$code] = true;
+        }
+        return $codes;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $errors
+     * @return string[]
+     */
+    protected function getActualRuleItemCodes(array $errors): array
+    {
+        $codes = [];
+        $seen = [];
+        foreach ($errors as $error) {
+            $code = $error['data']['rule']['item_code'] ?? null;
             if (!is_string($code) || '' === $code || isset($seen[$code])) {
                 continue;
             }
