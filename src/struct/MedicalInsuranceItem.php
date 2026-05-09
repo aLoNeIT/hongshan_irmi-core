@@ -24,6 +24,12 @@ class MedicalInsuranceItem extends Base
      */
     public ?string $code = null;
     /**
+     * 医保项目分类编码
+     *
+     * @var string|null
+     */
+    public ?string $classification = null;
+    /**
      * 名称
      *
      * @var string|null
