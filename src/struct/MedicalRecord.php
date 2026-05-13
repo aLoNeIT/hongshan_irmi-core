@@ -195,6 +195,7 @@ class MedicalRecord extends Base
         $this->majorProcedure = $this->procedure[0] ?? null;
         // 加载成功，同时生成临时数据
         $tmpData = [];
+        $tmpClassData = [];
         // 第一级，日期=>所有数据
         foreach ($medicalInsuranceSet as $date => $dateItems) {
             // 第二级，项目编码=>该项目所有数据
@@ -207,11 +208,15 @@ class MedicalRecord extends Base
                     ];
                     $miItem = (new MedicalInsuranceItem())->load($itemData);
                     $tmpData[$itemCode][] = $miItem;
+                    if (!\is_null($miItem->classification) && '' !== $miItem->classification) {
+                        $tmpClassData[$miItem->classification][] = $miItem;
+                    }
                     $this->medicalInsuranceSet[$date][$itemCode][] = $miItem;
                 }
             }
         }
         $this->setTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CODE, $tmpData);
+        $this->setTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CLASS, $tmpClassData);
         return $this;
     }
 }

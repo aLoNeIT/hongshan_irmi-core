@@ -346,10 +346,10 @@ class OverInsuranceCharge extends Base implements IDetectInsuranceProcessor
                             $errors,
                             $medicalRecord,
                             \str_replace(
-                                                            ['{$ruleItemName}', '{$ruleErrorStr}', '{$num}'],
-                                                            [$rule->itemName, $this->getNumErrorStr($ruleNum), $num],
-                                                            $errTmpl
-                                                        ),
+                                ['{$ruleItemName}', '{$ruleErrorStr}', '{$num}'],
+                                [$rule->itemName, $this->getNumErrorStr($ruleNum), $num],
+                                $errTmpl
+                            ),
                             [
                                 'item_ids' => $itemIds,
                             ],

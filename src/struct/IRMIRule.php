@@ -44,6 +44,16 @@ class IRMIRule extends Base
     public ?string $itemCode = null;
 
     /**
+     * 项目标记类型
+     *
+     * - 1: 明细，itemCode 为项目自身编码
+     * - 2: 分类，itemCode 为项目分类编码
+     *
+     * @var int|null
+     */
+    public ?int $itemClass = 1;
+
+    /**
      * 项目名称
      *
      * @var string|null
