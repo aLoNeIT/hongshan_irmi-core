@@ -80,15 +80,8 @@ class SplitCharge extends Base implements IDetectInsuranceProcessor
                         [
                             'date' => $date,
                             'combine_items' => $combineItems,
-                            'item_ids' => (function ($dateMiItemSet) use ($combineItems) {
-                                $result = [];
-                                foreach ($combineItems as $itemCode) {
-                                    $result = [
-                                        ...$result,
-                                        ...$this->getMedicalItemId($dateMiItemSet[$itemCode])
-                                    ];
-                                }
-                                return $result;
+                            'item_ids' => (function ($dateMiItemSet) use ($rule) {
+                                return $dateMiItemSet[$rule->itemCode] ?? [];
                             })($medicalRecord->medicalInsuranceSet[$date])
                         ],
                         $rule
@@ -108,15 +101,8 @@ class SplitCharge extends Base implements IDetectInsuranceProcessor
                     "当前项目[{$rule->itemName}]与指定联合项目同时存在",
                     [
                         'combine_items' => $combineItems,
-                        'item_ids' => (function ($miItemSet) use ($combineItems) {
-                            $result = [];
-                            foreach ($combineItems as $itemCode) {
-                                $result = [
-                                    ...$result,
-                                    ...$this->getMedicalItemId($miItemSet[$itemCode])
-                                ];
-                            }
-                            return $result;
+                        'item_ids' => (function ($miItemSet) use ($rule) {
+                            return $miItemSet[$rule->itemCode] ?? [];
                         })($tmpMiItemSet)
                     ],
                     $rule
