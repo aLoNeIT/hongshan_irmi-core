@@ -125,9 +125,7 @@ abstract class Base
             : ($medicalRecord->getTmpData(Key::KEY_MEDICAL_INSURANCE_ITEM_WITH_CLASS) ?? []);
 
         // 获取临时数据，同时根据规则有效期进行过滤
-        $currMiItemSet = \array_map(function (array $items) use ($rule) {
-            return $this->filterMIItemByDateRange($items, $rule);
-        }, $miItemSet[$rule->itemCode]);
+        $currMiItemSet = $this->filterMIItemByDateRange($miItemSet[$rule->itemCode], $rule);
         return $currMiItemSet;
     }
 
