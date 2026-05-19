@@ -260,9 +260,9 @@ class Base extends BaseProcessor
                                 $medicalRecord,
                                 "当前项目[{$rule->itemName}]在[{$dateStr}]当天与指定排除项目同时收费",
                                 [
-                                        'date' => $date,
-                                        'exclude_item_code' => $code,
-                                        'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
+                                    'date' => $date,
+                                    'exclude_item_code' => $code,
+                                    'item_ids' => $this->getMedicalItemId($dateMiItems[$rule->itemCode])
                                 ],
                                 $rule
                             );
@@ -402,9 +402,9 @@ class Base extends BaseProcessor
                                 $medicalRecord,
                                 "当前项目[{$rule->itemName}]在[$dateStr]当天的[{$hour}]时同一小时内与指定排除项目同时收费",
                                 [
-                                        'date' => $date,
-                                        'exclude_item_code' => $code,
-                                        'item_ids' => $this->getMedicalItemId([$miItem])
+                                    'date' => $date,
+                                    'exclude_item_code' => $code,
+                                    'item_ids' => $this->getMedicalItemId([$miItem])
                                 ],
                                 $rule
                             );
@@ -568,8 +568,7 @@ class Base extends BaseProcessor
                                     [
                                         'exclude_item_code' => $code,
                                         'item_ids' => $this->getMedicalItemId([
-                                            $miItem,
-                                            ...$groupItems
+                                            $miItem
                                         ])
                                     ],
                                     $rule

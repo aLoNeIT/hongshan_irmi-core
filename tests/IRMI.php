@@ -83,6 +83,7 @@ class IRMI
                 foreach (($medicalRecords['fail'] ?? []) as $record) {
                     $medicalRecord = (new MedicalRecord())->load($record);
                     $result = $shaanxi->switch('01')->detectInsurance($medicalRecord);
+                    var_dump($result);
                     $isSuccess = $jResult->setByArray($result)->isSuccess();
                     $expectationError = $isSuccess ? null : $this->getExpectedResultError($result, $record);
 
