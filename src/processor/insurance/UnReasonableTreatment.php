@@ -20,6 +20,11 @@ class UnReasonableTreatment extends Base implements IDetectInsuranceProcessor
     public function detect(MedicalRecord $medicalRecord, IRMIRule $rule): JsonTable
     {
         try {
+            // 统一校验就诊类型
+            $visitTypeResult = $this->checkVisitType($medicalRecord, $rule);
+            if (true !== $visitTypeResult) {
+                return $this->getResult(401, '不合理诊疗', $visitTypeResult);
+            }
             // 根据子类型调用不同方法检验
             switch ($rule->subType) {
                 case 1:
