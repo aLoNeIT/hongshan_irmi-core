@@ -117,34 +117,20 @@ class Base extends BaseProcessor
      * 检查规则就诊类型是否匹配
      *
      * 若规则未配置就诊类型（visitType 为 0 或 null），则跳过校验直接返回 true；
-     * 否则与病历中的 visitType 进行等值比较。
+     * 否则与病历中的 visitType 进行等值比较，仅返回是否匹配，不记录错误。
+     * 调用方在返回 false 时应直接返回成功结果，跳过当前规则的后续校验。
      *
      * @param MedicalRecord $medicalRecord 病例对象
      * @param IRMIRule $rule 规则对象
-     * @param int[] $itemIds 关联项目ID列表
-     * @return boolean|array 匹配返回 true，否则返回错误数组
+     * @return boolean 匹配返回 true，不匹配返回 false
      */
-    protected function checkVisitType(MedicalRecord $medicalRecord, IRMIRule $rule, array $itemIds = []): bool|array
+    protected function checkVisitType(MedicalRecord $medicalRecord, IRMIRule $rule): bool
     {
         if (empty($rule->visitType)) {
             // 未配置就诊类型，跳过校验
             return true;
         }
-        $errors = [];
-        if ($medicalRecord->visitType != $rule->visitType) {
-            $ruleVisitTypeName = 1 == $rule->visitType ? '门诊' : '住院';
-            $visitTypeName = 1 == $medicalRecord->visitType ? '门诊' : '住院';
-            $this->addErrors(
-                $errors,
-                $medicalRecord,
-                "当前项目[{$rule->itemName}]适用于[{$ruleVisitTypeName}]，实际[{$visitTypeName}]",
-                [
-                    'item_ids' => $itemIds,
-                ],
-                $rule
-            );
-        }
-        return empty($errors) ? true : $errors;
+        return $medicalRecord->visitType == $rule->visitType;
     }
 
     /**
