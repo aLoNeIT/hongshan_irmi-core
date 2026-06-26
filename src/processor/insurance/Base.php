@@ -116,7 +116,7 @@ class Base extends BaseProcessor
     /**
      * 检查规则就诊类型是否匹配
      *
-     * 若规则未配置就诊类型（visitType 为 0 或 null），则跳过校验直接返回 true；
+     * 若规则未配置就诊类型（visitType 为 null），则跳过校验直接返回 true；
      * 否则与病历中的 visitType 进行等值比较，仅返回是否匹配，不记录错误。
      * 调用方在返回 false 时应直接返回成功结果，跳过当前规则的后续校验。
      *
@@ -126,7 +126,7 @@ class Base extends BaseProcessor
      */
     protected function checkVisitType(MedicalRecord $medicalRecord, IRMIRule $rule): bool
     {
-        if (empty($rule->visitType)) {
+        if (\is_null($rule->visitType)) {
             // 未配置就诊类型，跳过校验
             return true;
         }
