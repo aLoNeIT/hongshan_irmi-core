@@ -117,7 +117,8 @@ class Base extends BaseProcessor
      * 检查规则就诊类型是否匹配
      *
      * 若规则未配置就诊类型（visitType 为 null），则跳过校验直接返回 true；
-     * 否则与病历中的 visitType 进行等值比较，仅返回是否匹配，不记录错误。
+     * 否则将病历 visitType 与规则 visitType 进行按位与计算，
+     * 若结果等于病历自身的 visitType 则匹配返回 true，否则返回 false。
      * 调用方在返回 false 时应直接返回成功结果，跳过当前规则的后续校验。
      *
      * @param MedicalRecord $medicalRecord 病例对象
@@ -130,7 +131,8 @@ class Base extends BaseProcessor
             // 未配置就诊类型，跳过校验
             return true;
         }
-        return $medicalRecord->visitType == $rule->visitType;
+        // 按位与计算，结果等于病历就诊类型则匹配
+        return ($medicalRecord->visitType & $rule->visitType) === $medicalRecord->visitType;
     }
 
     /**
